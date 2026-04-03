@@ -10,7 +10,7 @@ export class ReproducaoFlorService {
         @Inject('OrquidarioRepositoryPort')
         private readonly orquidarioRepo: OrquidarioRepositoryPort) { }
 
-    async create(id: number, orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
+    async create(orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
         const orquidario = this.orquidarioRepo.findById(orquidarioId);
         if (!orquidario)
             throw new HttpException("Orquidário não encontrado", HttpStatus.NOT_FOUND);
@@ -23,11 +23,7 @@ export class ReproducaoFlorService {
                 if (taxaSucessoPct <= 70)
                     throw new HttpException("Taxa sucesso deve ser maior que 70%", HttpStatus.BAD_REQUEST);
             }
-        const procuraHibrido = this.orquidarioRepo.findById(orquidarioId);
-        procuraHibrido.reproducoes.forEach(reproducao => {
-            if (reproducao.)
-        });
-        const reproducaoFlor = new ReproducaoFlor(id, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct)
+        const reproducaoFlor = new ReproducaoFlor(null, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct)
         return this.reproducaoFlorRepo.create(reproducaoFlor)
     }
 

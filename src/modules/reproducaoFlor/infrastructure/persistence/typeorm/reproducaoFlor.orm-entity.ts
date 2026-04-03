@@ -1,3 +1,4 @@
+import { OrquidarioOrmEntity } from 'src/modules/orquidario/infrastructure/persistence/typeorm/orquidario.orm-entity';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('reproducaoFlor')
@@ -20,5 +21,4 @@ export class ReproducaoFlorOrmEntity {
 
     @Column()
     taxaSucessoPct: number;
-
 }
