@@ -8,5 +8,5 @@ export class ReproducaoFlorOrmEntity {
     @Column()
     orquidarioId: number;
 
-    @Column
+    @Column()
 }
