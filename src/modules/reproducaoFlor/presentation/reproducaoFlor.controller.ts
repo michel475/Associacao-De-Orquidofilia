@@ -1,7 +1,8 @@
 import { CreateReproducaoFlorDTO } from "./dto/create-reproducaoFlor.dto";
 import { Body, Param, Controller, Post, Patch, Get, Delete } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nest/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UpdateReproducaoFlorDTO } from "./dto/update-reproducaoFlor.dto";
+import { ReproducaoFlorService } from "../application/reproducaoFlor.service";
 
 @ApiTags('ReproducaoFlor')
 @Controller('reproducaoFlor')
