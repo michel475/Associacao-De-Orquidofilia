@@ -11,10 +11,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const config = new DocumentBuilder()
-    .setTitle('Hello World API')
-    .setDescription('API de exemplo')
+    .setTitle('Associação Orquidofilia')
+    .setDescription('API de gerenciamento de orquidários e reproduções')
     .setVersion('1.0')
-    .addTag('hello-world')
+    .addTag('orquidario-versao1')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger-ui', app, document, {
