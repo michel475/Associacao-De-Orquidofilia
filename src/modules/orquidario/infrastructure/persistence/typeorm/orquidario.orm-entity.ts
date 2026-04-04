@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
 import { ReproducaoFlorOrmEntity } from '../../../../typeorm/reproducaoFlor.orm-entity.ts';
 
 @Entity('orquidario')
-export class Orquidario {
+export class OrquidarioOrmEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
