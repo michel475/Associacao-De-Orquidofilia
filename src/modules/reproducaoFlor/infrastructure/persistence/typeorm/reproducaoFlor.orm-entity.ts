@@ -5,9 +5,9 @@ export class ReproducaoFlorOrmEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => OrquidarioOrmEntity, (orquidario) => orquidario.reproducoes)
+    @ManyToOne(() => OrquidarioOrmEntity,)
     @JoinColumn({ name: 'orquidarioId' })
-    orquidarioId: OrquidarioOrmEntity;
+    orquidario: OrquidarioOrmEntity;
 
     @Column({ unique: true }) //Lançar conflict exception
     hibridoNome: string;

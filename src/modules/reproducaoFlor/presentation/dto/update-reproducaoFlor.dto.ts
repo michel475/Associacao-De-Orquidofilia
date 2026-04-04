@@ -4,6 +4,9 @@ export class UpdateReproducaoFlorDTO {
     @ApiProperty({ example: 1 })
     id: number;
 
+    @ApiProperty({ example: 1 })
+    orquidarioId: number;
+
     @ApiProperty({ example: 'Cattleya Trianae x Laelia purpurata' })
     hibridoNome: string;
 
