@@ -13,6 +13,8 @@ import { InvalidAreaMQuadradoOrquidario } from '../../modules/orquidario/domain/
 import { InvalidRangeTaxaSucessoPct } from '../../modules/reproducaoFlor/domain/taxaSucesso-invalid-range.exception';
 import { InvalidTaxaSucessoPctViabilidade } from '../../modules/reproducaoFlor/domain/taxaSucesso-invalid-range-viability.exception';
 import { InvalidPayload } from "../../utils/invalid-payload.exception";
+import { ReproducaoFlorNotFoundException } from 'src/modules/reproducaoFlor/domain/reproducaoFlor-not-found.exception';
+import { InvalidDataGerminacao } from 'src/modules/reproducaoFlor/domain/invalid-dataGerminacao-exception';
 
 
 export interface ErrorDetail {
@@ -60,6 +62,21 @@ export class AppExceptionFilter implements ExceptionFilter {
                 },
             ],
         };
+    }
+
+    private handleReproducaoNotFound(exception: ReproducaoFlorNotFoundException): ErrorResponse {
+        return {
+            status: HttpStatus.NOT_FOUND,
+            message: 'Reprodução não encontrada',
+            error: 'REPRODUCAO_NOT_FOUND',
+            detail: [
+                {
+                    campo: 'id',
+                    code: 'REPRODUCAO_NOT_FOUND',
+                    description: exception.message,
+                }
+            ]
+        }
     }
 
     private handleHibridoNomeAlreadyExists(exception: HibridoNomeAlreadyExists): ErrorResponse {
@@ -158,6 +175,24 @@ export class AppExceptionFilter implements ExceptionFilter {
         };
     }
 
+    private handleDataGerminacao(exception: InvalidDataGerminacao): ErrorResponse {
+        const msg =
+            typeof exception.getResponse() === 'string'
+                ? (exception.getResponse() as string)
+                : exception.message;
+        return {
+            status: HttpStatus.BAD_REQUEST,
+            message: 'A data de germinação não pode ser inferior à data de criação do orquidário',
+            error: 'INVALID_DATA_GERMINACAO_REPRODUCAO',
+            detail: [
+                {
+                    code: 'INVALID_DATA_GERMINACAO_REPRODUCAO',
+                    description: msg,
+                },
+            ],
+        };
+    }
+
     private handleCamposObrigatorios(exception: InvalidPayload): ErrorResponse {
         const msg =
             typeof exception.getResponse() === 'string'
@@ -169,7 +204,7 @@ export class AppExceptionFilter implements ExceptionFilter {
             error: 'INVALID_PAYLOAD',
             detail: [
                 {
-                    code: 'INVALID_TAXA_SUCESSO_PCT',
+                    code: 'INVALID_PAYLOAD',
                     description: msg,
                 },
             ],
@@ -221,6 +256,14 @@ export class AppExceptionFilter implements ExceptionFilter {
 
         if (exception instanceof InvalidPayload) {
             return this.handleCamposObrigatorios(exception);
+        }
+
+        if (exception instanceof ReproducaoFlorNotFoundException) {
+            return this.handleReproducaoNotFound(exception);
+        }
+
+        if (exception instanceof InvalidDataGerminacao) {
+            return this.handleDataGerminacao(exception);
         }
 
         return this.handleUnknown(exception);

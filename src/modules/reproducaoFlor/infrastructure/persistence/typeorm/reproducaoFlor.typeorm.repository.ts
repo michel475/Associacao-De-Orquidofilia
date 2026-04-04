@@ -4,6 +4,7 @@ import { ReproducaoFlorRepositoryPort } from "src/modules/reproducaoFlor/applica
 import { ReproducaoFlorOrmEntity } from "./reproducaoFlor.orm-entity";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ReproducaoFlor } from "src/modules/reproducaoFlor/domain/reproducaoFlor";
+import { ReproducaoFlorNotFoundException } from "src/modules/reproducaoFlor/domain/reproducaoFlor-not-found.exception";
 
 
 @Injectable()
@@ -15,39 +16,27 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
 
     async create(reproducaoFlor: ReproducaoFlor): Promise<ReproducaoFlor> {
         const orm = this.repo.create({
-            orquidarioId: reproducaoFlor.orquidarioId,
+            orquidario: { id: reproducaoFlor.orquidarioId },
             hibridoNome: reproducaoFlor.hibridoNome,
             dataGerminacao: reproducaoFlor.dataGerminacao,
             viavel: reproducaoFlor.viavel,
             taxaSucessoPct: reproducaoFlor.taxaSucessoPct,
-        })
+        });
         const saved = await this.repo.save(orm);
-        try {
-            return this.toDomain(saved);
-        } catch (error) {
-            throw new HttpException("Erro na criação de reprodução flor", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return this.toDomain(saved);
     }
 
-    async update(reproducaoFlor: ReproducaoFlor): Promise<ReproducaoFlor> {
-        const id = reproducaoFlor.id;
-        if (!id)
-            throw new Error("pode nao man");
+    async update(id: number, reproducaoFlor: ReproducaoFlor): Promise<ReproducaoFlor> {
         const reproducao = await this.repo.findOneBy({ id });
-        const reproducaoFlorUpdates = {
-            orquidarioId: reproducaoFlor.orquidarioId,
-            hibridoNome: reproducaoFlor.hibridoNome,
-            dataGerminacao: reproducaoFlor.dataGerminacao,
-            viavel: reproducaoFlor.viavel,
-            taxaSucessoPct: reproducaoFlor.taxaSucessoPct,
-        }
+        if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
 
-        const saved = await this.repo.save(reproducaoFlorUpdates);
-        try {
-            return this.toDomain(saved);
-        } catch (error) {
-            throw new HttpException("Erro ao atualizar registro de reprodução de flor", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        reproducao.hibridoNome = reproducaoFlor.hibridoNome
+        reproducao.dataGerminacao = reproducaoFlor.dataGerminacao
+        reproducao.viavel = reproducaoFlor.viavel
+        reproducao.taxaSucessoPct = reproducaoFlor.taxaSucessoPct
+
+        const saved = await this.repo.save(reproducao);
+        return this.toDomain(saved);
     }
 
     async findAll(): Promise<ReproducaoFlor[] | null> {
@@ -67,10 +56,10 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
         if (!reproducao)
             throw new HttpException("Reprodução não encontrada para deletar", HttpStatus.NOT_FOUND);
         await this.repo.delete(reproducao);
-        return reproducao;
+        return this.toDomain(reproducao);
     }
 
     private toDomain = (orm: ReproducaoFlorOrmEntity): ReproducaoFlor => {
-        return new ReproducaoFlor(orm.id, orm.orquidarioId, orm.hibridoNome, orm.dataGerminacao, orm.viavel, orm.taxaSucessoPct);
+        return new ReproducaoFlor(orm.id, orm.orquidario.id, orm.hibridoNome, orm.dataGerminacao, orm.viavel, Number(orm.taxaSucessoPct));
     }
 }

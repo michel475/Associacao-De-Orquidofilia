@@ -2,6 +2,14 @@ import type { ReproducaoFlorRepositoryPort } from "./ports/reproducaoFlor.reposi
 import { ReproducaoFlor } from "../domain/reproducaoFlor";
 import { Inject, Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import type { OrquidarioRepositoryPort } from "src/modules/orquidario/application/ports/orquidario.repository.port";
+import { OrquidarioNotFoundException } from "src/modules/orquidario/domain/orquidario-not-found.exception";
+import { InvalidTaxaSucessoPctViabilidade } from "../domain/taxaSucesso-invalid-range-viability.exception";
+import { InvalidRangeTaxaSucessoPct } from "../domain/taxaSucesso-invalid-range.exception";
+import { InvalidPayload } from "src/utils/invalid-payload.exception";
+import { HibridoNomeAlreadyExists } from "../domain/hibridoNome-already-exists.exception";
+import { ReproducaoFlorNotFoundException } from "../domain/reproducaoFlor-not-found.exception";
+import { InvalidDataGerminacao } from "../domain/invalid-dataGerminacao-exception";
+
 
 @Injectable()
 export class ReproducaoFlorService {
@@ -11,25 +19,54 @@ export class ReproducaoFlorService {
         private readonly orquidarioRepo: OrquidarioRepositoryPort) { }
 
     async create(orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
-        const orquidario = this.orquidarioRepo.findById(orquidarioId);
+        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
         if (!orquidario)
-            throw new HttpException("Orquidário não encontrado", HttpStatus.NOT_FOUND);
+            throw new OrquidarioNotFoundException(orquidarioId);
         if (taxaSucessoPct < 0 || taxaSucessoPct > 100)
-            throw new HttpException("Taxa de Sucesso inválida", HttpStatus.BAD_REQUEST);
-        if (viavel === false)
+            throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
+        if (viavel === true) {
+            if (taxaSucessoPct <= 70)
+                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+        }
+        else {
             if (taxaSucessoPct > 30)
-                throw new HttpException("Taxa sucesso deve ser menor que 30%", HttpStatus.BAD_REQUEST);
-            else {
-                if (taxaSucessoPct <= 70)
-                    throw new HttpException("Taxa sucesso deve ser maior que 70%", HttpStatus.BAD_REQUEST);
-            }
+                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+        }
+        // orquidario.reproducoes.forEach(reprod => {
+        //     if (reprod.hibridoNome === hibridoNome)
+        //         throw new HibridoNomeAlreadyExists(hibridoNome);
+        // })
+
+        if (dataGerminacao > orquidario.dataCriacao)
+            throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
         const reproducaoFlor = new ReproducaoFlor(null, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct)
         return this.reproducaoFlorRepo.create(reproducaoFlor)
     }
 
-    async update(id: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
-        const reproducaoFlor = new ReproducaoFlor(id, null, hibridoNome, dataGerminacao, viavel, taxaSucessoPct);
-        return this.reproducaoFlorRepo.update(reproducaoFlor);
+    async update(id: number, orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
+        const reprod = await this.reproducaoFlorRepo.findById(id);
+        if (!reprod)
+            throw new ReproducaoFlorNotFoundException(id);
+        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
+        if (!orquidario)
+            throw new OrquidarioNotFoundException(orquidarioId);
+        if (taxaSucessoPct < 0 || taxaSucessoPct > 100)
+            throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
+        if (viavel === true) {
+            if (taxaSucessoPct <= 70)
+                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+        }
+        else {
+            if (taxaSucessoPct > 30)
+                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+        }
+        //tem que ser via relations
+        // orquidario.reproducoes.forEach(reprod => {
+        //     if (reprod.hibridoNome === hibridoNome)
+        //         throw new HibridoNomeAlreadyExists(hibridoNome);
+        // })
+        const reproducaoFlor = new ReproducaoFlor(id, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct);
+        return this.reproducaoFlorRepo.update(id, reproducaoFlor);
     }
 
     async findAll(): Promise<ReproducaoFlor[] | null> {
@@ -37,10 +74,14 @@ export class ReproducaoFlorService {
     }
 
     async findById(id: number): Promise<ReproducaoFlor | null> {
-        return this.reproducaoFlorRepo.findById(id);
+        const reproducao = this.reproducaoFlorRepo.findById(id);
+        if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
+        return reproducao;
     }
 
     async delete(id: number): Promise<ReproducaoFlor | null> {
+        const reproducao = this.reproducaoFlorRepo.findById(id);
+        if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
         return this.reproducaoFlorRepo.delete(id);
     }
 }
