@@ -6,7 +6,10 @@ export class ReproducaoFlorOrmEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => OrquidarioOrmEntity,)
+    @Column()
+    orquidarioId: number;
+
+    @ManyToOne(() => OrquidarioOrmEntity, {onDelete: 'CASCADE'})
     @JoinColumn({ name: 'orquidarioId' })
     orquidario: OrquidarioOrmEntity;
 

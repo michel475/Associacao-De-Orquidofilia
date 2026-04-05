@@ -8,7 +8,7 @@ import {
 import { Request, Response } from 'express';
 import { OrquidarioNotFoundException } from '../../modules/orquidario/domain/orquidario-not-found.exception';
 import { HibridoNomeAlreadyExists } from '../../modules/reproducaoFlor/domain/hibridoNome-already-exists.exception';
-//import { InvalidDataCriacaoOrquidario } from '../../modules/orquidario/domain/invalid-DataCriacao.exception';
+import { InvalidDataCriacaoOrquidario } from '../../modules/orquidario/domain/invalid-dataCriacao.exception';
 import { InvalidAreaMQuadradoOrquidario } from '../../modules/orquidario/domain/area-M-quadradosOrquidario.exception';;
 import { InvalidRangeTaxaSucessoPct } from '../../modules/reproducaoFlor/domain/taxaSucesso-invalid-range.exception';
 import { InvalidTaxaSucessoPctViabilidade } from '../../modules/reproducaoFlor/domain/taxaSucesso-invalid-range-viability.exception';
@@ -99,24 +99,24 @@ export class AppExceptionFilter implements ExceptionFilter {
         };
     }
 
-    // private handleDataCriacao(exception: InvalidDataCriacaoOrquidario): ErrorResponse {
-    //     const msg =
-    //         typeof exception.getResponse() === 'string'
-    //             ? (exception.getResponse() as string)
-    //             : exception.message;
-    //     return {
-    //         status: HttpStatus.BAD_REQUEST,
-    //         message: 'Data criação inválida',
-    //         error: 'INVALID_DATA_CRIACAO',
-    //         detail: [
-    //             {
-    //                 campo: 'dataCriacao',
-    //                 code: 'INVALID_DATA_CRIACAO',
-    //                 description: msg,
-    //             },
-    //         ],
-    //     };
-    // }
+     private handleDataCriacao(exception: InvalidDataCriacaoOrquidario): ErrorResponse {
+         const msg =
+             typeof exception.getResponse() === 'string'
+                 ? (exception.getResponse() as string)
+                 : exception.message;
+         return {
+             status: HttpStatus.BAD_REQUEST,
+             message: 'Data criação inválida',
+             error: 'INVALID_DATA_CRIACAO',
+             detail: [
+                 {
+                     campo: 'dataCriacao',
+                     code: 'INVALID_DATA_CRIACAO',
+                     description: msg,
+                 },
+             ],
+         };
+    }
 
     private handleAreaMQuadradoOrquidario(exception: InvalidAreaMQuadradoOrquidario): ErrorResponse {
         const msg =
@@ -238,9 +238,9 @@ export class AppExceptionFilter implements ExceptionFilter {
             return this.handleHibridoNomeAlreadyExists(exception);
         }
 
-        // if (exception instanceof InvalidDataCriacaoOrquidario) {
-        //     return this.handleDataCriacao(exception);
-        // }
+        if (exception instanceof InvalidDataCriacaoOrquidario) {
+            return this.handleDataCriacao(exception);
+        }
 
         if (exception instanceof InvalidAreaMQuadradoOrquidario) {
             return this.handleAreaMQuadradoOrquidario(exception);

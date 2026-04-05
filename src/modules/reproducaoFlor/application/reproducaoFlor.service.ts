@@ -9,19 +9,19 @@ import { InvalidPayload } from "src/utils/invalid-payload.exception";
 import { HibridoNomeAlreadyExists } from "../domain/hibridoNome-already-exists.exception";
 import { ReproducaoFlorNotFoundException } from "../domain/reproducaoFlor-not-found.exception";
 import { InvalidDataGerminacao } from "../domain/invalid-dataGerminacao-exception";
+import { OrquidarioService } from "src/modules/orquidario/application/orquidario.service";
 
 
 @Injectable()
 export class ReproducaoFlorService {
     constructor(@Inject('ReproducaoFlorRepositoryPort')
     private readonly reproducaoFlorRepo: ReproducaoFlorRepositoryPort,
-        @Inject('OrquidarioRepositoryPort')
-        private readonly orquidarioRepo: OrquidarioRepositoryPort) { }
+        ) { }
 
     async create(orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
-        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
-        if (!orquidario)
-            throw new OrquidarioNotFoundException(orquidarioId);
+        // const orquidario =  await this.orquidarioRepo.findById(orquidarioId);
+        // if (!orquidario)
+        //     throw new OrquidarioNotFoundException(orquidarioId);
         if (taxaSucessoPct < 0 || taxaSucessoPct > 100)
             throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
         if (viavel === true) {
@@ -37,8 +37,8 @@ export class ReproducaoFlorService {
         //         throw new HibridoNomeAlreadyExists(hibridoNome);
         // })
 
-        if (dataGerminacao > orquidario.dataCriacao)
-            throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
+        // if (dataGerminacao > orquidario.dataCriacao)
+        //     throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
         const reproducaoFlor = new ReproducaoFlor(null, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct)
         return this.reproducaoFlorRepo.create(reproducaoFlor)
     }
@@ -47,9 +47,9 @@ export class ReproducaoFlorService {
         const reprod = await this.reproducaoFlorRepo.findById(id);
         if (!reprod)
             throw new ReproducaoFlorNotFoundException(id);
-        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
-        if (!orquidario)
-            throw new OrquidarioNotFoundException(orquidarioId);
+        // const orquidario = await this.orquidarioRepo.findById(orquidarioId);
+        // if (!orquidario)
+        //     throw new OrquidarioNotFoundException(orquidarioId);
         if (taxaSucessoPct < 0 || taxaSucessoPct > 100)
             throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
         if (viavel === true) {

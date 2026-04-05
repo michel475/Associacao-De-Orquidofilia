@@ -6,6 +6,6 @@ import { ReproducaoFlorOrmEntity } from 'src/modules/reproducaoFlor/infrastructu
 export const AppDataSource = new DataSource({
     type: 'sqlite',
     database: 'data/app.db',
-    entities: [OrquidarioOrmEntity, ReproducaoFlorOrmEntity],
+    entities: [OrquidarioOrmEntity],
     synchronize: true,
 });

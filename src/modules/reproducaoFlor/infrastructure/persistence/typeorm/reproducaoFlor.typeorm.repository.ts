@@ -16,7 +16,7 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
 
     async create(reproducaoFlor: ReproducaoFlor): Promise<ReproducaoFlor> {
         const orm = this.repo.create({
-            orquidario: { id: reproducaoFlor.orquidarioId },
+            orquidarioId: reproducaoFlor.orquidarioId,
             hibridoNome: reproducaoFlor.hibridoNome,
             dataGerminacao: reproducaoFlor.dataGerminacao,
             viavel: reproducaoFlor.viavel,
@@ -60,6 +60,6 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
     }
 
     private toDomain = (orm: ReproducaoFlorOrmEntity): ReproducaoFlor => {
-        return new ReproducaoFlor(orm.id, orm.orquidario.id, orm.hibridoNome, orm.dataGerminacao, orm.viavel, Number(orm.taxaSucessoPct));
+        return new ReproducaoFlor(orm.id, orm.orquidarioId, orm.hibridoNome, orm.dataGerminacao, orm.viavel, Number(orm.taxaSucessoPct));
     }
 }
