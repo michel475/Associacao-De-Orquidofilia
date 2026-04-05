@@ -18,13 +18,8 @@ export class ReproducaoFlorService {
         @Inject('OrquidarioRepositoryPort')
         private readonly orquidarioRepo: OrquidarioRepositoryPort) { }
 
-<<<<<<< HEAD
-    async create(id: number, orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
-        const orquidario = this.orquidarioRepo.findById(orquidarioId);
-=======
     async create(orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
         const orquidario = await this.orquidarioRepo.findById(orquidarioId);
->>>>>>> 45d98e2 (Validações extra do payload)
         if (!orquidario)
             throw new OrquidarioNotFoundException(orquidarioId);
         if (taxaSucessoPct < 0 || taxaSucessoPct > 100)
@@ -35,18 +30,6 @@ export class ReproducaoFlorService {
         }
         else {
             if (taxaSucessoPct > 30)
-<<<<<<< HEAD
-                throw new HttpException("Taxa sucesso deve ser menor que 30%", HttpStatus.BAD_REQUEST);
-            else {
-                if (taxaSucessoPct <= 70)
-                    throw new HttpException("Taxa sucesso deve ser maior que 70%", HttpStatus.BAD_REQUEST);
-            }
-        const procuraHibrido = this.orquidarioRepo.findById(orquidarioId);
-        procuraHibrido.reproducoes.forEach(reproducao => {
-            if (reproducao.)
-        });
-        const reproducaoFlor = new ReproducaoFlor(id, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct)
-=======
                 throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
         }
         // orquidario.reproducoes.forEach(reprod => {
@@ -57,7 +40,6 @@ export class ReproducaoFlorService {
         if (dataGerminacao > orquidario.dataCriacao)
             throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
         const reproducaoFlor = new ReproducaoFlor(null, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct)
->>>>>>> 45d98e2 (Validações extra do payload)
         return this.reproducaoFlorRepo.create(reproducaoFlor)
     }
 

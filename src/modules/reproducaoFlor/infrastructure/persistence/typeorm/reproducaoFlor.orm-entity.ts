@@ -1,3 +1,4 @@
+import { OrquidarioOrmEntity } from 'src/modules/orquidario/infrastructure/persistence/typeorm/orquidario.orm-entity';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('reproducaoFlor')
@@ -20,9 +21,4 @@ export class ReproducaoFlorOrmEntity {
 
     @Column()
     taxaSucessoPct: number;
-
-<<<<<<< HEAD
-    @Column()
-=======
->>>>>>> 938bf10 (Mapeando entidades e começando validação de regras de negócio da entidade Reproducao Flor)
 }
