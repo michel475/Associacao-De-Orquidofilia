@@ -8,13 +8,14 @@ import { OrquidarioOrmEntity } from "./infrastructure/persistence/typeorm/orquid
 @Module({
     imports: [TypeOrmModule.forFeature([OrquidarioOrmEntity])],
     controllers: [OrquidarioController],
-    providers:[
+    providers: [
         OrquidarioService,
         {
             provide: 'OrquidarioRepositoryPort',
             useClass: OrquidarioTypeOrmRepository,
         },
     ],
+    exports: ['OrquidarioRepositoryPort']
 })
 
-export class OrquidarioModule{}
+export class OrquidarioModule { }

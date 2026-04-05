@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
-import { ReproducaoFlorOrmEntity } from '../../../../typeorm/reproducaoFlor.orm-entity.ts';
+import { ReproducaoFlorOrmEntity } from '../../../../reproducaoFlor/infrastructure/persistence/typeorm/reproducaoFlor.orm-entity'
 
 @Entity('orquidario')
 export class OrquidarioOrmEntity {
