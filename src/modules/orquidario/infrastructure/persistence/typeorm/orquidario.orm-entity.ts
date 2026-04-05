@@ -18,6 +18,10 @@ export class OrquidarioOrmEntity {
     @Column()
     areaMquadrados: number;
 
+<<<<<<< HEAD
     @OneToMany(() => ReproducaoFlorOrmEntity (reproducao) => reproducao.orquidario)
+=======
+    @OneToMany(() => ReproducaoFlorOrmEntity, (reproducao) => reproducao.orquidario)
+>>>>>>> 1f2c57c (alterações necessárias em validação da data e orquidario-orm)
     reproducoes: ReproducaoFlorOrmEntity[];
 }
