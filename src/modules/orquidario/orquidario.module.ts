@@ -1,12 +1,13 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { orquidarioController } from "./presentation/orquidario.controller";
+import { OrquidarioController } from "./presentation/orquidario.controller";
 import { OrquidarioService } from "./application/orquidario.service";
-
+import { OrquidarioTypeOrmRepository } from "./infrastructure/persistence/typeorm/orquidario.typeorm.repository";
+import { OrquidarioOrmEntity } from "./infrastructure/persistence/typeorm/orquidario.orm-entity";
 
 @Module({
     imports: [TypeOrmModule.forFeature([OrquidarioOrmEntity])],
-    controllers: [orquidarioController],
+    controllers: [OrquidarioController],
     providers:[
         OrquidarioService,
         {
