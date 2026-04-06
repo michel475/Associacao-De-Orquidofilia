@@ -36,5 +36,12 @@ export class OrquidarioController{
         return this.orquidarioSevice.update(Number(id),dto.endereco, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
     }
 
+    @Delete('delete/:id')
+    @ApiParam({name: 'id', example: 1})
+    @ApiOperation({summary: 'Deleta um orquidário através do id'})
+    delete(@Param('id') id: number){
+        return this.orquidarioSevice.delete(Number(id))
+    }
+    
 
 }

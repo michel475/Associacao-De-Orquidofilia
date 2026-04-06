@@ -51,7 +51,10 @@ export class OrquidarioService {
         return this.orquidarioRepo.update(orquidario)
     }
 
-    async delete() {
-
+    async delete(id: number) {
+        const orqui = this.orquidarioRepo.findById(id)
+        if(!orqui) throw new OrquidarioNotFoundException(id)
+        
+        return this.orquidarioRepo.delete(id)
     }
 }
