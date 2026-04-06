@@ -39,13 +39,13 @@ export class ReproducaoFlorController {
 
     @Get('/:id')
     @ApiOperation({ summary: "Encontrar um pelo id" })
-    findById(@Param('id') id: string) {
-        return this.reproducaoFlorService.findById(Number(id))
+    findById(@Param('id') id: number) {
+        return this.reproducaoFlorService.findById(id)
     }
 
     @Delete('/deletar/:id')
     @ApiOperation({ summary: "deletar pelo id" })
-    delete(@Param('id') id: string) {
-        return this.reproducaoFlorService.delete(Number(id));
+    delete(@Param('id') id: number) {
+        return this.reproducaoFlorService.delete(id);
     }
 }
