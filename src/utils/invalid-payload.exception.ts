@@ -3,30 +3,29 @@ import { CreateReproducaoFlorDTO } from "src/modules/reproducaoFlor/presentation
 import { UpdateReproducaoFlorDTO } from "src/modules/reproducaoFlor/presentation/dto/update-reproducaoFlor.dto";
 
 export class InvalidPayload extends BadRequestException {
-    constructor(dto: CreateReproducaoFlorDTO | UpdateReproducaoFlorDTO) {
-        const fields = [{ 'orquidarioId': dto.orquidarioId }, { 'hibridoNome': dto.hibridoNome }, { 'dataGerminacao': dto.dataGerminacao }, { 'viavel': dto.viavel }, { 'taxaSucessoPct': dto.taxaSucessoPct }];
-        const emptyFields = fields.map(field => ({
-            field: null,
-        }))
-        let message = 'Campos não informados:';
-        for (let i = 0; i < emptyFields.length; i++) {
-            message = message + ` '${emptyFields[i]}',`;
+    constructor(dtoOrMessage: CreateReproducaoFlorDTO | UpdateReproducaoFlorDTO | string) {
+        let message = 'Todos os campos devem ser informados!';
+
+        if (typeof dtoOrMessage === 'string') {
+            message = dtoOrMessage;
+        } else {
+            const dto = dtoOrMessage as CreateReproducaoFlorDTO | UpdateReproducaoFlorDTO;
+            const emptyFields:any = [];
+            
+            if (!dto.orquidarioId) emptyFields.push('orquidarioId');
+            if (!dto.hibridoNome) emptyFields.push('hibridoNome');
+            if (!dto.dataGerminacao) emptyFields.push('dataGerminacao');
+            if (dto.viavel === undefined || dto.viavel === null) emptyFields.push('viavel');
+            if (!dto.taxaSucessoPct && dto.taxaSucessoPct !== 0) emptyFields.push('taxaSucessoPct');
+
+            if (emptyFields.length > 0) {
+                message = `Campos não informados: ${emptyFields.join(', ')}`;
+            }
         }
-        super(`Todos os campos devem ser informados! '${message}'`);
+
+        super(message);
     }
 }
-
-//  @ApiProperty({ example: 1 })
-//     orquidarioId: number;
-
-//     @ApiProperty({ example: 'Cattleya Trianae x Laelia purpurata' })
-//     hibridoNome: string;
-
-//     @ApiProperty({ example: '2026-02-01' })
-//     dataGerminacao: Date;
-
-//     @ApiProperty({ example: 'true' })
-//     viavel: boolean;
 
 //     @ApiProperty({ example: 45 })
 //     taxaSucessoPct: number;
