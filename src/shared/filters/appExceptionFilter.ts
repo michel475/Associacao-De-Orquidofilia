@@ -6,6 +6,7 @@ import {
     Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { QueryFailedError } from 'typeorm';
 import { OrquidarioNotFoundException } from '../../modules/orquidario/domain/orquidario-not-found.exception';
 import { HibridoNomeAlreadyExists } from '../../modules/reproducaoFlor/domain/hibridoNome-already-exists.exception';
 import { InvalidDataCriacaoOrquidario } from '../../modules/orquidario/domain/invalid-dataCriacao.exception';
@@ -266,6 +267,64 @@ export class AppExceptionFilter implements ExceptionFilter {
             return this.handleDataGerminacao(exception);
         }
 
+        // Capturar erros de banco de dados
+        if (exception instanceof QueryFailedError) {
+            return this.handleDatabaseError(exception);
+        }
+
         return this.handleUnknown(exception);
+    }
+
+    /**
+     * Trata erros de banco de dados (constraints violadas, unique violations, etc)
+     */
+    private handleDatabaseError(exception: QueryFailedError): ErrorResponse {
+        const errorCode = (exception as any).code || ((exception as any).driverError?.code) || '';
+        const errorMessage = exception.message || '';
+
+        const isDuplicateError = 
+            errorCode === 'ER_DUP_ENTRY' || 
+            errorCode === '23505' || 
+            errorCode === 'SQLITE_CONSTRAINT' ||
+            errorMessage.includes('UNIQUE constraint failed') ||
+            errorMessage.includes('Duplicate entry');
+
+        if (isDuplicateError) {
+            // Tentar identificar qual campo causou a violação
+            if (errorMessage.includes('hibridoNome')) {
+                return {
+                    status: HttpStatus.CONFLICT,
+                    message: 'Conflito de dados',
+                    error: 'DUPLICATE_HIBRIDONOME',
+                    detail: [{
+                        campo: 'hibridoNome',
+                        code: 'UNIQUE_CONSTRAINT_VIOLATION',
+                        description: 'Híbrido com este nome já existe para este orquidário'
+                    }]
+                };
+            }
+
+            // Erro genérico de duplicate
+            return {
+                status: HttpStatus.CONFLICT,
+                message: 'Violação de constraint UNIQUE',
+                error: 'UNIQUE_CONSTRAINT_VIOLATION',
+                detail: [{
+                    code: 'UNIQUE_CONSTRAINT_VIOLATION',
+                    description: 'Um dos campos contém um valor que já existe no banco de dados'
+                }]
+            };
+        }
+
+        // Erro genérico de banco de dados
+        return {
+            status: HttpStatus.INTERNAL_SERVER_ERROR,
+            message: 'Erro na operação do banco de dados',
+            error: 'DATABASE_ERROR',
+            detail: [{
+                code: errorCode || 'UNKNOWN_DB_ERROR',
+                description: errorMessage || 'Erro desconhecido no banco de dados'
+            }]
+        };
     }
 }

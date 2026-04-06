@@ -1,7 +1,10 @@
-import { BadRequestException } from '@nestjs/common';
+import { ConflictException } from '@nestjs/common';
 
-export class HibridoNomeAlreadyExists extends BadRequestException {
-    constructor(hibridoNome: string) {
-        super(`Híbrido nome '${hibridoNome}' já está cadastrado`);
+export class HibridoNomeAlreadyExists extends ConflictException {
+    constructor(hibridoNome: string, orquidarioId?: number) {
+        const message = orquidarioId 
+            ? `Híbrido com nome '${hibridoNome}' já existe para o orquidário ID ${orquidarioId}`
+            : `Híbrido nome '${hibridoNome}' já está cadastrado`;
+        super(message);
     }
 }

@@ -9,63 +9,100 @@ import { InvalidPayload } from "src/utils/invalid-payload.exception";
 import { HibridoNomeAlreadyExists } from "../domain/hibridoNome-already-exists.exception";
 import { ReproducaoFlorNotFoundException } from "../domain/reproducaoFlor-not-found.exception";
 import { InvalidDataGerminacao } from "../domain/invalid-dataGerminacao-exception";
-import { OrquidarioService } from "src/modules/orquidario/application/orquidario.service";
 
 
 @Injectable()
 export class ReproducaoFlorService {
-    constructor(@Inject('ReproducaoFlorRepositoryPort')
-    private readonly reproducaoFlorRepo: ReproducaoFlorRepositoryPort,
-        ) { }
+    constructor(
+        @Inject('ReproducaoFlorRepositoryPort')
+        private readonly reproducaoFlorRepo: ReproducaoFlorRepositoryPort,
+        @Inject('OrquidarioRepositoryPort')
+        private readonly orquidarioRepo: OrquidarioRepositoryPort,
+    ) { }
 
     async create(orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
-        // const orquidario =  await this.orquidarioRepo.findById(orquidarioId);
-        // if (!orquidario)
-        //     throw new OrquidarioNotFoundException(orquidarioId);
-        if (taxaSucessoPct < 0 || taxaSucessoPct > 100)
-            throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
-        if (viavel === true) {
-            if (taxaSucessoPct <= 70)
-                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+        if (!hibridoNome || !dataGerminacao) {
+            throw new InvalidPayload("hibridoNome e dataGerminacao são obrigatórios");
         }
-        else {
-            if (taxaSucessoPct > 30)
-                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
-        }
-        // orquidario.reproducoes.forEach(reprod => {
-        //     if (reprod.hibridoNome === hibridoNome)
-        //         throw new HibridoNomeAlreadyExists(hibridoNome);
-        // })
 
-        // if (dataGerminacao > orquidario.dataCriacao)
-        //     throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
-        const reproducaoFlor = new ReproducaoFlor(null, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct)
+        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
+        if (!orquidario) {
+            throw new OrquidarioNotFoundException(orquidarioId);
+        }
+
+        const dataGerminacaoDate = new Date(dataGerminacao);
+        const dataCriacaoDate = new Date(orquidario.dataCriacao);
+        
+        if (dataGerminacaoDate > dataCriacaoDate) {
+            throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
+        }
+
+        if (taxaSucessoPct < 0 || taxaSucessoPct > 100) {
+            throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
+        }
+
+        if (viavel === true) {
+            if (taxaSucessoPct <= 70) {
+                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+            }
+        } else {
+            if (taxaSucessoPct > 30) {
+                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+            }
+        }
+
+        const hibrido = await this.reproducaoFlorRepo.findByOrquidarioIdAndHibridoNome(orquidarioId, hibridoNome);
+        if (hibrido) {
+            throw new HibridoNomeAlreadyExists(hibridoNome, orquidarioId);
+        }
+
+        const reproducaoFlor = new ReproducaoFlor(null, orquidarioId, hibridoNome, dataGerminacaoDate, viavel, taxaSucessoPct)
         return this.reproducaoFlorRepo.create(reproducaoFlor)
     }
 
     async update(id: number, orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
         const reprod = await this.reproducaoFlorRepo.findById(id);
-        if (!reprod)
+        if (!reprod) {
             throw new ReproducaoFlorNotFoundException(id);
-        // const orquidario = await this.orquidarioRepo.findById(orquidarioId);
-        // if (!orquidario)
-        //     throw new OrquidarioNotFoundException(orquidarioId);
-        if (taxaSucessoPct < 0 || taxaSucessoPct > 100)
+        }
+
+        if (!hibridoNome || !dataGerminacao) {
+            throw new InvalidPayload("hibridoNome e dataGerminacao são obrigatórios");
+        }
+
+        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
+        if (!orquidario) {
+            throw new OrquidarioNotFoundException(orquidarioId);
+        }
+
+        const dataGerminacaoDate = new Date(dataGerminacao);
+        const dataCriacaoDate = new Date(orquidario.dataCriacao);
+        
+        if (dataGerminacaoDate < dataCriacaoDate) {
+            throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
+        }
+
+        if (taxaSucessoPct < 0 || taxaSucessoPct > 100) {
             throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
+        }
+
         if (viavel === true) {
-            if (taxaSucessoPct <= 70)
+            if (taxaSucessoPct <= 70) {
                 throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
-        }
-        else {
-            if (taxaSucessoPct > 30)
+            }
+        } else {
+            if (taxaSucessoPct > 30) {
                 throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
+            }
         }
-        //tem que ser via relations
-        // orquidario.reproducoes.forEach(reprod => {
-        //     if (reprod.hibridoNome === hibridoNome)
-        //         throw new HibridoNomeAlreadyExists(hibridoNome);
-        // })
-        const reproducaoFlor = new ReproducaoFlor(id, orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct);
+
+        if (hibridoNome !== reprod.hibridoNome) {
+            const jaExiste = await this.reproducaoFlorRepo.findByOrquidarioIdAndHibridoNome(orquidarioId, hibridoNome);
+            if (jaExiste) {
+                throw new HibridoNomeAlreadyExists(hibridoNome, orquidarioId);
+            }
+        }
+        const reproducaoFlor = new ReproducaoFlor(id, orquidarioId, hibridoNome, dataGerminacaoDate, viavel, taxaSucessoPct);
         return this.reproducaoFlorRepo.update(id, reproducaoFlor);
     }
 

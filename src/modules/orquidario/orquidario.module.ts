@@ -15,6 +15,7 @@ import { OrquidarioOrmEntity } from "./infrastructure/persistence/typeorm/orquid
             useClass: OrquidarioTypeOrmRepository,
         },
     ],
+    exports: ['OrquidarioRepositoryPort']
 })
 
 export class OrquidarioModule { }

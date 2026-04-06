@@ -16,7 +16,8 @@ export class OrquidarioService {
     async create(id: number, endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
         if (!endereco) throw new EnderecoNotFound();
         if (areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados);
-        if (new Date(dataCriacao).toISOString() > new Date(Date.now()).toISOString()) throw new InvalidDataCriacaoOrquidario(dataCriacao);
+        if (dataCriacao > new Date()) throw new InvalidDataCriacaoOrquidario(dataCriacao);
+        console.log(new Date(dataCriacao) + " AHAHAHA " + new Date())
 
         const orqui = new Orquidario(id, endereco, dataCriacao, true, areaMquadrados);
         return this.orquidarioRepo.create(orqui)
