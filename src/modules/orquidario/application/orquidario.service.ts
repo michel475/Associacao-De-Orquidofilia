@@ -36,6 +36,7 @@ export class OrquidarioService {
     }
 
     async findById(id: number) {
+<<<<<<< HEAD
         const orquidario = this.orquidarioRepo.findById(id)
         if (!orquidario) throw new OrquidarioNotFoundException(id)
 
@@ -51,6 +52,22 @@ export class OrquidarioService {
         const dataCreation = new Date(dataCriacao);
         if (dataCreation > new Date()) throw new InvalidDataCriacaoOrquidario(dataCreation)
 
+=======
+        const orquidario = await this.orquidarioRepo.findById(id)
+        if(!orquidario) throw new OrquidarioNotFoundException(id)
+        
+        return orquidario;
+    }
+
+    async update(id: number, endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
+        const orqui = await this.orquidarioRepo.findById(id)
+        if(!orqui) throw new OrquidarioNotFoundException(id)
+        
+        if(!endereco) throw new EnderecoNotFound()
+        if(areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados)
+        if(dataCriacao > new Date()) throw new InvalidDataCriacaoOrquidario(dataCriacao)
+        
+>>>>>>> 609c2b7 (Alterações realizadas para buscar as reproduções de um orquidário)
         const orquidario = new Orquidario(
             id,
             endereco,
@@ -62,13 +79,19 @@ export class OrquidarioService {
     }
 
     async listarReproducoes(id: number) {
-        return this.orquidarioRepo.listarReproducoes()
+        return this.orquidarioRepo.listarReproducoes(id);
     }
 
     async delete(id: number) {
+<<<<<<< HEAD
         const orqui = this.orquidarioRepo.findById(id)
         if (!orqui) throw new OrquidarioNotFoundException(id)
 
+=======
+        const orqui = await this.orquidarioRepo.findById(id)
+        if(!orqui) throw new OrquidarioNotFoundException(id)
+        
+>>>>>>> 609c2b7 (Alterações realizadas para buscar as reproduções de um orquidário)
         return this.orquidarioRepo.delete(id)
     }
 }
