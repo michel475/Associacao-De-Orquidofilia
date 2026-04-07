@@ -3,6 +3,7 @@ import { ApiOperation, ApiParam, ApiTags} from "@nestjs/swagger"
 import { CreateOrquidarioDTO } from "./dto/create-orquidario.dto";
 import { OrquidarioService } from "../application/orquidario.service";
 import { UpdateOrquidarioDTO } from "./dto/update-orquidario.dto";
+import { identity } from "rxjs";
 
 @ApiTags('Orquidario')
 @Controller('orquidario')
@@ -13,7 +14,7 @@ export class OrquidarioController{
     @Post()
     @ApiOperation({summary: 'Cria orquidário'})
     create(@Body() dto: CreateOrquidarioDTO){
-        return this.orquidarioSevice.create(dto.id, dto.enderecoOrquidario, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
+        return this.orquidarioSevice.create(dto.enderecoOrquidario, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
     };
 
     @Get()
@@ -43,5 +44,9 @@ export class OrquidarioController{
         return this.orquidarioSevice.delete(Number(id))
     }
     
-
+    @Get('orquidario/reproducoes')
+    @ApiOperation({summary:'Lista todas as reproduções de um orquidário'})
+    listarReproducoes(@Param("id") id: number){
+        return this.orquidarioSevice.listarReproducoes(id)
+    }
 }

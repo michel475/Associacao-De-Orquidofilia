@@ -13,12 +13,12 @@ export class OrquidarioService {
         private readonly orquidarioRepo: OrquidarioRepositoryPort,
     ) { }
 
-    async create(id: number, endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
+    async create(endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
         if (!endereco) throw new EnderecoNotFound();
         if (areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados);
         if (new Date(dataCriacao).toISOString() > new Date(Date.now()).toISOString()) throw new InvalidDataCriacaoOrquidario(dataCriacao);
 
-        const orqui = new Orquidario(id, endereco, dataCriacao, true, areaMquadrados);
+        const orqui = new Orquidario(null,endereco, dataCriacao, true, areaMquadrados);
         return this.orquidarioRepo.create(orqui)
     };
 
@@ -49,6 +49,10 @@ export class OrquidarioService {
             areaMquadrados
         )
         return this.orquidarioRepo.update(orquidario)
+    }
+
+    async listarReproducoes(id: number) {
+        return this.orquidarioRepo.listarReproducoes()
     }
 
     async delete(id: number) {

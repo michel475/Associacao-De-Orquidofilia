@@ -4,6 +4,7 @@ import { OrquidarioOrmEntity } from "./orquidario.orm-entity";
 import { Repository } from 'typeorm';
 import { Orquidario } from "src/modules/orquidario/domain/orquidario";
 import { OrquidarioRepositoryPort } from "src/modules/orquidario/application/ports/orquidario.repository.port";
+import { ReproducaoFlor } from "src/modules/reproducaoFlor/domain/reproducaoFlor";
 
 @Injectable()
 export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
@@ -45,6 +46,19 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
         const item = await this.repo.findOneBy({id});
         return item ? this.toDomain(item): null;
     }
+
+    async listarReproducoes(id: number): Promise<ReproducaoFlor[] | null> {
+    const result = await this.repo.findOne({
+        where: {
+            id: id,
+        },
+        relations: {
+            reproducoes: true,
+        },
+    });
+
+    return result?.reproducoes ?? [];
+}
 
     async delete(id: number): Promise<Orquidario | null> {
         const orm = await this.repo.findOneBy({id});
