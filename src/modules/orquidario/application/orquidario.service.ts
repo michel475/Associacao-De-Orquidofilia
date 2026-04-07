@@ -14,20 +14,28 @@ export class OrquidarioService {
     ) { }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     async create(endereco: string, dataCriacao: string, irrigadoAuto: boolean, areaMquadrados: number) {
 =======
     async create(endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
 >>>>>>> e6ae71b (Criacao listarReproducoes)
+=======
+    async create(endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
+>>>>>>> 609c2b7b7a417dce1be783e72ec3b4ba01c78675
         if (!endereco) throw new EnderecoNotFound();
         if (areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados);
         const dateCreate = new Date(dataCriacao);
         if (new Date(dateCreate) > new Date()) throw new InvalidDataCriacaoOrquidario(dateCreate);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         const orqui = new Orquidario(null, endereco, dateCreate, true, areaMquadrados);
 =======
         const orqui = new Orquidario(null,endereco, dataCriacao, true, areaMquadrados);
 >>>>>>> e6ae71b (Criacao listarReproducoes)
+=======
+        const orqui = new Orquidario(null,endereco, dataCriacao, true, areaMquadrados);
+>>>>>>> 609c2b7b7a417dce1be783e72ec3b4ba01c78675
         return this.orquidarioRepo.create(orqui)
     };
 
@@ -36,6 +44,7 @@ export class OrquidarioService {
     }
 
     async findById(id: number) {
+<<<<<<< HEAD
 <<<<<<< HEAD
         const orquidario = this.orquidarioRepo.findById(id)
         if (!orquidario) throw new OrquidarioNotFoundException(id)
@@ -53,6 +62,8 @@ export class OrquidarioService {
         if (dataCreation > new Date()) throw new InvalidDataCriacaoOrquidario(dataCreation)
 
 =======
+=======
+>>>>>>> 609c2b7b7a417dce1be783e72ec3b4ba01c78675
         const orquidario = await this.orquidarioRepo.findById(id)
         if(!orquidario) throw new OrquidarioNotFoundException(id)
         
@@ -82,12 +93,19 @@ export class OrquidarioService {
         return this.orquidarioRepo.listarReproducoes(id);
     }
 
+    async listarReproducoes(id: number) {
+        return this.orquidarioRepo.listarReproducoes(id);
+    }
+
     async delete(id: number) {
+<<<<<<< HEAD
 <<<<<<< HEAD
         const orqui = this.orquidarioRepo.findById(id)
         if (!orqui) throw new OrquidarioNotFoundException(id)
 
 =======
+=======
+>>>>>>> 609c2b7b7a417dce1be783e72ec3b4ba01c78675
         const orqui = await this.orquidarioRepo.findById(id)
         if(!orqui) throw new OrquidarioNotFoundException(id)
         
