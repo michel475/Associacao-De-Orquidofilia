@@ -20,7 +20,7 @@ export class OrquidarioService {
         if (new Date(dateCreate) > new Date()) throw new InvalidDataCriacaoOrquidario(dateCreate);
 
 
-        const orqui = new Orquidario(null, endereco, dateCreate, true, areaMquadrados);
+        const orqui = new Orquidario(null, endereco, dateCreate, irrigadoAuto, areaMquadrados);
         return this.orquidarioRepo.create(orqui)
     };
 
