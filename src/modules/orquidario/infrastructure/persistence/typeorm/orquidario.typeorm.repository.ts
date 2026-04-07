@@ -4,15 +4,7 @@ import { OrquidarioOrmEntity } from "./orquidario.orm-entity";
 import { Repository } from 'typeorm';
 import { Orquidario } from "src/modules/orquidario/domain/orquidario";
 import { OrquidarioRepositoryPort } from "src/modules/orquidario/application/ports/orquidario.repository.port";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { OrquidarioNotFoundException } from "src/modules/orquidario/domain/orquidario-not-found.exception";
-=======
 import { ReproducaoFlor } from "src/modules/reproducaoFlor/domain/reproducaoFlor";
->>>>>>> e6ae71b (Criacao listarReproducoes)
-=======
-import { ReproducaoFlor } from "src/modules/reproducaoFlor/domain/reproducaoFlor";
->>>>>>> 609c2b7b7a417dce1be783e72ec3b4ba01c78675
 
 @Injectable()
 export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
@@ -32,15 +24,9 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
         return this.toDomain(saved)
     }
 
-<<<<<<< HEAD
-    async update(id: number, orquidario: Orquidario): Promise<Orquidario | null> {
-        const orm = await this.repo.findOneBy({id: id});
-        if(!orm) return null;
-=======
     async update(orquidario: Orquidario): Promise<Orquidario> {
         const orm = await this.repo.findOneBy({id: orquidario.id!});
         if(!orm) throw new Error('Orquidario não encontrado')
->>>>>>> 609c2b7 (Alterações realizadas para buscar as reproduções de um orquidário)
         
         orm.endereco = orquidario.endereco;
         orm.dataCriacao = orquidario.dataCriacao;
