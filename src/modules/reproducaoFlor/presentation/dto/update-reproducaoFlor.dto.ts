@@ -1,9 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsDateString } from 'class-validator';
 
 export class UpdateReproducaoFlorDTO {
-    @ApiProperty({ example: 1 })
-    id: number;
-
     @ApiProperty({ example: 1 })
     orquidarioId: number;
 
@@ -11,6 +9,7 @@ export class UpdateReproducaoFlorDTO {
     hibridoNome: string;
 
     @ApiProperty({ example: '2026-02-01' })
+    @IsDateString()
     dataGerminacao: Date;
 
     @ApiProperty({ example: 'true' })

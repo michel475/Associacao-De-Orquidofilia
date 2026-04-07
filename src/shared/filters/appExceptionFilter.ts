@@ -16,6 +16,7 @@ import { InvalidTaxaSucessoPctViabilidade } from '../../modules/reproducaoFlor/d
 import { InvalidPayload } from "../../utils/invalid-payload.exception";
 import { ReproducaoFlorNotFoundException } from 'src/modules/reproducaoFlor/domain/reproducaoFlor-not-found.exception';
 import { InvalidDataGerminacao } from 'src/modules/reproducaoFlor/domain/invalid-dataGerminacao-exception';
+import { EnderecoNotFound } from 'src/modules/orquidario/domain/endereco-orquidario-notfound.exception';
 
 
 export interface ErrorDetail {
@@ -59,6 +60,21 @@ export class AppExceptionFilter implements ExceptionFilter {
                 {
                     campo: 'orquidarioId',
                     code: 'ORQUIDARIO_NOT_FOUND',
+                    description: exception.message,
+                },
+            ],
+        };
+    }
+
+    private handleEnderecoOrquidario(exception: EnderecoNotFound): ErrorResponse {
+        return {
+            status: HttpStatus.BAD_REQUEST,
+            message: 'Endereço não informado',
+            error: 'ENDERECO_ORQUIDARIO_NAO_PREENCHIDO',
+            detail: [
+                {
+                    campo: 'endereco',
+                    code: 'ENDERECO_ORQUIDARIO_NAO_PREENCHIDO',
                     description: exception.message,
                 },
             ],
@@ -265,6 +281,10 @@ export class AppExceptionFilter implements ExceptionFilter {
 
         if (exception instanceof InvalidDataGerminacao) {
             return this.handleDataGerminacao(exception);
+        }
+
+        if (exception instanceof EnderecoNotFound) {
+            return this.handleEnderecoOrquidario(exception);
         }
 
         // Capturar erros de banco de dados

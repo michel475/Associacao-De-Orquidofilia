@@ -23,12 +23,12 @@ export class ReproducaoFlorController {
 
     @Patch('/update/:orquidarioId')
     @ApiOperation({ summary: "Atualiza uma instância de reproducao flor" })
-    update(@Param('orquidarioId') orquidarioId: number, @Body() dto: UpdateReproducaoFlorDTO) {
+    update(@Param('id') id: number, @Body() dto: UpdateReproducaoFlorDTO) {
         const valida = new ValidaDTO();
         if (!valida) {
             throw new InvalidPayload(dto);
         }
-        return this.reproducaoFlorService.update(dto.id, orquidarioId, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct)
+        return this.reproducaoFlorService.update(id, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct)
     }
 
     @Get('/listar')

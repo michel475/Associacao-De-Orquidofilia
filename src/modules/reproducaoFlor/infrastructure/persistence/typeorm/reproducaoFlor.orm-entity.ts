@@ -13,7 +13,7 @@ export class ReproducaoFlorOrmEntity {
     @JoinColumn({ name: 'orquidarioId' })
     orquidario: OrquidarioOrmEntity;
 
-    @Column({ unique: true }) //Lançar conflict exception
+    @Column() //Lançar conflict exception
     hibridoNome: string;
 
     @Column()

@@ -13,49 +13,50 @@ export class OrquidarioService {
         private readonly orquidarioRepo: OrquidarioRepositoryPort,
     ) { }
 
-    async create(id: number, endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
+    async create(endereco: string, dataCriacao: string, irrigadoAuto: boolean, areaMquadrados: number) {
         if (!endereco) throw new EnderecoNotFound();
         if (areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados);
-        if (dataCriacao > new Date()) throw new InvalidDataCriacaoOrquidario(dataCriacao);
-        console.log(new Date(dataCriacao) + " AHAHAHA " + new Date())
+        const dateCreate = new Date(dataCriacao);
+        if (new Date(dateCreate) > new Date()) throw new InvalidDataCriacaoOrquidario(dateCreate);
 
-        const orqui = new Orquidario(id, endereco, dataCriacao, true, areaMquadrados);
+        const orqui = new Orquidario(null, endereco, dateCreate, true, areaMquadrados);
         return this.orquidarioRepo.create(orqui)
     };
 
-    async findAll(): Promise<Orquidario[]|null> {
+    async findAll(): Promise<Orquidario[] | null> {
         return this.orquidarioRepo.findAll()
     }
 
     async findById(id: number) {
         const orquidario = this.orquidarioRepo.findById(id)
-        if(!orquidario) throw new OrquidarioNotFoundException(id)
-        
+        if (!orquidario) throw new OrquidarioNotFoundException(id)
+
         return orquidario;
     }
 
-    async update(id: number, endereco: string, dataCriacao: Date, irrigadoAuto: boolean, areaMquadrados: number) {
+    async update(id: number, endereco: string, dataCriacao: string, irrigadoAuto: boolean, areaMquadrados: number) {
         const orqui = this.orquidarioRepo.findById(id)
-        if(!orqui) throw new OrquidarioNotFoundException(id)
-        
-        if(!endereco) throw new EnderecoNotFound()
-        if(areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados)
-        if(dataCriacao > new Date()) throw new InvalidDataCriacaoOrquidario(dataCriacao)
-        
+        if (!orqui) throw new OrquidarioNotFoundException(id)
+
+        if (!endereco) throw new EnderecoNotFound()
+        if (areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados)
+        const dataCreation = new Date(dataCriacao);
+        if (dataCreation > new Date()) throw new InvalidDataCriacaoOrquidario(dataCreation)
+
         const orquidario = new Orquidario(
             id,
             endereco,
-            dataCriacao,
+            dataCreation,
             irrigadoAuto,
             areaMquadrados
         )
-        return this.orquidarioRepo.update(orquidario)
+        return this.orquidarioRepo.update(id, orquidario)
     }
 
     async delete(id: number) {
         const orqui = this.orquidarioRepo.findById(id)
-        if(!orqui) throw new OrquidarioNotFoundException(id)
-        
+        if (!orqui) throw new OrquidarioNotFoundException(id)
+
         return this.orquidarioRepo.delete(id)
     }
 }

@@ -13,7 +13,7 @@ export class OrquidarioController{
     @Post()
     @ApiOperation({summary: 'Cria orquidário'})
     create(@Body() dto: CreateOrquidarioDTO){
-        return this.orquidarioSevice.create(dto.id, dto.enderecoOrquidario, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
+        return this.orquidarioSevice.create(dto.enderecoOrquidario, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
     };
 
     @Get()

@@ -10,8 +10,8 @@ export class InvalidPayload extends BadRequestException {
             message = dtoOrMessage;
         } else {
             const dto = dtoOrMessage as CreateReproducaoFlorDTO | UpdateReproducaoFlorDTO;
-            const emptyFields:any = [];
-            
+            const emptyFields: any = [];
+
             if (!dto.orquidarioId) emptyFields.push('orquidarioId');
             if (!dto.hibridoNome) emptyFields.push('hibridoNome');
             if (!dto.dataGerminacao) emptyFields.push('dataGerminacao');
@@ -26,6 +26,3 @@ export class InvalidPayload extends BadRequestException {
         super(message);
     }
 }
-
-//     @ApiProperty({ example: 45 })
-//     taxaSucessoPct: number;

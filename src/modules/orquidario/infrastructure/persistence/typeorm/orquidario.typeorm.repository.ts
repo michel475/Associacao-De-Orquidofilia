@@ -4,6 +4,7 @@ import { OrquidarioOrmEntity } from "./orquidario.orm-entity";
 import { Repository } from 'typeorm';
 import { Orquidario } from "src/modules/orquidario/domain/orquidario";
 import { OrquidarioRepositoryPort } from "src/modules/orquidario/application/ports/orquidario.repository.port";
+import { OrquidarioNotFoundException } from "src/modules/orquidario/domain/orquidario-not-found.exception";
 
 @Injectable()
 export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
@@ -23,9 +24,9 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
         return this.toDomain(saved)
     }
 
-    async update(orquidario: Orquidario): Promise<Orquidario> {
-        const orm = await this.repo.findOneBy({id: orquidario.id});
-        if(!orm) throw new Error('Orquidario não encontrado')
+    async update(id: number, orquidario: Orquidario): Promise<Orquidario | null> {
+        const orm = await this.repo.findOneBy({id: id});
+        if(!orm) return null;
         
         orm.endereco = orquidario.endereco;
         orm.dataCriacao = orquidario.dataCriacao;
@@ -43,12 +44,12 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
 
     async findById(id: number): Promise<Orquidario | null> {
         const item = await this.repo.findOneBy({id});
-        return item ? this.toDomain(item): null;
+        return item ? this.toDomain(item) : null;
     }
 
     async delete(id: number): Promise<Orquidario | null> {
         const orm = await this.repo.findOneBy({id});
-        if(!orm) throw new Error('Orquidario não encontrado');
+        if(!orm) return null;
 
         const deleteorquidario = this.toDomain(orm);
         await this.repo.delete({id});
