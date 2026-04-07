@@ -118,7 +118,7 @@ export class ReproducaoFlorService {
     }
 
     async delete(id: number): Promise<ReproducaoFlor | null> {
-        const reproducao = this.reproducaoFlorRepo.findById(id);
+        const reproducao = await this.reproducaoFlorRepo.findById(id);
         if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
         return this.reproducaoFlorRepo.delete(id);
     }

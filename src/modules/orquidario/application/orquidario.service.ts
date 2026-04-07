@@ -44,10 +44,8 @@ export class OrquidarioService {
         const dataCreation = new Date(dataCriacao);
         if (dataCreation > new Date()) throw new InvalidDataCriacaoOrquidario(dataCreation)
 
-        const orquidario = await this.orquidarioRepo.findById(id)
-        if(!orquidario) throw new OrquidarioNotFoundException(id)
-        
-        return orquidario;
+        const orquidario = new Orquidario(id,endereco,dataCreation,irrigadoAuto,areaMquadrados)
+        return this.orquidarioRepo.update(orquidario);
     }
 
     async listarReproducoes(id: number) {
