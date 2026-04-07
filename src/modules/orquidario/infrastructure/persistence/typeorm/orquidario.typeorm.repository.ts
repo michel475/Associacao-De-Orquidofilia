@@ -25,7 +25,7 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
     }
 
     async update(orquidario: Orquidario): Promise<Orquidario> {
-        const orm = await this.repo.findOneBy({id: orquidario.id});
+        const orm = await this.repo.findOneBy({id: orquidario.id!});
         if(!orm) throw new Error('Orquidario não encontrado')
         
         orm.endereco = orquidario.endereco;

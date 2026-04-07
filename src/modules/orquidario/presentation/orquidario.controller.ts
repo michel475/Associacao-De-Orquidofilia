@@ -33,20 +33,20 @@ export class OrquidarioController{
     @Put(':id')
     @ApiParam({name: 'id', example: 1})
     @ApiOperation({summary:  'Edita os dados de um orquidário'})
-    update(@Param('id') id: number, @Body() dto: UpdateOrquidarioDTO){
+    update(@Param('id') id: string, @Body() dto: UpdateOrquidarioDTO){
         return this.orquidarioSevice.update(Number(id),dto.endereco, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
     }
 
     @Delete('delete/:id')
     @ApiParam({name: 'id', example: 1})
     @ApiOperation({summary: 'Deleta um orquidário através do id'})
-    delete(@Param('id') id: number){
+    delete(@Param('id') id: string){
         return this.orquidarioSevice.delete(Number(id))
     }
     
-    @Get('orquidario/reproducoes')
+    @Get('/reproducoes/:id')
     @ApiOperation({summary:'Lista todas as reproduções de um orquidário'})
-    listarReproducoes(@Param("id") id: number){
-        return this.orquidarioSevice.listarReproducoes(id)
+    listarReproducoes(@Param('id') id: string){
+        return this.orquidarioSevice.listarReproducoes(Number(id))
     }
 }
