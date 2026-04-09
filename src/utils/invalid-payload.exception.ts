@@ -19,7 +19,7 @@ export class InvalidPayload extends BadRequestException {
             if (!dto.taxaSucessoPct && dto.taxaSucessoPct !== 0) emptyFields.push('taxaSucessoPct');
 
             if (emptyFields.length > 0) {
-                message = `Campos não informados: ${emptyFields.join(', ')}`;
+                message = `${message}\nCampos não informados: ${emptyFields.join(', ')}`;
             }
         }
 

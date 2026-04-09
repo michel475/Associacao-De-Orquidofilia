@@ -28,6 +28,7 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     status: number;
     message: string;
+    timestamp: Date,
     error: string;
     detail: ErrorDetail[];
 }
@@ -55,6 +56,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.NOT_FOUND,
             message: 'Orquidário não encontrado',
+            timestamp: new Date(),
             error: 'ORQUIDARIO_NOT_FOUND',
             detail: [
                 {
@@ -70,6 +72,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.BAD_REQUEST,
             message: 'Endereço não informado',
+            timestamp: new Date(),
             error: 'ENDERECO_ORQUIDARIO_NAO_PREENCHIDO',
             detail: [
                 {
@@ -85,6 +88,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.NOT_FOUND,
             message: 'Reprodução não encontrada',
+            timestamp: new Date(),
             error: 'REPRODUCAO_NOT_FOUND',
             detail: [
                 {
@@ -104,7 +108,8 @@ export class AppExceptionFilter implements ExceptionFilter {
 
         return {
             status: HttpStatus.CONFLICT,
-            message: 'Hibrido nome já cadastrado no sistema',
+            message: 'Hibrido nome já cadastrado no orquidário',
+            timestamp: new Date(),
             error: 'HIBRIDO_NOME_ALREADY_EXISTS',
             detail: [
                 {
@@ -124,6 +129,7 @@ export class AppExceptionFilter implements ExceptionFilter {
          return {
              status: HttpStatus.BAD_REQUEST,
              message: 'Data criação inválida',
+             timestamp: new Date(),
              error: 'INVALID_DATA_CRIACAO',
              detail: [
                  {
@@ -143,6 +149,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.BAD_REQUEST,
             message: 'Área inválida para orquidário',
+            timestamp: new Date(),
             error: 'INVALID_AREA_ORQUIDARIO',
             detail: [
                 {
@@ -162,6 +169,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.BAD_REQUEST,
             message: 'Porcentagem informada não é válida',
+            timestamp: new Date(),
             error: 'INVALID_TAXA_SUCESSO_PCT',
             detail: [
                 {
@@ -181,6 +189,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.BAD_REQUEST,
             message: 'Faixa de porcentagem não é válida para viabilidade',
+            timestamp: new Date(),
             error: 'INVALID_TAXA_SUCESSO_PCT',
             detail: [
                 {
@@ -200,6 +209,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.BAD_REQUEST,
             message: 'A data de germinação não pode ser inferior à data de criação do orquidário',
+            timestamp: new Date(),
             error: 'INVALID_DATA_GERMINACAO_REPRODUCAO',
             detail: [
                 {
@@ -218,6 +228,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.BAD_REQUEST,
             message: 'Todos os campos devem obrigatoriamente ser informados',
+            timestamp: new Date(),
             error: 'INVALID_PAYLOAD',
             detail: [
                 {
@@ -236,6 +247,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.INTERNAL_SERVER_ERROR,
             message: 'Erro interno do servidor',
+            timestamp: new Date(),
             error: 'INTERNAL_SERVER_ERROR',
             detail: [
                 {
@@ -315,6 +327,7 @@ export class AppExceptionFilter implements ExceptionFilter {
                 return {
                     status: HttpStatus.CONFLICT,
                     message: 'Conflito de dados',
+                    timestamp: new Date(),
                     error: 'DUPLICATE_HIBRIDONOME',
                     detail: [{
                         campo: 'hibridoNome',
@@ -328,6 +341,7 @@ export class AppExceptionFilter implements ExceptionFilter {
             return {
                 status: HttpStatus.CONFLICT,
                 message: 'Violação de constraint UNIQUE',
+                timestamp: new Date(),
                 error: 'UNIQUE_CONSTRAINT_VIOLATION',
                 detail: [{
                     code: 'UNIQUE_CONSTRAINT_VIOLATION',
@@ -340,6 +354,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         return {
             status: HttpStatus.INTERNAL_SERVER_ERROR,
             message: 'Erro na operação do banco de dados',
+            timestamp: new Date(),
             error: 'DATABASE_ERROR',
             detail: [{
                 code: errorCode || 'UNKNOWN_DB_ERROR',

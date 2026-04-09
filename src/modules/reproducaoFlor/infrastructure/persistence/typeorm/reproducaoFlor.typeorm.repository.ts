@@ -57,9 +57,7 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
 
     async findById(id: number): Promise<ReproducaoFlor | null> {
         const reproducao = await this.repo.findOneBy({ id });
-        if (!reproducao)
-            throw new HttpException("Reprodução Flor não foi encontrada", HttpStatus.NOT_FOUND);
-        return this.toDomain(reproducao);
+        return reproducao ? this.toDomain(reproducao) : null;
     }
 
     async findByOrquidarioIdAndHibridoNome(orquidarioId: number, hibridoNome: string): Promise<ReproducaoFlor | null> {

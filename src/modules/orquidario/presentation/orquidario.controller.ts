@@ -23,14 +23,14 @@ export class OrquidarioController{
         return this.orquidarioSevice.findAll();
     }
 
-    @Get(':id')
+    @Get('/:id')
     @ApiParam({name: 'id', example: 1})
     @ApiOperation({summary: 'Busca orquidário por ID'})
     findById(@Param('id') id: string){
         return this.orquidarioSevice.findById(Number(id));
     }
 
-    @Put(':id')
+    @Put('/:id')
     @ApiParam({name: 'id', example: 1})
     @ApiOperation({summary:  'Edita os dados de um orquidário'})
     update(@Param('id') id: string, @Body() dto: UpdateOrquidarioDTO){

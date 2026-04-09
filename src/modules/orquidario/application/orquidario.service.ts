@@ -29,14 +29,14 @@ export class OrquidarioService {
     }
 
     async findById(id: number) {
-        const orquidario = this.orquidarioRepo.findById(id)
+        const orquidario = await this.orquidarioRepo.findById(id)
         if (!orquidario) throw new OrquidarioNotFoundException(id)
 
         return orquidario;
     }
 
     async update(id: number, endereco: string, dataCriacao: string, irrigadoAuto: boolean, areaMquadrados: number) {
-        const orqui = this.orquidarioRepo.findById(id)
+        const orqui = await this.orquidarioRepo.findById(id)
         if (!orqui) throw new OrquidarioNotFoundException(id)
 
         if (!endereco) throw new EnderecoNotFound()
@@ -54,7 +54,7 @@ export class OrquidarioService {
 
     async delete(id: number) {
 
-        const orqui = this.orquidarioRepo.findById(id)
+        const orqui = await this.orquidarioRepo.findById(id)
         if (!orqui) throw new OrquidarioNotFoundException(id)
         
         return this.orquidarioRepo.delete(id)

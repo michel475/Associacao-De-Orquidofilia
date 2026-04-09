@@ -21,7 +21,7 @@ export class ReproducaoFlorService {
     ) { }
 
     async create(orquidarioId: number, hibridoNome: string, dataGerminacao: string, viavel: boolean, taxaSucessoPct: number) {
-        if (!hibridoNome || !dataGerminacao) {
+        if (hibridoNome.length === 0 || dataGerminacao.length === 0) {
             throw new InvalidPayload("hibridoNome e dataGerminacao são obrigatórios");
         }
 
@@ -112,8 +112,9 @@ export class ReproducaoFlorService {
     }
 
     async findById(id: number): Promise<ReproducaoFlor | null> {
-        const reproducao = this.reproducaoFlorRepo.findById(id);
-        if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
+        const reproducao = await this.reproducaoFlorRepo.findById(id);
+        console.log(reproducao);
+        if (reproducao === null) throw new ReproducaoFlorNotFoundException(id);
         return reproducao;
     }
 
