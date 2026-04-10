@@ -316,7 +316,7 @@ GET /reproducaoFlor/1
   "hibridoNome": "Cattleya Híbrida Branca",
   "dataGerminacao": "2024-03-01",
   "viavel": true,
-  "taxaSucessoPct": 90.00
+  "taxaSucessoPct": 90
 }
 ```
 
@@ -328,7 +328,7 @@ GET /reproducaoFlor/1
   "hibridoNome": "Cattleya Híbrida Branca",
   "dataGerminacao": "2024-03-01",
   "viavel": true,
-  "taxaSucessoPct": 90.00
+  "taxaSucessoPct": 90
 }
 ```
 
@@ -343,13 +343,6 @@ GET /reproducaoFlor/1
 **Exemplo de Requisição:**
 ```
 DELETE /reproducaoFlor/deletar/1
-```
-
-**Exemplo de Resposta (200 OK):**
-```json
-{
-  "message": "Reprodução deletada com sucesso"
-}
 ```
 
 
@@ -385,22 +378,13 @@ http://localhost:3000/api/
 
 ---
 
-## 🧪 Testes
-
-Para executar os testes unitários e de integração:
+Para executar:
 
 ```bash
-# Executar testes
-npm test
-
-# Executar com cobertura
-npm run test:cov
 
 # Executar em modo watch
-npm test:watch
+npm run start:dev
 
-# Executar testes end-to-end
-npm run test:e2e
 ```
 
 ---
