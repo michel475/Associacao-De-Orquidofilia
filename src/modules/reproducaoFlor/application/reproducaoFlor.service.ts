@@ -74,12 +74,11 @@ export class ReproducaoFlorService {
         if (!orquidario) {
             throw new OrquidarioNotFoundException(reprod.orquidarioId);
         }
+        const dataGerminacaoDate = new Date(dataGerminacao)
+        const dataCriacaoDate = new Date(orquidario.dataCriacao);
 
-        const dataGerminacaoDate = new Date(dataGerminacao).toDateString();
-        const dataCriacaoDate = new Date(orquidario.dataCriacao).toDateString();
 
-
-        if (dataGerminacaoDate > dataCriacaoDate) {
+        if (dataGerminacaoDate < dataCriacaoDate) {
             throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
         }
 

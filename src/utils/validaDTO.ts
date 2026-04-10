@@ -9,7 +9,7 @@ export class ValidaDTO {
             if (!dto.dataGerminacao || !dto.hibridoNome || !dto.orquidarioId || !dto.taxaSucessoPct || !dto.viavel)
                 return true;
         if (dto instanceof UpdateReproducaoFlorDTO)
-            if (!id || !dto.dataGerminacao || !dto.hibridoNome || !dto.orquidarioId || !dto.taxaSucessoPct || !dto.viavel)
+            if (!id || !dto.dataGerminacao || !dto.hibridoNome || !dto.taxaSucessoPct || !dto.viavel)
                 return true;
         return false;
     }

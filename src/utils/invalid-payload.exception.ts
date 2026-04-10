@@ -11,8 +11,6 @@ export class InvalidPayload extends BadRequestException {
         } else {
             const dto = dtoOrMessage as CreateReproducaoFlorDTO | UpdateReproducaoFlorDTO;
             const emptyFields: any = [];
-
-            if (!dto.orquidarioId) emptyFields.push('orquidarioId');
             if (!dto.hibridoNome) emptyFields.push('hibridoNome');
             if (!dto.dataGerminacao) emptyFields.push('dataGerminacao');
             if (dto.viavel === undefined || dto.viavel === null) emptyFields.push('viavel');
