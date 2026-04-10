@@ -1,98 +1,413 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Associação de Orquidofilia - API REST
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 👥 Integrantes da Dupla
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- **Amanda Espíndola de Almeida**
+- **Michel Aguiar Cardoso**
 
-## Description
+## 🌸 Tema do Projeto
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**TEMA 5: Associação de Orquidofilia**
 
-## Project setup
+Uma aplicação RESTful desenvolvida com NestJS para gerenciar orquidários e o processo de reprodução de flores híbridas.
 
-```bash
-$ npm install
+
+
+## 🔷 Arquitetura Hexagonal
+
+A aplicação foi desenvolvida utilizando a **Arquitetura Hexagonal** (também conhecida como Ports & Adapters), um padrão arquitetural que promove:
+
+- **Independência de Frameworks**: A lógica de negócio é desacoplada de dependências externas
+- **Testabilidade**: Facilita a criação de testes unitários sem dependências do banco de dados ou framework
+- **Manutenibilidade**: Código organizado em camadas bem definidas
+- **Escalabilidade**: Permite fácil adição de novos adapters sem alterar a lógica central
+
+
+
+## 🏗️ Estrutura da Arquitetura do Projeto
+
+O projeto segue a arquitetura **Hexagonal (Ports & Adapters)** organizada em camadas:
+
+```
+src/
+├── modules/
+│   ├── orquidario/          (Amanda)
+│   │   ├── application/     (Serviço e Ports)
+│   │   ├── domain/          (Entidade e Exceções)
+│   │   ├── infrastructure/  (Repositório TypeORM)
+│   │   └── presentation/    (Controller e DTOs)
+│   │
+│   └── reproducaoFlor/      (Michel)
+│       ├── application/
+│       ├── domain/
+│       ├── infrastructure/
+│       └── presentation/
+│
+├── shared/                  (Configurações compartilhadas)
+│   ├── database/            (TypeORM)
+│   └── filters/             (Filtros de exceção)
+│
+└── utils/                   (Utilitários gerais)
 ```
 
-## Compile and run the project
 
+## 🗄️ Banco de Dados
+
+- **Banco**: SQLite3
+- **ORM**: TypeORM
+- **Localização**: `/data` (na raiz do projeto)
+
+
+## 🚀 Como Configurar e Rodar o Projeto
+
+### Pré-requisitos
+- **Node.js** (v18+)
+- **npm** (v9+)
+
+### Passos de Instalação
+
+1. **Clonar o repositório** (se aplicável)
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/michel475/application.git
+cd application
 ```
 
-## Run tests
-
+2. **Instalar as dependências**
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+3. **Executar em modo desenvolvimento**
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+A aplicação estará disponível em: `http://localhost:3000`
 
-## Resources
+### Outros Comandos Úteis
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+# Build para produção
+npm run build
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Iniciar em modo produção
+npm start
 
-## Support
+# Executar testes
+npm test
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Executar testes end-to-end
+npm run test:e2e
 
-## Stay in touch
+# Linter
+npm run lint
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+## 📋 Principais Endpoints da API
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Módulo Orquidário
+
+#### 1. **Criar Orquidário**
+- **Método**: `POST`
+- **Endpoint**: `/orquidario`
+- **Descrição**: Cria um novo orquidário
+
+**Exemplo de Requisição:**
+```json
+{
+  "id": 1,
+  "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
+  "dataCriacao": "2024-01-15",
+  "irrigadoAuto": true,
+  "areaMquadrados": 150.50
+}
+```
+
+**Exemplo de Resposta (201 Created):**
+```json
+{
+  "id": 1,
+  "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
+  "dataCriacao": "2024-01-15",
+  "irrigadoAuto": true,
+  "areaMquadrados": 150.50
+}
+```
+
+---
+
+#### 2. **Listar Todos os Orquidários**
+- **Método**: `GET`
+- **Endpoint**: `/orquidario`
+- **Descrição**: Retorna a lista completa de orquidários
+
+**Exemplo de Resposta (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
+    "dataCriacao": "2024-01-15",
+    "irrigadoAuto": true,
+    "areaMquadrados": 150.50
+  },
+  {
+    "id": 2,
+    "enderecoOrquidario": "Avenida Principal, 456 - Rio de Janeiro, RJ",
+    "dataCriacao": "2024-02-10",
+    "irrigadoAuto": false,
+    "areaMquadrados": 200.00
+  }
+]
+```
+
+---
+
+#### 3. **Buscar Orquidário por ID**
+- **Método**: `GET`
+- **Endpoint**: `/orquidario/:id`
+- **Descrição**: Retorna um orquidário específico pelo ID
+- **Parâmetro**: `id` (exemplo: 1)
+
+**Exemplo de Requisição:**
+```
+GET /orquidario/1
+```
+
+**Exemplo de Resposta (200 OK):**
+```json
+{
+  "id": 1,
+  "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
+  "dataCriacao": "2024-01-15",
+  "irrigadoAuto": true,
+  "areaMquadrados": 150.50
+}
+```
+
+---
+
+#### 4. **Atualizar Orquidário**
+- **Método**: `PUT`
+- **Endpoint**: `/orquidario/:id`
+- **Descrição**: Atualiza os dados de um orquidário existente
+- **Parâmetro**: `id` (exemplo: 1)
+
+**Exemplo de Requisição:**
+```json
+{
+  "endereco": "Rua das Flores, 789 - São Paulo, SP",
+  "dataCriacao": "2024-01-15",
+  "irrigadoAuto": true,
+  "areaMquadrados": 175.00
+}
+```
+
+**Exemplo de Resposta (200 OK):**
+```json
+{
+  "id": 1,
+  "endereco": "Rua das Flores, 789 - São Paulo, SP",
+  "dataCriacao": "2024-01-15",
+  "irrigadoAuto": true,
+  "areaMquadrados": 175.00
+}
+```
+
+---
+
+### Módulo Reprodução Flor (Michel Aguiar Cardoso)
+
+#### 1. **Criar Reprodução de Flor**
+- **Método**: `POST`
+- **Endpoint**: `/reproducaoFlor`
+- **Descrição**: Registra um novo processo de reprodução de flor
+
+**Exemplo de Requisição:**
+```json
+{
+  "orquidarioId": 1,
+  "hibridoNome": "Cattleya Híbrida Amarela",
+  "dataGerminacao": "2024-03-01",
+  "viavel": true,
+  "taxaSucessoPct": 85.50
+}
+```
+
+**Exemplo de Resposta (201 Created):**
+```json
+{
+  "id": 1,
+  "orquidarioId": 1,
+  "hibridoNome": "Cattleya Híbrida Amarela",
+  "dataGerminacao": "2024-03-01",
+  "viavel": true,
+  "taxaSucessoPct": 85.50
+}
+```
+
+---
+
+#### 2. **Listar Todas as Reproduções de Flores**
+- **Método**: `GET`
+- **Endpoint**: `/reproducaoFlor/listar`
+- **Descrição**: Retorna a lista completa de reproduções
+
+**Exemplo de Resposta (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "orquidarioId": 1,
+    "hibridoNome": "Cattleya Híbrida Amarela",
+    "dataGerminacao": "2024-03-01",
+    "viavel": true,
+    "taxaSucessoPct": 85.50
+  },
+  {
+    "id": 2,
+    "orquidarioId": 2,
+    "hibridoNome": "Oncidium Híbrido Rosa",
+    "dataGerminacao": "2024-02-15",
+    "viavel": true,
+    "taxaSucessoPct": 92.00
+  }
+]
+```
+
+---
+
+#### 3. **Buscar Reprodução por ID**
+- **Método**: `GET`
+- **Endpoint**: `/reproducaoFlor/:id`
+- **Descrição**: Retorna uma reprodução específica pelo ID
+- **Parâmetro**: `id` (exemplo: 1)
+
+**Exemplo de Requisição:**
+```
+GET /reproducaoFlor/1
+```
+
+**Exemplo de Resposta (200 OK):**
+```json
+{
+  "id": 1,
+  "orquidarioId": 1,
+  "hibridoNome": "Cattleya Híbrida Amarela",
+  "dataGerminacao": "2024-03-01",
+  "viavel": true,
+  "taxaSucessoPct": 85.50
+}
+```
+
+---
+
+#### 4. **Atualizar Reprodução de Flor**
+- **Método**: `PATCH`
+- **Endpoint**: `/reproducaoFlor/update/:orquidarioId`
+- **Descrição**: Atualiza os dados de uma reprodução
+- **Parâmetro**: `orquidarioId` (exemplo: 1)
+
+**Exemplo de Requisição:**
+```json
+{
+  "id": 1,
+  "hibridoNome": "Cattleya Híbrida Branca",
+  "dataGerminacao": "2024-03-01",
+  "viavel": true,
+  "taxaSucessoPct": 90.00
+}
+```
+
+**Exemplo de Resposta (200 OK):**
+```json
+{
+  "id": 1,
+  "orquidarioId": 1,
+  "hibridoNome": "Cattleya Híbrida Branca",
+  "dataGerminacao": "2024-03-01",
+  "viavel": true,
+  "taxaSucessoPct": 90.00
+}
+```
+
+---
+
+#### 5. **Deletar Reprodução de Flor**
+- **Método**: `DELETE`
+- **Endpoint**: `/reproducaoFlor/deletar/:id`
+- **Descrição**: Remove um registro de reprodução pelo ID
+- **Parâmetro**: `id` (exemplo: 1)
+
+**Exemplo de Requisição:**
+```
+DELETE /reproducaoFlor/deletar/1
+```
+
+**Exemplo de Resposta (200 OK):**
+```json
+{
+  "message": "Reprodução deletada com sucesso"
+}
+```
+
+
+## 📊 Divisão de Tarefas
+
+### **Amanda Espíndola de Almeida**
+- ✅ Implementação do **Módulo Orquidário** completo
+  - Criação do serviço de orquidário
+  - Implementação do repositório TypeORM
+  - Desenvolvimento do controller com endpoints
+  - Criação de DTOs (Data Transfer Objects)
+  - Tratamento de exceções específicas do módulo
+  - Validações de dados
+
+### **Michel Aguiar Cardoso**
+- ✅ Implementação do **Módulo Reprodução Flor** completo
+  - Criação do serviço de reprodução de flores
+  - Implementação do repositório TypeORM
+  - Desenvolvimento do controller com endpoints
+  - Criação de DTOs (Data Transfer Objects)
+  - Tratamento de exceções específicas do módulo
+  - Validações de dados
+
+
+---
+
+## 📖 Documentação
+
+A documentação da API está disponível via **Swagger** em:
+```
+http://localhost:3000/api/
+```
+
+---
+
+## 🧪 Testes
+
+Para executar os testes unitários e de integração:
+
+```bash
+# Executar testes
+npm test
+
+# Executar com cobertura
+npm run test:cov
+
+# Executar em modo watch
+npm test:watch
+
+# Executar testes end-to-end
+npm run test:e2e
+```
+
+---
+
+## 📝 Licença
+
+UNLICENSED
+
+
+**Desenvolvido como parte da Atividade Avaliativa Bimestral: Desenvolvimento de APIs com Relacionamentos 1:N em typeorm e Arquitetura Hexagonal** 🚀
