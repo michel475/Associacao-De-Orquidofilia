@@ -8,7 +8,7 @@ import { ReproducaoFlorOrmEntity } from 'src/modules/reproducaoFlor/infrastructu
     imports: [
         TypeOrmModule.forRoot({
             type: 'sqlite',
-            database: 'data/app.db',
+            database: 'data/associacao-orquidofilia.db',
             entities: [OrquidarioOrmEntity, ReproducaoFlorOrmEntity],
             synchronize: true,
         }),
