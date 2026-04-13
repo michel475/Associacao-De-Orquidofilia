@@ -5,7 +5,7 @@ import { ReproducaoFlorOrmEntity } from 'src/modules/reproducaoFlor/infrastructu
 
 export const AppDataSource = new DataSource({
     type: 'sqlite',
-    database: 'data/app.db',
+    database: 'data/associacao-orquidofilia.db',
     entities: [OrquidarioOrmEntity, ReproducaoFlorOrmEntity],
     synchronize: true,
 });
