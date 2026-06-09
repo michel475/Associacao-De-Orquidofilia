@@ -1,0 +1,33 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+      <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-extrabold tracking-tight text-foreground animate-fade-in">
+            Reproduções
+          </h1>
+        </div>
+        <div>
+          <!-- <a routerLink="/reproducaoFlor/create" ui-button variant="default" class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            <span>Adicionar Reprodução Flor</span>
+          </a> -->
+        </div>
+      </div>
+    <mat-card class="listagem" appearance="outlined">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-border hidden md:table">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Nome Híbrido</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Data Germinação</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Taxa de Sucesso (%)</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border bg-transparent">
+                        <tr *ngFor="let reproducao of reproducoes()" class="hover:bg-muted/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.hibridoNome}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.dataGerminacao}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.taxaSucessoPct}}</td>
+                        </tr>
+                </tbody>
+                </table>
+            </div>
