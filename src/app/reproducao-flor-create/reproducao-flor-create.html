@@ -1,0 +1,35 @@
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full animate-fade-in">
+      <!-- Back Link -->
+      <div class="mb-6">
+        <a routerLink="/reproducaoFlor" class="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Voltar para listagem
+        </a>
+      </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <input 
+              label="Híbrido Nome"
+              type="text"
+              placeholder=""
+              formControlName="hibridoNome"
+              [error]="form.get('hibridoNome')?.touched && form.get('hibridoNome')?.hasError('required') ? 'O nome do híbrido é obrigatório.' : null"
+            >
+
+            <input 
+              label="Data Germinação"
+              type="datetime-local"
+              placeholder="ex: 2024-10-05"
+              formControlName="dataGerminacao"
+              [error]="form.get('dataGerminacao')?.touched && form.get('dataGerminacao')?.hasError('required') ? 'A data de germinação é obrigatória.' : null"
+            >
+
+            <input 
+              label="Taxa de Sucesso (%)"
+              type="number"
+              placeholder="ex: 85"
+              formControlName="taxaSucessoPct"
+              [error]="form.get('taxaSucessoPct')?.touched && form.get('taxaSucessoPct')?.hasError('required') ? 'A taxa de sucesso é obrigatória.' : null"
+            >
+          </div>
+    </form>
