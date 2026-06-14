@@ -1,0 +1,39 @@
+<mat-table>
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let orquidario"> {{orquidario.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="nome">
+        <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+        <mat-cell *matCellDef="let orquidario"> {{orquidario.nome}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="localizacao">
+        <mat-header-cell *matHeaderCellDef> Localização </mat-header-cell>
+        <mat-cell *matCellDef="let orquidario"> {{orquidario.localizacao}} </mat-cell>
+    </ng-container>
+
+     <ng-container matColumnDef="descricao">
+        <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
+        <mat-cell *matCellDef="let orquidario"> {{orquidario.descricao}} </mat-cell>
+    </ng-container>
+
+     <ng-container matColumnDef="dataFundacao">
+        <mat-header-cell *matHeaderCellDef> Data de Fundação </mat-header-cell>
+        <mat-cell *matCellDef="let orquidario"> {{orquidario.dataFundacao | date}} </mat-cell>
+    </ng-container>
+
+     <ng-container matColumnDef="acoes">
+        <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+        <mat-cell *matCellDef="let orquidario">
+            <!-- Botões de ação (editar, excluir) podem ser adicionados aqui -->
+            <button mat-icon-button color="primary" (click)="updateOrquidario(orquidario.id, orquidario)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteOrquidario(orquidario.id)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+</mat-table>
