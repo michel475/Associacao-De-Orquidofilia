@@ -97,4 +97,8 @@ export class ReproducaoFlorCreate {
       }
     });
   }
+
+  home() {
+    this.router.navigate(['reproducaoFlor']);
+  }
 }

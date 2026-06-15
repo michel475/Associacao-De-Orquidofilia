@@ -5,7 +5,7 @@ import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/
 import { DataSource } from '@angular/cdk/table';
 import { MatCard } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reproducao-flor-list',
@@ -18,6 +18,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ReproducaoFlorList implements OnInit {
   private readonly reproducaoService = inject(ReproducaoFlorService);
+  private readonly route = inject(Router);
 
   protected readonly reproducoes = signal<ReproducaoFlor[]>([]);
 
@@ -37,5 +38,9 @@ export class ReproducaoFlorList implements OnInit {
         console.log("nao foi possivel resgatar as reproduções");
       }
     })
+  }
+
+  createForm(){
+    this.route.navigate(['reproducaoFlor', 'create']);
   }
 }

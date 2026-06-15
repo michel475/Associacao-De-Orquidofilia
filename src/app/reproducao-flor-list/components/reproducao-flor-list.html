@@ -5,17 +5,14 @@
             Reproduções
           </h1>
         </div>
-        <div>
-          <a routerLink="/reproducaoFlor/create" ui-button variant="default" class="flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            <span>Adicionar Reprodução Flor</span>
-          </a>
-        </div>
       </div>
     <mat-card class="listagem" appearance="outlined">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-border hidden md:table">
                 <thead>
+                  <tr>
+                    <button type="button" (click)="createForm()">Criar Reprodução</button>
+                  </tr>
                     <tr>
                         <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Nome Híbrido</th>
                         <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Data Germinação</th>
