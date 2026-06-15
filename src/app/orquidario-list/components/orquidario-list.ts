@@ -1,10 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { OrquidarioService } from '../service/orquidario.service';
 import { Orquidario } from '../model/orquidario';
+import { MatCard } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'orquidario-list',
@@ -13,15 +15,20 @@ import { Orquidario } from '../model/orquidario';
         MatTableModule,
         MatButtonModule,
         MatIconModule,
-        CommonModule
+        CommonModule,
+        MatCard
     ],
-    templateUrl: 'orquidario-list.html',
-    styleUrls: ['./orquidario-list.css']
+    templateUrl: './orquidario-list.html',
+    styleUrl: './orquidario-list.css'
 })
 export class OrquidarioListComponent implements OnInit{
-    orquidarios = signal<Orquidario[]>([]);
+    private readonly orquidarioService = inject(OrquidarioService);
+    private readonly route = inject(Router);
 
-    constructor(private orquidarioService: OrquidarioService){}
+
+    colunasExibidas: string[] = ['id', 'endereco', 'dataCriacao', 'irrigadoAuto', 'areaMQuadrados'];    
+
+    protected readonly orquidarios = signal<Orquidario[]>([]);
 
     ngOnInit(): void {
         this.loadOrquidarios();
@@ -44,5 +51,9 @@ export class OrquidarioListComponent implements OnInit{
 
     deleteOrquidario(id: number){
         this.orquidarioService.deleteOrquidario(id);
+    }
+
+    orquidarioCreateForm() {
+        this.route.navigate(["orquidario","criar"]);
     }
 }

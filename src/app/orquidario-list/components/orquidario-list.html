@@ -1,39 +1,35 @@
-<mat-table>
-    <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-        <mat-cell *matCellDef="let orquidario"> {{orquidario.id}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="nome">
-        <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-        <mat-cell *matCellDef="let orquidario"> {{orquidario.nome}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="localizacao">
-        <mat-header-cell *matHeaderCellDef> Localização </mat-header-cell>
-        <mat-cell *matCellDef="let orquidario"> {{orquidario.localizacao}} </mat-cell>
-    </ng-container>
-
-     <ng-container matColumnDef="descricao">
-        <mat-header-cell *matHeaderCellDef> Descrição </mat-header-cell>
-        <mat-cell *matCellDef="let orquidario"> {{orquidario.descricao}} </mat-cell>
-    </ng-container>
-
-     <ng-container matColumnDef="dataFundacao">
-        <mat-header-cell *matHeaderCellDef> Data de Fundação </mat-header-cell>
-        <mat-cell *matCellDef="let orquidario"> {{orquidario.dataFundacao | date}} </mat-cell>
-    </ng-container>
-
-     <ng-container matColumnDef="acoes">
-        <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
-        <mat-cell *matCellDef="let orquidario">
-            <!-- Botões de ação (editar, excluir) podem ser adicionados aqui -->
-            <button mat-icon-button color="primary" (click)="updateOrquidario(orquidario.id, orquidario)">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="deleteOrquidario(orquidario.id)">
-                <mat-icon>delete</mat-icon>
-            </button>
-        </mat-cell>
-    </ng-container>
-</mat-table>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+      <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-extrabold tracking-tight text-foreground animate-fade-in">
+            Orquidario
+          </h1>
+        </div>
+      </div>
+    <mat-card class="listagem" appearance="outlined">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-border hidden md:table">
+                <thead>
+                    <tr>
+                        <button type="button" (click)="orquidarioCreateForm()" class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Criar</button>
+                        <button type="button" (click)="orquidarioCreateForm()" class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Editar</button>
+                    </tr>
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">ID</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Endereço</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Data Criação</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Irrigação automática</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Área em Metros Quadrados</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border bg-transparent">
+                        <tr *ngFor="let orquidario of orquidarios()" class="hover:bg-muted/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">{{orquidario.id}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{orquidario.endereco}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{orquidario.dataCriacao}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{orquidario.irrigadoAuto}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{orquidario.areaMQuadrados}}</td>
+                        </tr>
+                </tbody>
+                </table>
+            </div>
