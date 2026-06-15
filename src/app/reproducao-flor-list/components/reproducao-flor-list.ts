@@ -10,7 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-reproducao-flor-list',
   imports: [CommonModule,
-    MatCard
+    MatCard, RouterLink
   ],
   standalone: true,
   templateUrl: './reproducao-flor-list.html',

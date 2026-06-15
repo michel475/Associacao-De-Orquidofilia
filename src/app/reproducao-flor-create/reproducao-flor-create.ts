@@ -1,9 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReproducaoFlorService } from '../reproducao-flor-list/service/reproducaoFlor.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { z } from 'zod';
 import { MatCard } from '@angular/material/card';
+import { ReproducaoFlor } from '../reproducao-flor-list/model/reproducaoFlor';
 
 interface CreateReproducaoPayload {
   orquidarioId: number,
@@ -15,7 +16,7 @@ interface CreateReproducaoPayload {
 
 @Component({
   selector: 'app-reproducao-flor-create',
-  imports: [ReactiveFormsModule, MatCard],
+  imports: [ReactiveFormsModule, MatCard, FormsModule, RouterLink],
   templateUrl: './reproducao-flor-create.html',
   styleUrl: './reproducao-flor-create.css',
 })
@@ -25,13 +26,11 @@ export class ReproducaoFlorCreate implements OnInit{
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  form:FormGroup = new FormGroup({
-    orquidarioId: new FormControl('orquidarioId'),
-    hibridoNome: new FormControl('hibridoNome'),
-    dataGerminacao: new FormControl('dataGerminacao'),
-    taxaSucessoPct: new FormControl('taxaSucessoPct'),
-    viavel: new FormControl('viavel'),
-  });
+  enviarFormulario(){
+    this.onSubmit();
+  }
+
+  form!:FormGroup
   isEditMode = signal(false);
   isSubmitting = signal(false);
   reproducaoId = signal<string | null>(null);
@@ -39,6 +38,15 @@ export class ReproducaoFlorCreate implements OnInit{
 
   constructor() {
     this.initF();
+  }
+  
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode.set(true);
+      this.reproducaoId.set(id);
+      this.loadReproducao(id);
+    }
   }
 
   initF(){;
@@ -51,26 +59,21 @@ export class ReproducaoFlorCreate implements OnInit{
     })
   }
 
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.isEditMode.set(true);
-      this.reproducaoId.set(id);
-      this.loadReproducao(id);
-    }
-  }
-
   loadReproducao(id: string) {
     this.reproducaoService.findById(id).subscribe({
       next: (reproducao) => {
         // Format ISO date local to datetime-local input format (YYYY-MM-DDThh:mm)
 
+        const dateObj = new Date(reproducao.dataGerminacao);
+        const formattedDate = dateObj.toISOString().slice(0,10);
+        console.log(formattedDate);
+        console.log(reproducao);
         this.form.patchValue({
           orquidarioId: reproducao.orquidarioId,
           hibridoNome: reproducao.hibridoNome,
-          dataGerminacao: reproducao.dataGerminacao.toISOString().slice(0,16),
+          dataGerminacao: formattedDate,
           taxaSucessoPct: reproducao.taxaSucessoPct,
-          viavel: reproducao.viavel
+          viavel: reproducao.viavel ? "true" : "false"
         });
       },
       error: () => {

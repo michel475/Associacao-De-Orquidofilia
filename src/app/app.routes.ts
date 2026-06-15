@@ -8,4 +8,5 @@ export const routes: Routes = [
     {path: '', component: Home},
     {path: 'reproducaoFlor', component:ReproducaoFlorList},
     {path: 'reproducaoFlor/create', component:ReproducaoFlorCreate},
+    {path: 'reproducaoFlor/:id', component:ReproducaoFlorCreate},
 ];
