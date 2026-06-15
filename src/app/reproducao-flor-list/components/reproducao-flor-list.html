@@ -6,24 +6,28 @@
           </h1>
         </div>
       </div>
-    <mat-card class="listagem" appearance="outlined">
+    <mat-card class="listagem" appearance="outlined" background>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-border hidden md:table">
                 <thead>
                   <tr>
-                    <button type="button" (click)="createForm()">Criar Reprodução</button>
+                    <button class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider" type="button" (click)="createForm()">Criar Reprodução</button>
                   </tr>
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Nome Híbrido</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Data Germinação</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground lowercase tracking-wider">Taxa de Sucesso (%)</th>
+                      <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Orquidário de origem</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Nome Híbrido</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Data Germinação</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Taxa de Sucesso (%)</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Viabilidade</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-border bg-transparent">
                         <tr *ngFor="let reproducao of reproducoes()" class="hover:bg-muted/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.orquidarioId}}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{reproducao.hibridoNome}}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{reproducao.dataGerminacao}}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{reproducao.taxaSucessoPct}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.viavel}}</td>
                         </tr>
                 </tbody>
                 </table>

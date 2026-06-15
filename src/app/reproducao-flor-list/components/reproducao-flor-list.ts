@@ -23,7 +23,7 @@ export class ReproducaoFlorList implements OnInit {
   protected readonly reproducoes = signal<ReproducaoFlor[]>([]);
 
 
-  colunasExibidas: string[] = ['hibridoNome', 'dataGerminacao', 'taxaSucessoPct']
+  colunasExibidas: string[] = ['orquidarioId', 'hibridoNome', 'dataGerminacao', 'taxaSucessoPct', 'viavel']
 
   ngOnInit(){
     this.loadReproducoes();
