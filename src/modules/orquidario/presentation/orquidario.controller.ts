@@ -14,7 +14,7 @@ export class OrquidarioController{
     @Post()
     @ApiOperation({summary: 'Cria orquidário'})
     create(@Body() dto: CreateOrquidarioDTO){
-        return this.orquidarioSevice.create(dto.enderecoOrquidario, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
+        return this.orquidarioSevice.create(dto.nome, dto.enderecoOrquidario, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
     };
 
     @Get()
@@ -34,7 +34,7 @@ export class OrquidarioController{
     @ApiParam({name: 'id', example: 1})
     @ApiOperation({summary:  'Edita os dados de um orquidário'})
     update(@Param('id') id: string, @Body() dto: UpdateOrquidarioDTO){
-        return this.orquidarioSevice.update(Number(id),dto.endereco, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
+        return this.orquidarioSevice.update(Number(id),dto.nome,dto.endereco, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
     }
 
     @Delete('delete/:id')

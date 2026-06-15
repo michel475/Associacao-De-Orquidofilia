@@ -2,16 +2,20 @@ import {ApiProperty} from '@nestjs/swagger'
 import { IsDateString } from 'class-validator';
 
 export class CreateOrquidarioDTO{
+
+    @ApiProperty({example: 'Orquidário Santa Maria'})
+    nome!: string;
+    
     @ApiProperty({example: 'Avenida Presidente Kennedy, Qd G Lte 10'})
-    enderecoOrquidario: string;
+    enderecoOrquidario!: string;
 
     @ApiProperty({ example: '2026-03-26' })
     @IsDateString()
-    dataCriacao: string;
+    dataCriacao!: string;
 
     @ApiProperty({example: true})
-    irrigadoAuto: boolean;
+    irrigadoAuto!: boolean;
 
     @ApiProperty({example: 55})
-    areaMquadrados: number;
+    areaMquadrados!: number;
 }

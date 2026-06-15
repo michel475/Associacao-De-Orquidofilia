@@ -15,6 +15,7 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
 
     async create(orquidario: Orquidario): Promise<Orquidario> {
         const orm = this.repo.create({
+            nome: orquidario.nome,
             endereco: orquidario.endereco,
             dataCriacao: orquidario.dataCriacao,
             irrigadoAuto: orquidario.irrigadoAuto,
@@ -27,7 +28,7 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
     async update(orquidario: Orquidario): Promise<Orquidario> {
         const orm = await this.repo.findOneBy({id: orquidario.id!});
         if(!orm) throw new Error('Orquidario não encontrado')
-        
+        orm.nome = orquidario.nome;
         orm.endereco = orquidario.endereco;
         orm.dataCriacao = orquidario.dataCriacao;
         orm.irrigadoAuto = orquidario.irrigadoAuto;
@@ -72,6 +73,7 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
     private toDomain = (orm: OrquidarioOrmEntity): Orquidario => {
         return new Orquidario(
             orm.id,
+            orm.nome,
             orm.endereco,
             orm.dataCriacao,
             orm.irrigadoAuto,

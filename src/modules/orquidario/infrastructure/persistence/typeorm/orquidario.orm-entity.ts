@@ -7,6 +7,9 @@ export class OrquidarioOrmEntity {
     id: number;
 
     @Column()
+    nome: string;
+
+    @Column()
     endereco: string;
 
     @Column()
