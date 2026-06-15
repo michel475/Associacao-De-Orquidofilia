@@ -3,9 +3,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { MatCard, MatCardHeader, MatCardContent } from '@angular/material/card';
 import { OrquidarioService } from '../service/orquidario.service';
 import { Orquidario } from '../model/orquidario';
-import { MatCard } from '@angular/material/card';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,7 +16,9 @@ import { Router } from '@angular/router';
         MatButtonModule,
         MatIconModule,
         CommonModule,
-        MatCard
+        MatCard,
+        MatCardHeader,
+        MatCardContent
     ],
     templateUrl: './orquidario-list.html',
     styleUrl: './orquidario-list.css'
