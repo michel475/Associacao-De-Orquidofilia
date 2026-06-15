@@ -1,4 +1,38 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+<mat-card>
+  <mat-card-header>
+    <h2>Listagem das reproduções</h2>
+    </mat-card-header>
+    <div class="flex justify-start gap-4 m-6">
+            <button type="submit" (click)="createForm()" class="px-4 py-2 bg-purple-500 font-bold text-white rounded-md hover:bg-purple-600 focus:outline-none focus:ring focus:bg-purple-800 focus:ring-purple-800/100">Incluir Reprodução</button>
+        </div>
+    <mat-card-content>
+      <table>
+        <thead>
+                  
+
+                    <tr>
+                      <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Orquidário de origem</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Nome Híbrido</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Data Germinação</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Taxa de Sucesso (%)</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Viabilidade</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border bg-transparent">
+                        <tr *ngFor="let reproducao of reproducoes()" class="hover:bg-muted/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.orquidarioId}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.hibridoNome}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.dataGerminacao}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.taxaSucessoPct}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.viavel}}</td>
+                        </tr>
+                </tbody>
+              </table>
+
+    </mat-card-content>
+    </mat-card>
+
+<!-- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
       <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 class="text-3xl font-extrabold tracking-tight text-foreground animate-fade-in">
@@ -36,4 +70,4 @@
                         </tr>
                 </tbody>
                 </table>
-            </div>
+            </div> -->

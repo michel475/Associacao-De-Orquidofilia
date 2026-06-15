@@ -106,7 +106,7 @@ export class ReproducaoFlorCreate implements OnInit{
     request$.subscribe({
       next: () => {
         this.isSubmitting.set(false);
-        this.router.navigate(['/admin']);
+        this.router.navigate(['reproducaoFlor']);
       },
       error: (err) => {
         this.isSubmitting.set(false);

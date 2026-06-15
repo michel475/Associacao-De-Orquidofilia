@@ -3,14 +3,15 @@ import { ReproducaoFlorService } from '../service/reproducaoFlor.service';
 import { ReproducaoFlor } from '../model/reproducaoFlor';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
-import { MatCard } from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reproducao-flor-list',
   imports: [CommonModule,
-    MatCard, RouterLink
+    MatCard, RouterLink,
+    MatCardHeader, MatCardContent,
   ],
   standalone: true,
   templateUrl: './reproducao-flor-list.html',
