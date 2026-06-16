@@ -32,7 +32,7 @@ export class OrquidarioListComponent implements OnInit{
     private readonly route = inject(Router);
 
 
-    colunasExibidas: string[] = ['id', 'endereco', 'dataCriacao', 'irrigadoAuto', 'areaMQuadrados'];    
+    colunasExibidas: string[] = ['nome', 'endereco', 'dataCriacao', 'irrigadoAuto', 'areaMQuadrados'];    
 
 
     ngOnInit(): void {
