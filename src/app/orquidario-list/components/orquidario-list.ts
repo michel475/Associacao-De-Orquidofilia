@@ -7,6 +7,8 @@ import { MatCard, MatCardHeader, MatCardContent } from '@angular/material/card';
 import { OrquidarioService } from '../service/orquidario.service';
 import { Orquidario } from '../model/orquidario';
 import { Router } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { startWith, map } from 'rxjs';
 
 @Component({
     selector: 'orquidario-list',
@@ -24,13 +26,14 @@ import { Router } from '@angular/router';
     styleUrl: './orquidario-list.css'
 })
 export class OrquidarioListComponent implements OnInit{
+    protected readonly orquidarios = signal<Orquidario[]>([]);
     private readonly orquidarioService = inject(OrquidarioService);
+   
     private readonly route = inject(Router);
 
 
     colunasExibidas: string[] = ['id', 'endereco', 'dataCriacao', 'irrigadoAuto', 'areaMQuadrados'];    
 
-    protected readonly orquidarios = signal<Orquidario[]>([]);
 
     ngOnInit(): void {
         this.loadOrquidarios();
