@@ -3,6 +3,6 @@ export class ReproducaoFlor {
     orquidarioId!:number;
     hibridoNome!:string;
     dataGerminacao!:Date;
-    viavel!:boolean;
     taxaSucessoPct!:number;
+    viavel!:boolean;
 }

@@ -1,17 +1,20 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ReproducaoFlorService } from '../service/reproducaoFlor.service';
 import { ReproducaoFlor } from '../model/reproducaoFlor';
-import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatCell, MatCellDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRowDef, MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-reproducao-flor-list',
   imports: [CommonModule,
-    MatCard, RouterLink,
-    MatCardHeader, MatCardContent,
+    MatCard,
+    MatTable, MatHeaderRowDef, MatRowDef, MatHeaderRow, MatHeaderCellDef, MatCellDef, MatCell,
+    MatCardHeader, MatCardContent, MatTableModule
   ],
   standalone: true,
   templateUrl: './reproducao-flor-list.html',
@@ -19,14 +22,14 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class ReproducaoFlorList implements OnInit {
   private readonly reproducaoService = inject(ReproducaoFlorService);
-  private readonly route = inject(Router);
-
   protected readonly reproducoes = signal<ReproducaoFlor[]>([]);
+
+  private readonly route = inject(Router);
 
 
   colunasExibidas: string[] = ['orquidarioId', 'hibridoNome', 'dataGerminacao', 'taxaSucessoPct', 'viavel']
 
-  ngOnInit(){
+  ngOnInit(): void{
     this.loadReproducoes();
   }
 

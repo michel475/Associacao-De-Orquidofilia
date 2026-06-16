@@ -1,73 +1,34 @@
-<mat-card>
-  <mat-card-header>
-    <h2>Listagem das reproduções</h2>
+<mat-card class="mx-20 mt-10 bg-purple-400 rounded-lg">
+    <mat-card-header class="bg-purple-900 rounded-t-lg">
+        <h2 class="text-2xl font-bold text-white">Reproduções</h2>
     </mat-card-header>
-    <div class="flex justify-start gap-4 m-6">
-            <button type="submit" (click)="createForm()" class="px-4 py-2 bg-purple-500 font-bold text-white rounded-md hover:bg-purple-600 focus:outline-none focus:ring focus:bg-purple-800 focus:ring-purple-800/100">Incluir Reprodução</button>
+    <mat-card-content class="listagem p-4" appearance="outlined">
+      <div class="overflow-x-auto">
+        <table mat-table [dataSource]="reproducoes()" class="mt-0 w-full table-auto text-lef">
+            <ng-container matColumnDef="orquidarioId">
+                <th mat-card-header *matHeaderCellDef> Orquidário Id </th>
+                <td mat-cell *matCellDef="let reproducao"> {{reproducao.orquidarioId}} </td>
+            </ng-container>
+            <ng-container matColumnDef="hibridoNome">
+                <th mat-card-header *matHeaderCellDef> Hibrido Nome </th>
+                <td mat-cell *matCellDef="let reproducao"> {{reproducao.hibridoNome}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dataGerminacao">
+                <th mat-card-header *matHeaderCellDef> Data de Germinação </th>
+                <td mat-cell *matCellDef="let reproducao"> {{reproducao.dataGerminacao}} </td>
+            </ng-container>
+            <ng-container matColumnDef="taxaSucessoPct">
+                <th mat-card-header *matHeaderCellDef> Taxa de Sucesso (%) </th>
+                <td mat-cell *matCellDef="let reproducao"> {{reproducao.taxaSucessoPct}} </td>
+            </ng-container>
+            <ng-container matColumnDef="viavel">
+                <th mat-card-header *matHeaderCellDef> Viabilidade </th>
+                <td mat-cell *matCellDef="let reproducao"> {{reproducao.viavel}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="colunasExibidas" class="!p-3 !bg-purple-900 !text-white !rounded-t-lg"></tr>
+            <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>
+        </table>
         </div>
-    <mat-card-content>
-      <table>
-        <thead>
-                  
-
-                    <tr>
-                      <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Orquidário de origem</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Nome Híbrido</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Data Germinação</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Taxa de Sucesso (%)</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Viabilidade</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-border bg-transparent">
-                        <tr *ngFor="let reproducao of reproducoes()" class="hover:bg-muted/50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.orquidarioId}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.hibridoNome}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.dataGerminacao}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.taxaSucessoPct}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.viavel}}</td>
-                        </tr>
-                </tbody>
-              </table>
-
     </mat-card-content>
-    </mat-card>
-
-<!-- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
-      <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h1 class="text-3xl font-extrabold tracking-tight text-foreground animate-fade-in">
-            Reproduções
-          </h1>
-        </div>
-      </div>
-    <mat-card class="listagem" appearance="outlined" background>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-border hidden md:table">
-                <thead>
-                  <div class="mb-6">
-                    <a routerLink="/reproducaoFlor/create" class="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1 transition-colors">
-                      <br>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5"></path><path d="M12 7.5V9"></path><path d="M7.5 12H9"></path><path d="M16.5 12H15"></path><path d="M12 16.5V15"></path><path d="m8 8 1.88 1.88"></path><path d="M14.12 9.88 16 8"></path><path d="m8 16 1.88-1.88"></path><path d="M14.12 14.12 16 16"></path></svg>
-                      Criar Reprodução
-                    </a>
-                  </div>
-
-                    <tr>
-                      <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Orquidário de origem</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Nome Híbrido</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Data Germinação</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Taxa de Sucesso (%)</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground tracking-wider">Viabilidade</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-border bg-transparent">
-                        <tr *ngFor="let reproducao of reproducoes()" class="hover:bg-muted/50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.orquidarioId}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.hibridoNome}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.dataGerminacao}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.taxaSucessoPct}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{reproducao.viavel}}</td>
-                        </tr>
-                </tbody>
-                </table>
-            </div> -->
+</mat-card>

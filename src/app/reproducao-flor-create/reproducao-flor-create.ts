@@ -73,7 +73,7 @@ export class ReproducaoFlorCreate implements OnInit{
           hibridoNome: reproducao.hibridoNome,
           dataGerminacao: formattedDate,
           taxaSucessoPct: reproducao.taxaSucessoPct,
-          viavel: reproducao.viavel ? "true" : "false"
+          viavel: reproducao.viavel ? true : false
         });
       },
       error: () => {
