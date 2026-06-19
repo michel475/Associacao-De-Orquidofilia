@@ -1,3 +1,56 @@
+<mat-card class="mx-20 mt-10 rounded-lg overflow-hidden">
+    <mat-card-header class="bg-green-900">
+        <mat-card-title class="!text-3xl px-2 py-3 !font-extrabold text-gray-100">
+            {{ orquidario ? 'Editar Orquidário' : 'Criar Orquidário' }}
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="!p-0">
+        <div class="flex">
+            <div class="w-100 shrink-0">
+                <img src="/orquidea-form.png" alt="Orquídea" class="w-100 h-full object-cover">
+            </div>
+
+            <div class="flex-1 p-6 bg-purple-100">
+                <form (ngSubmit)="enviarFormulario()" class="flex flex-col h-full">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="nomeOrquidario" class="block text-lg font-medium"> Nome</label>
+                            <input id="nomeOrquidario" type="text" [(ngModel)]="orquidario.nome" name="nomeOrquidario" required class="mt-1 p-2 w-full h-10 bg-neutral-100 rounded-md">
+                        </div>
+
+                        <div>
+                            <label for="endereco" class="block text-lg font-medium"> Endereço</label>
+                            <input id="endereco" type="text" [(ngModel)]="orquidario.endereco" name="endereco" required class="mt-1 p-2 w-full h-10 bg-neutral-100 rounded-md">
+                        </div>
+
+                        <div>
+                            <label for="dataCriacao" class="block text-lg font-medium text-muted-foreground">Data de Criação</label>
+                            <input id="dataCriacao" type="date" [(ngModel)]="orquidario.dataCriacao" name="dataCriacao" required class="mt-1 p-1 h-10 w-full bg-neutral-100 rounded-md !border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
+                        </div>
+
+                        <div>
+                            <label for="areaMQuadrados" class="block text-lg font-medium">Área em M²</label>
+                            <input id="areaMQuadrados" type="number" [(ngModel)]="orquidario.areaMQuadrados" name="areaMQuadrados" required class="mt-1 p-2 w-full h-10 bg-neutral-100 rounded-md">
+                        </div>
+
+                        <div class="flex items-center gap-2 mt-8">
+                            <label for="irrigadoAuto" class="text-lg font-medium">Irrigação Automática</label>
+                            <input id="irrigadoAuto" type="checkbox" [(ngModel)]="orquidario.irrigadoAuto" name="irrigadoAuto" class="size-5">
+                        </div>
+
+                    </div>
+                    <div class="flex justify-end gap-4 mt-8">
+                        <button type="submit" class="px-4 py-2 bg-purple-500 text-white rounded-md">Salvar</button>
+                        <button type="button" class="px-4 py-2 bg-gray-300 rounded-md">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<!--
 
 <mat-card class="mx-20 mt-10 bg-purple-400 rounded-lg">
     <mat-card-header class="bg-green-900 rounded-t-lg">
@@ -5,32 +58,38 @@
             {{ orquidario ? 'Editar Orquidário' : 'Criar Orquidário' }}
         </mat-card-title>
     </mat-card-header>
-    <mat-card-content class="listagem p-4 !bg-purple-100" appearance="outlined">
-        <form (ngSubmit)="enviarFormulario()" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="mt-3 mx-1">
-                <label for="nomeOrquidario" class="block text-lg font-medium text-muted-foreground">Nome</label>
-                <input id="nomeOrquidario" type="text" [(ngModel)]="orquidario.nome" name="nomeOrquidario" required class="mt-1 p-1 h-8 w-full bg-neutral-100 rounded-md !border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
-            </div>
-                <div class="mt-3 mx-1">
-                <label for="endereco" class="block text-lg font-medium text-muted-foreground">Endereço</label>
-                <input id="endereco" type="text" [(ngModel)]="orquidario.endereco" name="endereco" required class="mt-1 p-1 h-8 w-full rounded-md bg-neutral-100 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
-            </div>
-            <div class="mt-3 mx-1">
-                <label for="dataCriacao" class="block text-lg font-medium text-muted-foreground">Data de Criação</label>
-                <input id="dataCriacao" type="date" [(ngModel)]="orquidario.dataCriacao" name="dataCriacao" required class="mt-1 p-1 h-8 w-full bg-neutral-100 rounded-md !border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
-            </div>
-                <div class="mt-3 mx-1">
-                <label for="irrigadoAuto" class="block text-lg font-medium text-muted-foreground">Irrigação Automática</label>
-                <input id="irrigadoAuto" type="checkbox" [(ngModel)]="orquidario.irrigadoAuto" name="irrigadoAuto" class="mt-1 size-5 accent-green-800">
-            </div>
-            <div class="mt-3 mx-1">
-                <label for="areaMQuadrados" class="block text-lg font-medium text-muted-foreground">Área em Metros Quadrados</label>
-                <input id="areaMQuadrados" type="number" [(ngModel)]="orquidario.areaMQuadrados" name="areaMQuadrados" required class="mt-1 p-1 h-8 w-full bg-neutral-100 rounded-md !border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
-            </div>
-        </form>
+    <mat-card-content class="!p-0 !bg-purple-100 flex" appearance="outlined">
+        <div class="w-64 flex items-center justify-center">
+            <img src="/orquidea-form.png" alt="Orquídea" class="w-full h-auto shadow-md animate-fade-in">
+        </div>
+        <div class="flex-1 p-6">
+            <form (ngSubmit)="enviarFormulario()" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <label for="nomeOrquidario" class="block text-lg font-medium text-muted-foreground">Nome</label>
+                    <input id="nomeOrquidario" type="text" [(ngModel)]="orquidario.nome" name="nomeOrquidario" required class="mt-1 p-1 h-8 w-full bg-neutral-100 rounded-md !border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
+                </div>
+                    <div>
+                    <label for="endereco" class="block text-lg font-medium text-muted-foreground">Endereço</label>
+                    <input id="endereco" type="text" [(ngModel)]="orquidario.endereco" name="endereco" required class="mt-1 p-1 h-8 w-full rounded-md bg-neutral-100 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
+                </div>
+                <div>
+                    <label for="dataCriacao" class="block text-lg font-medium text-muted-foreground">Data de Criação</label>
+                    <input id="dataCriacao" type="date" [(ngModel)]="orquidario.dataCriacao" name="dataCriacao" required class="mt-1 p-1 h-8 w-full bg-neutral-100 rounded-md !border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
+                </div>
+                    <div class="flex items-center gap-2">
+                    <label for="irrigadoAuto" class="block text-lg font-medium text-muted-foreground">Irrigação Automática</label>
+                    <input id="irrigadoAuto" type="checkbox" [(ngModel)]="orquidario.irrigadoAuto" name="irrigadoAuto" class="mt-1 size-5 accent-green-800">
+                </div>
+                <div>
+                    <label for="areaMQuadrados" class="block text-lg font-medium text-muted-foreground">Área em Metros Quadrados</label>
+                    <input id="areaMQuadrados" type="number" [(ngModel)]="orquidario.areaMQuadrados" name="areaMQuadrados" required class="mt-1 p-1 h-8 w-full bg-neutral-100 rounded-md !border-gray-600 shadow-sm focus:border-primary focus:ring focus:ring-primary/50">
+                </div>
+            </form>
+        </div>
         <div class="flex justify-end gap-4 mt-6">
             <button type="submit" class="px-4 py-2 bg-purple-500 font-bold text-white rounded-md hover:bg-purple-600 focus:outline-none focus:ring focus:bg-purple-800 focus:ring-purple-800/100">Salvar</button>
             <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 font-bold rounded-md hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-500/50">Cancelar</button>
         </div>
     </mat-card-content>
 </mat-card>
+-->
