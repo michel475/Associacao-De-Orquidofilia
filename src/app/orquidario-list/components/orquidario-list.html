@@ -20,20 +20,30 @@
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Data de Criação </th>
                 <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.dataCriacao}} </td>
             </ng-container>
-
             <ng-container matColumnDef="areaMQuadrados">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Área em M² </th>
                 <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.areaMQuadrados}} </td>
             </ng-container>
-            
             <ng-container matColumnDef="irrigadoAuto">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Irrigação Automática </th>
-                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.irrigadoAuto}} </td>
+                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.irrigadoAuto ? 'Sim' : 'Não'}} </td>
             </ng-container>
-            
+            <ng-component matColumnDef="acoes">
+                <th mat-card-header *matHeaderCellDef class="p-3"> Ações </th>
+                <td mat-cell *matCellDef="let orquidario" class="text-center">
+                    <button mat-icon-button color="primary" (click)="orquidarioCreateForm(orquidario.id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="openDialog(orquidario)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+
+            </ng-component>
 
             <tr mat-header-row *matHeaderRowDef="colunasExibidas" class="!p-3 !bg-purple-900 !text-white"></tr>
             <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>
         </table>
     </mat-card-content>
 </mat-card>
+

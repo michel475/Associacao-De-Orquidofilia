@@ -3,26 +3,33 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { MatCard, MatCardHeader, MatCardContent } from '@angular/material/card';
+import { MatCardModule} from '@angular/material/card';
 import { OrquidarioService } from '../../service/orquidario.service';
 import { Orquidario } from '../model/orquidario';
-import { ActivatedRoute, Router } from '@angular/router';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { startWith, map } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router, ɵEmptyOutletComponent } from '@angular/router';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogModule,
+    MatDialogRef,
+    MatDialogTitle,
+} from '@angular/material/dialog';
+import { ConfirmDeleteDialogComponent } from '../../delete-modal/delete-modal';
 
 @Component({
     selector: 'orquidario-list',
     standalone: true,
-    imports:[
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        CommonModule,
-        MatCard,
-        MatCardHeader,
-        MatCardContent
-    ],
+    imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    CommonModule,
+    MatCardModule,
+    ɵEmptyOutletComponent
+],
     templateUrl: './orquidario-list.html',
     styleUrl: './orquidario-list.css'
 })
@@ -33,13 +40,14 @@ export class OrquidarioListComponent implements OnInit{
     private router = inject(Router);
     private route = inject(ActivatedRoute);
     protected readonly orquidarios = signal<Orquidario[]>([]);
-   
+    private dialog = inject(MatDialog);
+    showDeleteModal = signal(false);
+    orquidarioToDelete = signal<Orquidario | null>(null);
+
+    colunasExibidas: string[] = ['nome', 'endereco', 'dataCriacao', 'areaMQuadrados', 'irrigadoAuto', 'acoes'];    
 
 
-    colunasExibidas: string[] = ['nome', 'endereco', 'dataCriacao', 'areaMQuadrados', 'irrigadoAuto'];    
-
-
-    ngOnInit(): void {
+    ngOnInit(): void {''
         this.loadOrquidarios();
     }
 
@@ -59,10 +67,32 @@ export class OrquidarioListComponent implements OnInit{
     }
 
     deleteOrquidario(id: number){
-        this.orquidarioService.deleteOrquidario(id);
+        this.orquidarioService.deleteOrquidario(id).subscribe({
+            next: () => {
+                console.log("Orquidário excluído com sucesso");
+                this.loadOrquidarios();
+            },
+            error: () => {
+                console.log("Erro ao excluir o orquidário");
+            }
+        });
     }
 
-    orquidarioCreateForm() {
+    orquidarioCreateForm(id?: number) {
         this.router.navigate(["orquidario","criar"]);
     }
+
+    openDialog(orquidario: Orquidario) {
+        const dialog = this.dialog.open(ConfirmDeleteDialogComponent, {
+            width: '300px',
+            data: { orquidario }
+        });
+
+        dialog.afterClosed().subscribe(result => {
+            if (result) {
+                this.deleteOrquidario(orquidario.id);
+            }
+        });
+    }
 }
+
