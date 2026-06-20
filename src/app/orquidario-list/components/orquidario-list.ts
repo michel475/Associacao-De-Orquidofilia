@@ -66,18 +66,6 @@ export class OrquidarioListComponent implements OnInit{
         this.orquidarioService.updateOrquidario(id, orquidario); 
     }
 
-    deleteOrquidario(id: number){
-        this.orquidarioService.deleteOrquidario(id).subscribe({
-            next: () => {
-                console.log("Orquidário excluído com sucesso");
-                this.loadOrquidarios();
-            },
-            error: () => {
-                console.log("Erro ao excluir o orquidário");
-            }
-        });
-    }
-
     orquidarioCreateForm(id?: number) {
         this.router.navigate(["orquidario","criar"]);
     }
@@ -90,7 +78,7 @@ export class OrquidarioListComponent implements OnInit{
 
         dialog.afterClosed().subscribe(result => {
             if (result) {
-                this.deleteOrquidario(orquidario.id);
+                this.loadOrquidarios();
             }
         });
     }

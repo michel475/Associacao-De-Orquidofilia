@@ -15,6 +15,7 @@ export class ConfirmDeleteDialogComponent {
   readonly data = inject(MAT_DIALOG_DATA);
   private dialogRef = inject(MatDialogRef<ConfirmDeleteDialogComponent>);
   private orquidarioService = inject(OrquidarioService);
+  protected orquidario: Orquidario = this.data.orquidario;
 
   onConfirm(orquidario: Orquidario): void {
     this.orquidarioService.deleteOrquidario(orquidario.id).subscribe({

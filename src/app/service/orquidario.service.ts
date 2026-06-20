@@ -28,7 +28,7 @@ export class OrquidarioService{
         return this.http.put<Orquidario>(`http://localhost:3000/orquidario/${id}`, data)
     }
 
-    deleteOrquidario(id: number): Observable<void>{
-        return this.http.delete<void>(`http://localhost:3000/orquidario/${id}`)
+    deleteOrquidario(id: number): Observable<Orquidario>{
+        return this.http.delete<Orquidario>(`http://localhost:3000/orquidario/delete/${id}`)
     }
 }
