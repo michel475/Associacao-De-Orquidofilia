@@ -12,10 +12,10 @@ export class UpdateOrquidarioDTO{
     @IsDateString()
     dataCriacao!: string;
 
-    @ApiProperty({example: true})
-    irrigadoAuto!: boolean;
-
     @ApiProperty({example: 55})
     areaMQuadrados!: number;
+
+    @ApiProperty({example: true})
+    irrigadoAuto!: boolean;
 
 }
