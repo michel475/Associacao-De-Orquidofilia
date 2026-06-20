@@ -67,7 +67,11 @@ export class OrquidarioListComponent implements OnInit{
     }
 
     orquidarioCreateForm(id?: number) {
-        this.router.navigate(["orquidario","criar"]);
+        if(id) {
+            this.router.navigate(["orquidario","criar", id]);
+        } else {
+            this.router.navigate(["orquidario","criar"]);
+        }
     }
 
     openDialog(orquidario: Orquidario) {

@@ -9,5 +9,6 @@ export const routes: Routes = [
     {path: '', component: Home},
     {path: 'reproducaoFlor', component:ReproducaoFlorList},
     {path: 'orquidario', component: OrquidarioListComponent},
-    {path: 'orquidario/criar', component: OrquidarioForm}
+    {path: 'orquidario/criar', component: OrquidarioForm},
+    {path: 'orquidario/criar/:id', component: OrquidarioForm}
 ];
