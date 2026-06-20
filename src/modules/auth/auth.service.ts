@@ -1,10 +1,9 @@
-/*
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../users/application/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { BusinessException } from '../common/exceptions/business.exception';
-import { User } from '../users/entities/user.entity';
+//import { Error } from '../common/exceptions/business.exceptio{ User } from '../users/user.entity';
 import * as bcrypt from 'bcrypt';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,16 +15,16 @@ export class AuthService {
   async validateUser(email: string, pass: string): Promise<Omit<User, 'senha'> | null> {
     const user = await this.usersService.findByEmail(email);
     if (!user) {
-      throw new BusinessException('E-mail/senha não confere', 'AUTH_INVALID_CREDENTIALS');
+      throw new Error('E-mail/senha não confere');
     }
 
     const isMatch = await bcrypt.compare(pass, user.senha);
     if (!isMatch) {
-      throw new BusinessException('E-mail/senha não confere', 'AUTH_INVALID_CREDENTIALS');
+      throw new Error('E-mail/senha não confere');
     }
 
     if (!user.ativo) {
-      throw new BusinessException('Conta aguardando liberação do administrador', 'AUTH_USER_INACTIVE');
+      throw new Error('Conta aguardando liberação do administrador');
     }
 
     const { senha, ...result } = user;
@@ -39,4 +38,3 @@ export class AuthService {
     };
   }
 }
-  */

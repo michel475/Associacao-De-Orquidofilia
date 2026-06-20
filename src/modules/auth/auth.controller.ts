@@ -1,14 +1,14 @@
-/*import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
 import * as express from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { UsersService } from '../users/users.service';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UsersService } from '../users/application/user.service';
+import { CreateUserDto } from '../users/presentation/dto/create-user.dto';
 import { MailerService } from '../mailer/mailer.service';
 import { RecoveryService } from './recovery.service';
-import { BusinessException } from '../common/exceptions/business.exception';
-import { ResetPasswordDto } from './dto/reset-password.dto';
-import { User } from '../users/entities/user.entity';
+//import { BusinessException } from '../common/exceptions/business.exception';
+import { ResetPasswordDto } from './dto/reset-password.dto'
+import { User } from '../users/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -26,9 +26,9 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req: express.Request) {
+  async login(@Request() req: any) {
     if (!req.user) {
-      throw new BusinessException('Usuário não autenticado', 'AUTH_UNAUTHORIZED');
+      throw new Error('Usuário não autenticado'/*, 'AUTH_UNAUTHORIZED'*/);
     }
     return this.authService.login(req.user as Omit<User, 'senha'>);
   }
@@ -49,7 +49,7 @@ export class AuthController {
     const { token, newPassword } = resetPasswordDto;
     const email = this.recoveryService.validateToken(token);
     if (!email) {
-      throw new BusinessException('Token inválido ou expirado', 'AUTH_INVALID_TOKEN');
+      throw new Error('Token inválido ou expirado');
     }
     
     const user = await this.usersService.findByEmail(email);
@@ -62,4 +62,3 @@ export class AuthController {
     return { message: 'Senha redefinida com sucesso.' };
   }
 }
-  */

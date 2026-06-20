@@ -3,16 +3,16 @@ import { IsDateString } from 'class-validator';
 
 export class UpdateReproducaoFlorDTO {
     @ApiProperty({ example: 'Cattleya Trianae x Laelia purpurata' })
-    hibridoNome: string;
+    hibridoNome!: string;
 
     @ApiProperty({ example: '2026-02-01' })
     @IsDateString()
-    dataGerminacao: Date;
+    dataGerminacao!: Date;
 
     @ApiProperty({ example: 'true' })
-    viavel: boolean;
+    viavel!: boolean;
 
     @ApiProperty({ example: 45 })
-    taxaSucessoPct: number;
+    taxaSucessoPct!: number;
 
 }
