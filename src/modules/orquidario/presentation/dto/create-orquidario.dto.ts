@@ -7,15 +7,15 @@ export class CreateOrquidarioDTO{
     nome!: string;
     
     @ApiProperty({example: 'Avenida Presidente Kennedy, Qd G Lte 10'})
-    enderecoOrquidario!: string;
+    endereco!: string;
 
     @ApiProperty({ example: '2026-03-26' })
     @IsDateString()
     dataCriacao!: string;
 
+    @ApiProperty({example: 55})
+    areaMQuadrados!: number;
+
     @ApiProperty({example: true})
     irrigadoAuto!: boolean;
-
-    @ApiProperty({example: 55})
-    areaMquadrados!: number;
 }

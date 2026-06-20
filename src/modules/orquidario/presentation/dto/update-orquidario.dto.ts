@@ -16,6 +16,6 @@ export class UpdateOrquidarioDTO{
     irrigadoAuto!: boolean;
 
     @ApiProperty({example: 55})
-    areaMquadrados!: number;
+    areaMQuadrados!: number;
 
 }

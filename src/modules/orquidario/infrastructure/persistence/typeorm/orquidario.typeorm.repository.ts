@@ -76,8 +76,8 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
             orm.nome,
             orm.endereco,
             orm.dataCriacao,
-            orm.irrigadoAuto,
-            orm.areaMquadrados
+            orm.areaMquadrados,
+            orm.irrigadoAuto
         );
     };
 }

@@ -4,7 +4,7 @@ export class Orquidario {
         public nome: string,
         public endereco: string,
         public dataCriacao: Date,
-        public irrigadoAuto: boolean,
         public areaMquadrados: number,
+        public irrigadoAuto: boolean,
     ) {}
 }
