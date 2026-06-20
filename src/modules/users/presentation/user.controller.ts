@@ -16,6 +16,7 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly recoveryService: RecoveryService,
     private readonly mailerService: MailerService,
+
   ) { }
 
   @Get()
@@ -32,7 +33,6 @@ export class UsersController {
   activate(@Param('id') id: string) {
     return this.usersService.activate(id);
   }
-
     @Post(':id/reset-password')
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(Role.ADMIN)
