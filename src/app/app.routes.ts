@@ -7,6 +7,6 @@ import { ReproducaoFlorCreate } from './reproducao-flor-create/reproducao-flor-c
 export const routes: Routes = [
     {path: '', component: Home},
     {path: 'reproducaoFlor', component:ReproducaoFlorList},
-    {path: 'reproducaoFlor/create', component:ReproducaoFlorCreate},
-    {path: 'reproducaoFlor/:id', component:ReproducaoFlorCreate},
+    {path: 'reproducaoFlor/criar', component:ReproducaoFlorCreate},
+    {path: 'reproducaoFlor/editar/:id', component:ReproducaoFlorCreate},
 ];

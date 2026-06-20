@@ -8,11 +8,12 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-reproducao-flor-list',
   imports: [CommonModule,
-    MatCard,
+    MatCard,MatIcon,
     MatTable, MatHeaderRowDef, MatRowDef, MatHeaderRow, MatHeaderCellDef, MatCellDef, MatCell,
     MatCardHeader, MatCardContent, MatTableModule
   ],
@@ -44,7 +45,7 @@ export class ReproducaoFlorList implements OnInit {
     })
   }
 
-  createForm(){
-    this.route.navigate(['reproducaoFlor', 'create']);
+  reproducaoCreateForm(){
+    this.route.navigate(['reproducaoFlor', 'criar']);
   }
 }
