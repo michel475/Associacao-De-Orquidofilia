@@ -13,14 +13,14 @@ export class OrquidarioService {
         private readonly orquidarioRepo: OrquidarioRepositoryPort,
     ) { }
 
-    async create(nome: string,endereco: string, dataCriacao: string, areaMquadrados: number, irrigadoAuto: boolean) {
+    async create(nome: string,endereco: string, dataCriacao: string, areaMQuadrados: number, irrigadoAuto: boolean) {
         if (!endereco) throw new EnderecoNotFound();
-        if (areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados);
+        if (areaMQuadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMQuadrados);
         const dateCreate = new Date(dataCriacao);
         if (new Date(dateCreate) > new Date()) throw new InvalidDataCriacaoOrquidario(dateCreate);
 
 
-        const orqui = new Orquidario(null, nome, endereco, dateCreate, areaMquadrados, irrigadoAuto);
+        const orqui = new Orquidario(null, nome, endereco, dateCreate, areaMQuadrados, irrigadoAuto);
         return this.orquidarioRepo.create(orqui)
     };
 
@@ -35,16 +35,16 @@ export class OrquidarioService {
         return orquidario;
     }
 
-    async update(id: number, nome: string,endereco: string, dataCriacao: string, irrigadoAuto: boolean, areaMquadrados: number) {
+    async update(id: number, nome: string,endereco: string, dataCriacao: string, areaMQuadrados: number, irrigadoAuto: boolean) {
         const orqui = await this.orquidarioRepo.findById(id)
         if (!orqui) throw new OrquidarioNotFoundException(id)
 
         if (!endereco) throw new EnderecoNotFound()
-        if (areaMquadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMquadrados)
+        if (areaMQuadrados < 10) throw new InvalidAreaMQuadradoOrquidario(areaMQuadrados)
         const dataCreation = new Date(dataCriacao);
         if (dataCreation > new Date()) throw new InvalidDataCriacaoOrquidario(dataCreation)
 
-        const orquidario = new Orquidario(id, nome, endereco,dataCreation,areaMquadrados,irrigadoAuto)
+        const orquidario = new Orquidario(id, nome, endereco, dataCreation, areaMQuadrados,irrigadoAuto)
         return this.orquidarioRepo.update(orquidario);
     }
 

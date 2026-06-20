@@ -11,7 +11,7 @@ export class UpdateOrquidarioDTO{
     @ApiProperty({ example: '2026-03-26' })
     @IsDateString()
     dataCriacao!: string;
-
+    
     @ApiProperty({example: 55})
     areaMQuadrados!: number;
 

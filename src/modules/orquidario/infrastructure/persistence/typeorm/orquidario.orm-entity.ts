@@ -4,23 +4,23 @@ import { ReproducaoFlorOrmEntity } from '../../../../reproducaoFlor/infrastructu
 @Entity('orquidario')
 export class OrquidarioOrmEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column()
-    nome: string;
+    nome!: string;
 
     @Column()
-    endereco: string;
+    endereco!: string;
 
     @Column()
-    dataCriacao: Date;
+    dataCriacao!: Date;
 
     @Column()
-    irrigadoAuto: boolean;
+    areaMQuadrados!: number;
 
     @Column()
-    areaMquadrados: number;
+    irrigadoAuto!: boolean;
 
     @OneToMany(() => ReproducaoFlorOrmEntity, (reproducao) => reproducao.orquidario)
-    reproducoes: ReproducaoFlorOrmEntity[];
+    reproducoes?: ReproducaoFlorOrmEntity[];
 }

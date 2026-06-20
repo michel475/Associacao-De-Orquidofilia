@@ -19,7 +19,7 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
             endereco: orquidario.endereco,
             dataCriacao: orquidario.dataCriacao,
             irrigadoAuto: orquidario.irrigadoAuto,
-            areaMquadrados: orquidario.areaMquadrados
+            areaMQuadrados: orquidario.areaMQuadrados
         });
         const saved = await this.repo.save(orm)
         return this.toDomain(saved)
@@ -32,7 +32,7 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
         orm.endereco = orquidario.endereco;
         orm.dataCriacao = orquidario.dataCriacao;
         orm.irrigadoAuto = orquidario.irrigadoAuto;
-        orm.areaMquadrados = orquidario.areaMquadrados;
+        orm.areaMQuadrados = orquidario.areaMQuadrados;
 
         const saved = await this.repo.save(orm);
         return this.toDomain(saved);
@@ -76,7 +76,7 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
             orm.nome,
             orm.endereco,
             orm.dataCriacao,
-            orm.areaMquadrados,
+            orm.areaMQuadrados,
             orm.irrigadoAuto
         );
     };
