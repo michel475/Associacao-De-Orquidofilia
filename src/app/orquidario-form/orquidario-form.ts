@@ -5,14 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/material/card';
-import { Orquidario } from '../orquidario-list/model/orquidario';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { OrquidarioService } from './service/orquidario.service';
+import { OrquidarioService } from '../service/orquidario.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { nodeModuleNameResolver } from 'typescript';
-import { MAT_MENU_DEFAULT_OPTIONS } from '@angular/material/menu';
 
 interface CreateOrquidarioPayload {
   nome: string;
@@ -39,18 +36,16 @@ interface CreateOrquidarioPayload {
     MatNativeDateModule,
     ReactiveFormsModule, MatCard, FormsModule, RouterLink
 ],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }  // ← ADICIONAR ISSO
-  ],
   templateUrl: './orquidario-form.html',
   styleUrl: './orquidario-form.css',
 })
+
+
 export class OrquidarioForm implements OnInit {
   private fb = inject(FormBuilder);
   private orquidarioService = inject(OrquidarioService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-
 
   form!: FormGroup;
   isEditMode = signal(false);
@@ -59,14 +54,14 @@ export class OrquidarioForm implements OnInit {
   errorMsg = signal('');
 
   constructor() {
-    this.formInitializr();
+    this.formInitializer();
   }
 
   enviarFormulario() {
     this.onSubmit();
   }
 
-  formInitializr() {
+  formInitializer() {
     this.form = this.fb.group({
       nome: [''],
       endereco: [''],
@@ -87,7 +82,7 @@ export class OrquidarioForm implements OnInit {
   }
 
   loadOrquidario(id: string) {
-    this.orquidarioService.findById(id).subscribe({
+    this.orquidarioService.findOrquidarioById(Number(id)).subscribe({
       next: (orquidario) => {
         
         const dateObj = new Date(orquidario.dataCriacao);
@@ -98,8 +93,8 @@ export class OrquidarioForm implements OnInit {
           nome: orquidario.nome,
           endereco: orquidario.endereco,
           dataCriacao: dataFormatada,
-          irrigadoAuto: orquidario.irrigadoAuto ? true : false,
           areaMQuadrados: orquidario.areaMQuadrados,
+          irrigadoAuto: orquidario.irrigadoAuto ? true : false,
         })
       },
       error: () => {
@@ -108,8 +103,11 @@ export class OrquidarioForm implements OnInit {
     })
   }
   onSubmit(){
+    console.log('Formulário completo:', this.form.value);
+    console.log('Endereco:', this.form.get('endereco')?.value);
+
     if(this.form.invalid) return;
-     this.isSubmitting.set(true);
+    this.isSubmitting.set(true);
     this.errorMsg.set('');
 
     const formVal = this.form.value;
@@ -119,12 +117,12 @@ export class OrquidarioForm implements OnInit {
       nome: formVal.nome,
       endereco: formVal.endereco,
       dataCriacao: formVal.dataCriacao,
-      irrigadoAuto: formVal.irrigadoAuto,
-      areaMQuadrados: formVal.areaMQuadrados
+      areaMQuadrados: formVal.areaMQuadrados,
+      irrigadoAuto: formVal.irrigadoAuto
     };
 
     const request$ = this.isEditMode()
-      ? this.orquidarioService.updateOrquidario(this.orquidarioId()!, payload)
+      ? this.orquidarioService.updateOrquidario(Number(this.orquidarioId()!), payload)
       : this.orquidarioService.createOrquidario(payload);
 
     request$.subscribe({

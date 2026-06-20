@@ -20,14 +20,17 @@
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Data de Criação </th>
                 <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.dataCriacao}} </td>
             </ng-container>
+
+            <ng-container matColumnDef="areaMQuadrados">
+                <th mat-card-header *matHeaderCellDef class="text-left p-3"> Área em M² </th>
+                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.areaMQuadrados}} </td>
+            </ng-container>
+            
             <ng-container matColumnDef="irrigadoAuto">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Irrigação Automática </th>
                 <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.irrigadoAuto}} </td>
             </ng-container>
-            <ng-container matColumnDef="areaMQuadrados">
-                <th mat-card-header *matHeaderCellDef class="text-left p-3"> Área em Metros Quadrados </th>
-                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.areaMQuadrados}} </td>
-            </ng-container>
+            
 
             <tr mat-header-row *matHeaderRowDef="colunasExibidas" class="!p-3 !bg-purple-900 !text-white"></tr>
             <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>

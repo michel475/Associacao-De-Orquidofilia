@@ -4,11 +4,12 @@ import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatCard, MatCardHeader, MatCardContent } from '@angular/material/card';
-import { OrquidarioService } from '../service/orquidario.service';
+import { OrquidarioService } from '../../service/orquidario.service';
 import { Orquidario } from '../model/orquidario';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { startWith, map } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'orquidario-list',
@@ -25,14 +26,17 @@ import { startWith, map } from 'rxjs';
     templateUrl: './orquidario-list.html',
     styleUrl: './orquidario-list.css'
 })
+
+
 export class OrquidarioListComponent implements OnInit{
-    protected readonly orquidarios = signal<Orquidario[]>([]);
     private readonly orquidarioService = inject(OrquidarioService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    protected readonly orquidarios = signal<Orquidario[]>([]);
    
-    private readonly route = inject(Router);
 
 
-    colunasExibidas: string[] = ['nome', 'endereco', 'dataCriacao', 'irrigadoAuto', 'areaMQuadrados'];    
+    colunasExibidas: string[] = ['nome', 'endereco', 'dataCriacao', 'areaMQuadrados', 'irrigadoAuto'];    
 
 
     ngOnInit(): void {
@@ -59,6 +63,6 @@ export class OrquidarioListComponent implements OnInit{
     }
 
     orquidarioCreateForm() {
-        this.route.navigate(["orquidario","criar"]);
+        this.router.navigate(["orquidario","criar"]);
     }
 }

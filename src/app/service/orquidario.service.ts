@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Orquidario } from "../model/orquidario";
-import { ReproducaoFlor } from "../../reproducao-flor-list/model/reproducaoFlor";
+import { Orquidario } from "../orquidario-list/model/orquidario";
+import { ReproducaoFlor } from "../reproducao-flor-list/model/reproducaoFlor";
 
 @Injectable({providedIn: 'root'})
 export class OrquidarioService{
