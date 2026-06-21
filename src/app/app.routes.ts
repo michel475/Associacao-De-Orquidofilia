@@ -10,6 +10,7 @@ import { RegisterComponent } from './register-component/register-component';
 import { UsersListComponent } from './admin-component/user-list.component';
 import { OrquidarioListComponent } from './orquidario-list/components/orquidario-list';
 import { OrquidarioForm } from './orquidario-form/orquidario-form';
+import { OrquidarioReproducoesComponent } from './orquidario-reproducoes/orquidario-reproducoes';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -21,5 +22,7 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent},
     { path: 'admin', component: UsersListComponent, canActivate: [authGuard, adminGuard] },
     { path: 'orquidario', component: OrquidarioListComponent, canActivate: [authGuard]},
-    { path: 'orquidario/criar', component: OrquidarioForm, canActivate: [authGuard]}
+    { path: 'orquidario/criar', component: OrquidarioForm, canActivate: [authGuard]},
+    { path: 'orquidario/criar/:id', component: OrquidarioForm},
+    { path: 'orquidario/reproducoes/:id', component: OrquidarioReproducoesComponent}
 ];

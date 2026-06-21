@@ -3,6 +3,6 @@ export class Orquidario{
     nome!: string;
     endereco!: string;
     dataCriacao!: Date;
-    irrigadoAuto!: boolean;
     areaMQuadrados!: number;
+    irrigadoAuto!: boolean;
 }

@@ -1,13 +1,17 @@
 <mat-card class="mx-20 mt-10 bg-purple-400 rounded-t-lg overflow-hidden">
     <mat-card-header class="bg-green-900">
         <h2 class="text-2xl font-bold text-white p-4">Orquidário</h2>
-        <button matButton="filled" class="!text-white !bg-green-600 !hover:bg-green-700 mt-3" (click)="orquidarioCreateForm()">
-            <mat-icon>add</mat-icon>
-            Adicionar
-        </button>
+        <div class="flex-1 flex justify-end">
+            <button matButton="filled" title="Adicionar Orquidário" class="!text-white !bg-green-600 !hover:bg-green-700 mt-3" (click)="orquidarioCreateForm()">
+                <mat-icon>add</mat-icon>
+                Adicionar
+            </button>
+        </div>
+            
     </mat-card-header>
     <mat-card-content class="listagem p-4" appearance="outlined">
-        <table mat-table [dataSource]="orquidarios()" class="mt-5 rounded-lg overflow-hidden">
+        <table mat-table [dataSource]="dataSource" class="mt-5 rounded-lg overflow-hidden">
+            
             <ng-container matColumnDef="nome">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Nome </th>
                 <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.nome}} </td>
@@ -20,17 +24,34 @@
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Data de Criação </th>
                 <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.dataCriacao}} </td>
             </ng-container>
+            <ng-container matColumnDef="areaMQuadrados">
+                <th mat-card-header *matHeaderCellDef class="text-left p-3"> Área em M² </th>
+                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.areaMQuadrados}} </td>
+            </ng-container>
             <ng-container matColumnDef="irrigadoAuto">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Irrigação Automática </th>
-                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.irrigadoAuto}} </td>
+                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.irrigadoAuto ? 'Sim' : 'Não'}} </td>
             </ng-container>
-            <ng-container matColumnDef="areaMQuadrados">
-                <th mat-card-header *matHeaderCellDef class="text-left p-3"> Área em Metros Quadrados </th>
-                <td mat-cell *matCellDef="let orquidario" class="text-left"> {{orquidario.areaMQuadrados}} </td>
+            <ng-container matColumnDef="acoes">
+                <th mat-card-header *matHeaderCellDef class="p-3"> Ações </th>
+                <td mat-cell *matCellDef="let orquidario" class="text-center">
+                    <button mat-icon-button color="primary" title="Editar orquidário" (click)="orquidarioCreateForm(orquidario.id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" title="Excluir orquidário" (click)="openDialog(orquidario)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" title="Listar Reproduções do Orquidário" (click)="listarReproducoes(orquidario.id)">
+                        <mat-icon>list</mat-icon>
+                    </button>
+                </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="colunasExibidas" class="!p-3 !bg-purple-900 !text-white"></tr>
-            <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>
+            <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>   
         </table>
+        <mat-paginator [length]="dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Navegação da tabela">
+        </mat-paginator> 
     </mat-card-content>
 </mat-card>
+
