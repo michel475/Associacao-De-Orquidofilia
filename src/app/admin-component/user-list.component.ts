@@ -86,23 +86,6 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  resetPassword(id: string) {
-    this.actionLoading.set(id);
-    this.errorMsg.set('');
-    this.successMsg.set('');
-
-    this.authService.resetUserPassword(id).subscribe({
-      next: (res) => {
-        this.successMsg.set(res.message || 'E-mail de recuperação de senha enviado com sucesso!');
-        this.actionLoading.set(null);
-      },
-      error: (err) => {
-        this.errorMsg.set(parseAuthError(err));
-        this.actionLoading.set(null);
-      }
-    });
-  }
-
   home(){
     this.router.navigate(['/']);
   }

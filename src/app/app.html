@@ -21,7 +21,7 @@
           
           <span class="text-white font-medium">Olá, {{ authService.currentUser()?.nome }}</span>
           <nav class="hidden md:flex items-center gap-8">
-            <button (click)="inicio()" [ngClass]="isActive('/home') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Início</button>
+            <button (click)="inicio()" [ngClass]="isActive('/') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Início</button>
             <button (click)="orquidarios()" [ngClass]="isActive('/orquidario') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Orquidários</button>
             <button (click)="reproducoes()" [ngClass]="isActive('/reproducaoFlor') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Reproduções</button>
             @if (authService.isAdmin())

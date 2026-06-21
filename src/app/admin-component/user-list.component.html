@@ -107,14 +107,6 @@
                       [disabled]="actionLoading() === user.id">
                       {{ actionLoading() === user.id ? 'Ativando...' : 'Aprovar' }}
                     </button>
-                    <button 
-                      mat-button
-                      variant="secondary"
-                      size="sm"
-                      (click)="resetPassword(user.id)"
-                      [disabled]="actionLoading() === user.id">
-                      {{ actionLoading() === user.id ? 'Processando...' : 'Redefinir Senha' }}
-                    </button>
                   </div>
                 </td>
               </tr>
@@ -151,15 +143,6 @@
                   (click)="activateUser(user.id)"
                   [disabled]="actionLoading() === user.id">
                   {{ actionLoading() === user.id ? 'Ativando...' : 'Ativar' }}
-                </button>
-                <button 
-                  mat-button
-                  variant="secondary"
-                  size="sm"
-                  [ngClass]="{'w-full': user.ativo, 'flex-1': !user.ativo}"
-                  (click)="resetPassword(user.id)"
-                  [disabled]="actionLoading() === user.id">
-                  {{ actionLoading() === user.id ? 'Processando...' : 'Redefinir' }}
                 </button>
               </div>
             </div>

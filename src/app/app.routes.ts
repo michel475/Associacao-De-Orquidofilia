@@ -20,6 +20,6 @@ export const routes: Routes = [
     { path: 'access-denied', component: AccessDeniedComponent },
     { path: 'register', component: RegisterComponent},
     { path: 'admin', component: UsersListComponent, canActivate: [authGuard, adminGuard] },
-    {path: 'orquidario', component: OrquidarioListComponent, canActivate: [authGuard]},
-    {path: 'orquidario/criar', component: OrquidarioForm, canActivate: [authGuard]},
+    { path: 'orquidario', component: OrquidarioListComponent, canActivate: [authGuard]},
+    { path: 'orquidario/criar', component: OrquidarioForm, canActivate: [authGuard]}
 ];
