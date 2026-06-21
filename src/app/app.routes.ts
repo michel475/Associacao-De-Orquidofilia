@@ -7,7 +7,7 @@ import { OrquidarioForm } from './orquidario-form/orquidario-form';
 import { OrquidarioReproducoesComponent } from './orquidario-reproducoes/orquidario-reproducoes';
 
 export const routes: Routes = [
-    {path: '', component: Home},
+    {path: 'home', component: Home},
     {path: 'reproducaoFlor', component:ReproducaoFlorList},
     {path: 'orquidario', component: OrquidarioListComponent},
     {path: 'orquidario/criar', component: OrquidarioForm},

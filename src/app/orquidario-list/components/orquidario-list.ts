@@ -7,16 +7,7 @@ import { MatCardModule} from '@angular/material/card';
 import { OrquidarioService } from '../../orqudiario-service/orquidario.service';
 import { Orquidario } from '../model/orquidario';
 import { ActivatedRoute, Router, ɵEmptyOutletComponent } from '@angular/router';
-import {
-    MAT_DIALOG_DATA,
-    MatDialog,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogModule,
-    MatDialogRef,
-    MatDialogTitle,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from '../../delete-modal/delete-modal';
 
 @Component({

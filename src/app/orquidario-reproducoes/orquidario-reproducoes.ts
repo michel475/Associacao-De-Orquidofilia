@@ -15,7 +15,6 @@ import { MatButtonModule } from "@angular/material/button";
     imports: [
     MatCardModule,
     MatTableModule,
-    ɵEmptyOutletComponent,
     MatIconModule,
     MatButtonModule
 ]

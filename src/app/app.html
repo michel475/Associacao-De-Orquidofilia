@@ -1,11 +1,31 @@
+<div class="relative w-full min-h-screen">
+  <!-- Imagem de fundo como layer absoluta (atrás de tudo) -->
+  <div class="fixed inset-0 bg-cover brightness-30 bg-center -z-10" style="background-image: url('orquidea.png');">
+    <div class="absolute inset-0 bg-green-950/40"></div>
+  </div>
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+  <!-- Header -->
+  <header class="relative z-10 w-full bg-green-900/80 backdrop-blur-md border-b border-green-800/50 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-purple-400 text-2xl font-bold tracking-wide">Reprodução<span class="text-green-50">Flor</span></span>
+    </div>
 
+    <nav class="hidden md:flex items-center gap-8">
+        <button (click)="inicio()" [ngClass]="isActive('/home') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Início</button>
+        <button (click)="orquidarios()" [ngClass]="isActive('/orquidario') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Orquidários</button>
+        <button (click)="reproducoes()" [ngClass]="isActive('/reproducaoFlor') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Reproduções</button>
+    </nav>
 
-<router-outlet />
+    <div class="flex items-center gap-4">
+      <a href="/users" class="text-green-100 hover:text-green-200 font-medium text-sm transition-colors">Entrar</a>
+      <button class="bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm px-4 py-2 rounded-lg shadow-md transition-all transform hover:scale-105">
+        Cadastrar
+      </button>
+    </div>
+  </header>
+
+  <!-- Conteúdo das páginas (aparece acima da imagem) -->
+  <div class="relative z-10">
+    <router-outlet />
+  </div>
+</div>
