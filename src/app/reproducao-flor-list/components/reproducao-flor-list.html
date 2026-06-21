@@ -10,7 +10,7 @@
             
     </mat-card-header>
     <mat-card-content class="listagem p-4" appearance="outlined">
-        <table mat-table [dataSource]="reproducoes()" class="mt-5 rounded-lg overflow-hidden">
+        <table mat-table [dataSource]="reproducoesPaginadas()" class="mt-5 rounded-lg overflow-hidden">
             <ng-container matColumnDef="orquidarioId">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> OrquidarioId </th>
                 <td mat-cell *matCellDef="let reproducao" class="text-left"> {{reproducao.orquidarioId}} </td>
@@ -51,4 +51,10 @@
             <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>
         </table>
     </mat-card-content>
+    <mat-paginator [length]="reproducoes().length"
+                   [pageSize]="itensPorPagina()"
+                   [pageSizeOptions]="[5, 10, 25, 50]"
+                   (page)="onPageChange($event)"
+                   class="!bg-green-900/80 !text-green-100 border-t border-green-800/40">
+    </mat-paginator>
 </mat-card>
