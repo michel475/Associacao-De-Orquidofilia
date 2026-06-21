@@ -140,4 +140,8 @@ export class OrquidarioForm implements OnInit {
   home() {
     this.router.navigate(['orquidario']);
   }
+
+  onCancel() {
+    this.router.navigate(['orquidario']);
+  }
 }
