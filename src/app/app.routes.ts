@@ -8,6 +8,8 @@ import { AccessDeniedComponent } from './utils/acesso-negado-component';
 import { adminGuard, authGuard } from './auth/auth.guard';
 import { RegisterComponent } from './register-component/register-component';
 import { UsersListComponent } from './admin-component/user-list.component';
+import { OrquidarioListComponent } from './orquidario-list/components/orquidario-list';
+import { OrquidarioForm } from './orquidario-form/orquidario-form';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -18,4 +20,6 @@ export const routes: Routes = [
     { path: 'access-denied', component: AccessDeniedComponent },
     { path: 'register', component: RegisterComponent},
     { path: 'admin', component: UsersListComponent, canActivate: [authGuard, adminGuard] },
+    {path: 'orquidario', component: OrquidarioListComponent, canActivate: [authGuard]},
+    {path: 'orquidario/criar', component: OrquidarioForm, canActivate: [authGuard]},
 ];
