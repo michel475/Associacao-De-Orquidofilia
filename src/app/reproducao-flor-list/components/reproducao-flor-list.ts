@@ -9,11 +9,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { ConfirmDeleteDialogComponent } from '../modal/delete-modal';
 import { MatPaginator, PageEvent } from '@angular/material/paginator'; // Adicionado PageEvent
+import { MatButton, MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-reproducao-flor-list',
   imports: [CommonModule,
-    MatCard, MatIcon,
+    MatCard, MatIcon, MatButton, MatIconButton,
     MatTable, MatHeaderRowDef, MatRowDef, MatHeaderRow, MatHeaderCellDef, MatCellDef, MatCell,
     MatCardHeader, MatCardContent, MatTableModule, ɵEmptyOutletComponent, MatPaginator
   ],

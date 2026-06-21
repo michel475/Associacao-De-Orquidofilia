@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { Orquidario } from '../model/orquidario';
 import { ActivatedRoute, Router, ɵEmptyOutletComponent } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from '../../delete-modal/delete-modal';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
 
@@ -38,8 +38,16 @@ export class OrquidarioListComponent implements OnInit{
     private dialog = inject(MatDialog);
     showDeleteModal = signal(false);
     orquidarioToDelete = signal<Orquidario | null>(null);
-    dataSource = new MatTableDataSource<Orquidario>([]);
     @ViewChild(MatPaginator) paginator!: MatPaginator;
+    protected readonly paginaAtual = signal<number>(0);
+    protected readonly itensPorPagina = signal<number>(10);
+
+  // 2. O Pulo do Gato: Signal computado que fatia o vetor original automaticamente
+    protected readonly orquidariosPaginados = computed(() => {
+        const inicio = this.paginaAtual() * this.itensPorPagina();
+        const fim = inicio + this.itensPorPagina();
+        return this.orquidarios().slice(inicio, fim);
+    });
 
 
 
@@ -50,20 +58,22 @@ export class OrquidarioListComponent implements OnInit{
         this.loadOrquidarios();
     }
 
-    ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
 
     private loadOrquidarios(){
         this.orquidarioService.findOrquidarios().subscribe({
             next: (orquidarios) => {
-                this.dataSource.data = orquidarios;
+                this.orquidarios.set(orquidarios);
             },
             error: () => {
                 console.log("Não foi possível listar os orquidários");
             }
         })
     }
+
+     protected onPageChange(event: PageEvent): void {
+    this.paginaAtual.set(event.pageIndex);
+    this.itensPorPagina.set(event.pageSize);
+  }
 
     updateOrquidario(id: number, orquidario: Orquidario){
         this.orquidarioService.updateOrquidario(id, orquidario); 

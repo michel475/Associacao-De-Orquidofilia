@@ -15,6 +15,7 @@ import { OrquidarioReproducoesComponent } from './orquidario-reproducoes/orquida
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: '', component: Home},
+    { path: 'home', component: Home},
     { path: 'reproducaoFlor', component:ReproducaoFlorList, canActivate:[authGuard]  },
     { path: 'reproducaoFlor/criar', component:ReproducaoFlorCreate, canActivate:[authGuard]  },
     { path: 'reproducaoFlor/editar/:id', component:ReproducaoFlorCreate, canActivate:[authGuard] },

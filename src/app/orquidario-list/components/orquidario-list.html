@@ -10,7 +10,7 @@
             
     </mat-card-header>
     <mat-card-content class="listagem p-4" appearance="outlined">
-        <table mat-table [dataSource]="dataSource" class="mt-5 rounded-lg overflow-hidden">
+        <table mat-table [dataSource]="orquidariosPaginados()" class="mt-5 rounded-lg overflow-hidden">
             
             <ng-container matColumnDef="nome">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Nome </th>
@@ -50,7 +50,12 @@
             <tr mat-header-row *matHeaderRowDef="colunasExibidas" class="!p-3 !bg-purple-900 !text-white"></tr>
             <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>   
         </table>
-        <mat-paginator [length]="dataSource.data.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Navegação da tabela">
+        <mat-paginator
+            [length]="orquidarios().length"
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event)"
+            aria-label="Navegação da tabela">
         </mat-paginator> 
     </mat-card-content>
 </mat-card>
