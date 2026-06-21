@@ -1,16 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
-import { Home } from './home/components/home';
-import { CdkAutofill } from "@angular/cdk/text-field";
 import { filter } from 'rxjs';
 import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet,     
-    Home, 
-    CdkAutofill, 
+    RouterOutlet,    
     NgClass],
   templateUrl: './app.html',
   styleUrl: './app.css'

@@ -9,6 +9,9 @@ import { Orquidario } from '../model/orquidario';
 import { ActivatedRoute, Router, ɵEmptyOutletComponent } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteDialogComponent } from '../../delete-modal/delete-modal';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ViewChild } from '@angular/core';
 
 @Component({
     selector: 'orquidario-list',
@@ -19,6 +22,7 @@ import { ConfirmDeleteDialogComponent } from '../../delete-modal/delete-modal';
     MatIconModule,
     CommonModule,
     MatCardModule,
+    MatPaginatorModule,
     ɵEmptyOutletComponent
 ],
     templateUrl: './orquidario-list.html',
@@ -34,6 +38,10 @@ export class OrquidarioListComponent implements OnInit{
     private dialog = inject(MatDialog);
     showDeleteModal = signal(false);
     orquidarioToDelete = signal<Orquidario | null>(null);
+    dataSource = new MatTableDataSource<Orquidario>([]);
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+
 
     colunasExibidas: string[] = ['nome', 'endereco', 'dataCriacao', 'areaMQuadrados', 'irrigadoAuto', 'acoes'];    
 
@@ -42,10 +50,14 @@ export class OrquidarioListComponent implements OnInit{
         this.loadOrquidarios();
     }
 
+    ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
     private loadOrquidarios(){
         this.orquidarioService.findOrquidarios().subscribe({
             next: (orquidarios) => {
-                this.orquidarios.set(orquidarios);
+                this.dataSource.data = orquidarios;
             },
             error: () => {
                 console.log("Não foi possível listar os orquidários");
