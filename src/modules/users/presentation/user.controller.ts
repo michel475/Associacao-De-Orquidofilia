@@ -16,7 +16,6 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly recoveryService: RecoveryService,
     private readonly mailerService: MailerService,
-
   ) { }
 
   @Get()
@@ -33,13 +32,14 @@ export class UsersController {
   activate(@Param('id') id: string) {
     return this.usersService.activate(id);
   }
-    @Post(':id/reset-password')
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.ADMIN)
+
+  @Post(':id/reset-password')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
     async resetPassword(@Param('id') id: string) {
         const user = await this.usersService.findById(id);
         const token = this.recoveryService.generateToken(user.email);
         await this.mailerService.sendPasswordResetEmail(user.email, token);
-     return { message: 'E-mail de recuperação de senha enviado com sucesso.' };
+        return { message: 'E-mail de recuperação de senha enviado com sucesso.' };
     }
 }
