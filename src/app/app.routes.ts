@@ -4,11 +4,13 @@ import { ReproducaoFlorList } from "./reproducao-flor-list/components/reproducao
 import { Home } from './home/components/home';
 import { OrquidarioListComponent } from './orquidario-list/components/orquidario-list';
 import { OrquidarioForm } from './orquidario-form/orquidario-form';
+import { OrquidarioReproducoesComponent } from './orquidario-reproducoes/orquidario-reproducoes';
 
 export const routes: Routes = [
     {path: '', component: Home},
     {path: 'reproducaoFlor', component:ReproducaoFlorList},
     {path: 'orquidario', component: OrquidarioListComponent},
     {path: 'orquidario/criar', component: OrquidarioForm},
-    {path: 'orquidario/criar/:id', component: OrquidarioForm}
+    {path: 'orquidario/criar/:id', component: OrquidarioForm},
+    {path: 'orquidario/reproducoes/:id', component: OrquidarioReproducoesComponent}
 ];

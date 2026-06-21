@@ -8,7 +8,7 @@ import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/m
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { OrquidarioService } from '../service/orquidario.service';
+import { OrquidarioService } from '../orqudiario-service/orquidario.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 interface CreateOrquidarioPayload {
@@ -39,7 +39,6 @@ interface CreateOrquidarioPayload {
   templateUrl: './orquidario-form.html',
   styleUrl: './orquidario-form.css',
 })
-
 
 export class OrquidarioForm implements OnInit {
   private fb = inject(FormBuilder);

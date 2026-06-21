@@ -4,7 +4,7 @@ import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatCardModule} from '@angular/material/card';
-import { OrquidarioService } from '../../service/orquidario.service';
+import { OrquidarioService } from '../../orqudiario-service/orquidario.service';
 import { Orquidario } from '../model/orquidario';
 import { ActivatedRoute, Router, ɵEmptyOutletComponent } from '@angular/router';
 import {
@@ -47,7 +47,7 @@ export class OrquidarioListComponent implements OnInit{
     colunasExibidas: string[] = ['nome', 'endereco', 'dataCriacao', 'areaMQuadrados', 'irrigadoAuto', 'acoes'];    
 
 
-    ngOnInit(): void {''
+    ngOnInit(): void {
         this.loadOrquidarios();
     }
 
@@ -85,6 +85,10 @@ export class OrquidarioListComponent implements OnInit{
                 this.loadOrquidarios();
             }
         });
+    }
+
+    listarReproducoes(id: number){
+        this.router.navigate(['orquidario', 'reproducoes', id]);
     }
 }
 
