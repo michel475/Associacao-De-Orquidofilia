@@ -21,7 +21,7 @@ export class ReproducaoFlorController {
         return this.reproducaoFlorService.create(dto.orquidarioId, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct);
     }
 
-    @Patch('/update/:orquidarioId')
+    @Patch('/update/:reproducaoId')
     @ApiOperation({ summary: "Atualiza uma instância de reproducao flor" })
     update(@Param('id') id: number, @Body() dto: UpdateReproducaoFlorDTO) {
         const valida = new ValidaDTO();
