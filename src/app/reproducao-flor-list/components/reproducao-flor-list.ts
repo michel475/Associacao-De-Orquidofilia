@@ -68,6 +68,10 @@ export class ReproducaoFlorList implements OnInit {
     this.route.navigate(['reproducaoFlor', 'criar']);
   }
 
+  viewReproducaoOrquidario(orquidarioId:string){
+    this.route.navigate(['orquidario','reproducoes',`${orquidarioId}`]);
+  }
+
   openDialog(reproducao: ReproducaoFlor) {
     const dialog = this.dialog.open(ConfirmDeleteDialogComponent, {
         width: '300px',

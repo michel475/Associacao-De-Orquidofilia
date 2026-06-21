@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ReproducaoFlorList } from './reproducao-flor-list/components/reproducao-flor-list';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { Home } from './home/components/home';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Home],
+  imports: [RouterOutlet, Home, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
