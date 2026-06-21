@@ -1,15 +1,18 @@
 <mat-card class="mx-20 mt-10 bg-purple-400 rounded-t-lg overflow-hidden">
     <mat-card-header class="bg-green-900">
-        <h2 class="text-2xl font-bold text-white p-4">Reprodução Flor</h2>
-        <button matButton="filled" class="!text-white !bg-green-600 !hover:bg-green-700 mt-3" (click)="reproducaoCreateForm()">
-            <mat-icon>add</mat-icon>
-            Adicionar
-        </button>
+        <h2 class="text-2xl font-bold text-white p-4">Orquidário</h2>
+        <div class="flex-1 flex justify-end">
+            <button matButton="filled" class="!text-white !bg-green-600 !hover:bg-green-700 mt-3" (click)="reproducaoCreateForm()">
+                <mat-icon>add</mat-icon>
+                Adicionar
+            </button>
+        </div>
+            
     </mat-card-header>
     <mat-card-content class="listagem p-4" appearance="outlined">
         <table mat-table [dataSource]="reproducoes()" class="mt-5 rounded-lg overflow-hidden">
             <ng-container matColumnDef="orquidarioId">
-                <th mat-card-header *matHeaderCellDef class="text-left p-3"> ID Orquidário </th>
+                <th mat-card-header *matHeaderCellDef class="text-left p-3"> OrquidarioId </th>
                 <td mat-cell *matCellDef="let reproducao" class="text-left"> {{reproducao.orquidarioId}} </td>
             </ng-container>
             <ng-container matColumnDef="hibridoNome">
@@ -21,13 +24,25 @@
                 <td mat-cell *matCellDef="let reproducao" class="text-left"> {{reproducao.dataGerminacao}} </td>
             </ng-container>
             <ng-container matColumnDef="taxaSucessoPct">
-                <th mat-card-header *matHeaderCellDef class="text-left p-3"> Taxa de Sucesso (%) </th>
+                <th mat-card-header *matHeaderCellDef class="text-left p-3"> Taxa Sucesso (%) </th>
                 <td mat-cell *matCellDef="let reproducao" class="text-left"> {{reproducao.taxaSucessoPct}} </td>
             </ng-container>
             <ng-container matColumnDef="viavel">
                 <th mat-card-header *matHeaderCellDef class="text-left p-3"> Viabilidade </th>
-                <td mat-cell *matCellDef="let reproducao" class="text-left"> {{reproducao.viavel}} </td>
+                <td mat-cell *matCellDef="let reproducao" class="text-left"> {{reproducao.viavel ? 'Sim' : 'Não'}} </td>
             </ng-container>
+            <ng-component matColumnDef="acoes">
+                <th mat-card-header *matHeaderCellDef class="p-3"> Ações </th>
+                <td mat-cell *matCellDef="let reproducao" class="text-center">
+                    <button mat-icon-button color="primary" (click)="reproducaoUpdateForm(reproducao.id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="openDialog(reproducao)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+
+            </ng-component>
 
             <tr mat-header-row *matHeaderRowDef="colunasExibidas" class="!p-3 !bg-purple-900 !text-white"></tr>
             <tr mat-row *matRowDef="let row; columns: colunasExibidas;"></tr>

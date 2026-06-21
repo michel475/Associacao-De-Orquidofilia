@@ -5,17 +5,29 @@ import { MatCell, MatCellDef, MatHeaderCell, MatHeaderCellDef, MatHeaderRow, Mat
 import { DataSource } from '@angular/cdk/table';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ɵEmptyOutletComponent } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogModule,
+    MatDialogRef,
+    MatDialogTitle,
+} from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { ConfirmDeleteDialogComponent } from '../modal/delete-modal';
+
 
 @Component({
   selector: 'app-reproducao-flor-list',
   imports: [CommonModule,
     MatCard,MatIcon,
     MatTable, MatHeaderRowDef, MatRowDef, MatHeaderRow, MatHeaderCellDef, MatCellDef, MatCell,
-    MatCardHeader, MatCardContent, MatTableModule
+    MatCardHeader, MatCardContent, MatTableModule,ɵEmptyOutletComponent
   ],
   standalone: true,
   templateUrl: './reproducao-flor-list.html',
@@ -24,11 +36,14 @@ import { MatIcon } from '@angular/material/icon';
 export class ReproducaoFlorList implements OnInit {
   private readonly reproducaoService = inject(ReproducaoFlorService);
   protected readonly reproducoes = signal<ReproducaoFlor[]>([]);
+  private dialog = inject(MatDialog);
+  showDeleteModal = signal(false);
+  reproducaoToDelete = signal<ReproducaoFlor | null>(null);
 
   private readonly route = inject(Router);
 
 
-  colunasExibidas: string[] = ['orquidarioId', 'hibridoNome', 'dataGerminacao', 'taxaSucessoPct', 'viavel']
+  colunasExibidas: string[] = ['orquidarioId', 'hibridoNome', 'dataGerminacao', 'taxaSucessoPct', 'viavel', 'acoes']
 
   ngOnInit(): void{
     this.loadReproducoes();
@@ -45,7 +60,24 @@ export class ReproducaoFlorList implements OnInit {
     })
   }
 
+  reproducaoUpdateForm(reproducao: string){
+    this.route.navigate([`reproducaoFlor`,`editar`,`${reproducao}`]);
+  }
+
   reproducaoCreateForm(){
     this.route.navigate(['reproducaoFlor', 'criar']);
+  }
+
+  openDialog(reproducao: ReproducaoFlor) {
+    const dialog = this.dialog.open(ConfirmDeleteDialogComponent, {
+        width: '300px',
+        data: { reproducao }
+    });
+
+    dialog.afterClosed().subscribe(result => {
+        if (result) {
+            this.loadReproducoes()
+        }
+    });
   }
 }

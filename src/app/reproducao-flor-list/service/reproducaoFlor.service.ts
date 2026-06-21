@@ -17,10 +17,14 @@ export class ReproducaoFlorService {
     }
 
     updateReproducao(id: string, data: Partial<ReproducaoFlor>): Observable<ReproducaoFlor> {
-        return this.http.patch<ReproducaoFlor>(`http://localhost:3000/reproducaoFlor/${id}`, data);
+        return this.http.patch<ReproducaoFlor>(`http://localhost:3000/reproducaoFlor/update/${id}`, data);
     }
 
     createReproducao(data: Partial<ReproducaoFlor>): Observable<ReproducaoFlor> {
         return this.http.post<ReproducaoFlor>(`http://localhost:3000/reproducaoFlor`, data);
+    }
+
+    deleteReproducao(id: number): Observable<ReproducaoFlor>{
+        return this.http.delete<ReproducaoFlor>(`http://localhost:3000/reproducaoFlor/deletar/${id}`)
     }
 }

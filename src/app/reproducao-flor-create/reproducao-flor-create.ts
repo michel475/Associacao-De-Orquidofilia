@@ -3,8 +3,15 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule }
 import { ReproducaoFlorService } from '../reproducao-flor-list/service/reproducaoFlor.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { z } from 'zod';
-import { MatCard } from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { ReproducaoFlor } from '../reproducao-flor-list/model/reproducaoFlor';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatNativeDateModule } from '@angular/material/core';
 
 interface CreateReproducaoPayload {
   orquidarioId: number,
@@ -16,7 +23,21 @@ interface CreateReproducaoPayload {
 
 @Component({
   selector: 'app-reproducao-flor-create',
-  imports: [ReactiveFormsModule, MatCard, FormsModule, RouterLink],
+  imports: [ReactiveFormsModule, MatCard, FormsModule, RouterLink,
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+    MatDatepickerModule,
+    MatIconModule,
+    MatNativeDateModule,
+    ReactiveFormsModule, MatCard, FormsModule, RouterLink
+  ],
   templateUrl: './reproducao-flor-create.html',
   styleUrl: './reproducao-flor-create.css',
 })
@@ -60,6 +81,7 @@ export class ReproducaoFlorCreate implements OnInit{
   }
 
   loadReproducao(id: string) {
+    console.log(id);
     this.reproducaoService.findById(id).subscribe({
       next: (reproducao) => {
         // Format ISO date local to datetime-local input format (YYYY-MM-DDThh:mm)
@@ -96,7 +118,7 @@ export class ReproducaoFlorCreate implements OnInit{
       hibridoNome: formVal.hibridoNome,
       dataGerminacao: formVal.dataGerminacao,
       taxaSucessoPct: formVal.taxaSucessoPct,
-      viavel: formVal.viavel
+      viavel: formVal.viavel ?? false,
     };
 
     const request$ = this.isEditMode()
@@ -116,6 +138,9 @@ export class ReproducaoFlorCreate implements OnInit{
   }
 
   home() {
+    this.router.navigate(['reproducaoFlor']);
+  }
+  onCancel(){
     this.router.navigate(['reproducaoFlor']);
   }
 }
