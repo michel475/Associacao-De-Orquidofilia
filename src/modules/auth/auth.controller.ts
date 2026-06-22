@@ -9,6 +9,7 @@ import { RecoveryService } from './recovery.service';
 //import { BusinessException } from '../common/exceptions/business.exception';
 import { ResetPasswordDto } from './dto/reset-password.dto'
 import { User } from '../users/user.entity';
+import { InvalidCredentials } from './authexception/invalid-credentials';
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +29,7 @@ export class AuthController {
   @Post('login')
   async login(@Request() req: any) {
     if (!req.user) {
-      throw new Error('Usuário não autenticado'/*, 'AUTH_UNAUTHORIZED'*/);
+      throw new InvalidCredentials();
     }
     return this.authService.login(req.user as Omit<User, 'senha'>);
   }

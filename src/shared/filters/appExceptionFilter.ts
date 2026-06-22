@@ -17,6 +17,7 @@ import { InvalidPayload } from "../../utils/invalid-payload.exception";
 import { ReproducaoFlorNotFoundException } from 'src/modules/reproducaoFlor/domain/reproducaoFlor-not-found.exception';
 import { InvalidDataGerminacao } from 'src/modules/reproducaoFlor/domain/invalid-dataGerminacao-exception';
 import { EnderecoNotFound } from 'src/modules/orquidario/domain/endereco-orquidario-notfound.exception';
+import { InvalidCredentials } from 'src/modules/auth/authexception/invalid-credentials';
 
 
 export interface ErrorDetail {
@@ -50,6 +51,22 @@ export class AppExceptionFilter implements ExceptionFilter {
         );
 
         response.status(errorResponse.status).json(errorResponse);
+    }
+
+    private handleInvalidCredentials(exception: InvalidCredentials): ErrorResponse {
+        return {
+            status: HttpStatus.BAD_REQUEST,
+            message: 'Email ou senha incorretos',
+            timestamp: new Date(),
+            error: 'AUTH_INVALID_CREDENTIALS',
+            detail: [
+                {
+                    campo: '',
+                    code: 'AUTH_INVALID_CREDENTIALS',
+                    description: exception.message
+                }
+            ]
+        }
     }
 
     private handleOrquidarioNotFound(exception: OrquidarioNotFoundException): ErrorResponse {
@@ -259,6 +276,11 @@ export class AppExceptionFilter implements ExceptionFilter {
     }
 
     private resolveException(exception: unknown): ErrorResponse {
+
+        if (exception instanceof InvalidCredentials) {
+            return this.handleDataCriacao(exception);
+        }
+
         if (exception instanceof OrquidarioNotFoundException) {
             return this.handleOrquidarioNotFound(exception);
         }
