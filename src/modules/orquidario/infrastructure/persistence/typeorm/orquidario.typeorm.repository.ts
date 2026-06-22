@@ -4,6 +4,7 @@ import { OrquidarioOrmEntity } from "./orquidario.orm-entity";
 import { Repository } from 'typeorm';
 import { Orquidario } from "src/modules/orquidario/domain/orquidario";
 import { OrquidarioRepositoryPort } from "src/modules/orquidario/application/ports/orquidario.repository.port";
+import { ReproducaoFlor } from "src/modules/reproducaoFlor/domain/reproducaoFlor";
 
 @Injectable()
 export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
@@ -14,23 +15,24 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
 
     async create(orquidario: Orquidario): Promise<Orquidario> {
         const orm = this.repo.create({
+            nome: orquidario.nome,
             endereco: orquidario.endereco,
             dataCriacao: orquidario.dataCriacao,
             irrigadoAuto: orquidario.irrigadoAuto,
-            areaMquadrados: orquidario.areaMquadrados
+            areaMQuadrados: orquidario.areaMQuadrados
         });
         const saved = await this.repo.save(orm)
         return this.toDomain(saved)
     }
 
     async update(orquidario: Orquidario): Promise<Orquidario> {
-        const orm = await this.repo.findOneBy({id: orquidario.id});
+        const orm = await this.repo.findOneBy({id: orquidario.id!});
         if(!orm) throw new Error('Orquidario não encontrado')
-        
+        orm.nome = orquidario.nome;
         orm.endereco = orquidario.endereco;
         orm.dataCriacao = orquidario.dataCriacao;
         orm.irrigadoAuto = orquidario.irrigadoAuto;
-        orm.areaMquadrados = orquidario.areaMquadrados;
+        orm.areaMQuadrados = orquidario.areaMQuadrados;
 
         const saved = await this.repo.save(orm);
         return this.toDomain(saved);
@@ -43,12 +45,25 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
 
     async findById(id: number): Promise<Orquidario | null> {
         const item = await this.repo.findOneBy({id});
-        return item ? this.toDomain(item): null;
+        return item ? this.toDomain(item) : null;
     }
+
+    async listarReproducoes(id: number): Promise<ReproducaoFlor[] | null> {
+    const result = await this.repo.findOne({
+        where: {
+            id: id,
+        },
+        relations: {
+            reproducoes: true,
+        },
+    });
+
+    return result?.reproducoes ?? [];
+}
 
     async delete(id: number): Promise<Orquidario | null> {
         const orm = await this.repo.findOneBy({id});
-        if(!orm) throw new Error('Orquidario não encontrado');
+        if(!orm) return null;
 
         const deleteorquidario = this.toDomain(orm);
         await this.repo.delete({id});
@@ -58,10 +73,11 @@ export class OrquidarioTypeOrmRepository implements OrquidarioRepositoryPort{
     private toDomain = (orm: OrquidarioOrmEntity): Orquidario => {
         return new Orquidario(
             orm.id,
+            orm.nome,
             orm.endereco,
             orm.dataCriacao,
-            orm.irrigadoAuto,
-            orm.areaMquadrados
+            orm.areaMQuadrados,
+            orm.irrigadoAuto
         );
     };
 }

@@ -316,7 +316,11 @@ GET /reproducaoFlor/1
   "hibridoNome": "Cattleya Híbrida Branca",
   "dataGerminacao": "2024-03-01",
   "viavel": true,
+<<<<<<< HEAD
   "taxaSucessoPct": 90.00
+=======
+  "taxaSucessoPct": 90
+>>>>>>> origin/associacao-orquidofilia
 }
 ```
 
@@ -328,7 +332,11 @@ GET /reproducaoFlor/1
   "hibridoNome": "Cattleya Híbrida Branca",
   "dataGerminacao": "2024-03-01",
   "viavel": true,
+<<<<<<< HEAD
   "taxaSucessoPct": 90.00
+=======
+  "taxaSucessoPct": 90
+>>>>>>> origin/associacao-orquidofilia
 }
 ```
 
@@ -345,6 +353,7 @@ GET /reproducaoFlor/1
 DELETE /reproducaoFlor/deletar/1
 ```
 
+<<<<<<< HEAD
 **Exemplo de Resposta (200 OK):**
 ```json
 {
@@ -352,6 +361,8 @@ DELETE /reproducaoFlor/deletar/1
 }
 ```
 
+=======
+>>>>>>> origin/associacao-orquidofilia
 
 ## 📊 Divisão de Tarefas
 
@@ -385,6 +396,7 @@ http://localhost:3000/api/
 
 ---
 
+<<<<<<< HEAD
 ## 🧪 Testes
 
 Para executar os testes unitários e de integração:
@@ -401,6 +413,15 @@ npm test:watch
 
 # Executar testes end-to-end
 npm run test:e2e
+=======
+Para executar:
+
+```bash
+
+# Executar em modo watch
+npm run start:dev
+
+>>>>>>> origin/associacao-orquidofilia
 ```
 
 ---

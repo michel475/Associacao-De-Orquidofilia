@@ -20,8 +20,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger-ui', app, document, {
     jsonDocumentUrl: 'swagger/json',
   });
-  app.enableCors({origin: "http://localhost:4200", credentials: true});
-
+  app.enableCors({origin: "http://localhost:4200", credentials:true, methods:['GET','POST','PATCH','PUT','DELETE','OPTIONS'],});
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

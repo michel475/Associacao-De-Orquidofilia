@@ -20,8 +20,8 @@ export class ReproducaoFlorService {
         private readonly orquidarioRepo: OrquidarioRepositoryPort,
     ) { }
 
-    async create(orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
-        if (!hibridoNome || !dataGerminacao) {
+    async create(orquidarioId: number, hibridoNome: string, dataGerminacao: string, viavel: boolean, taxaSucessoPct: number) {
+        if (hibridoNome.length === 0 || dataGerminacao.length === 0) {
             throw new InvalidPayload("hibridoNome e dataGerminacao são obrigatórios");
         }
 
@@ -32,9 +32,9 @@ export class ReproducaoFlorService {
 
         const dataGerminacaoDate = new Date(dataGerminacao);
         const dataCriacaoDate = new Date(orquidario.dataCriacao);
-        
-        if (dataGerminacaoDate > dataCriacaoDate) {
-            throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
+
+        if (dataGerminacaoDate < dataCriacaoDate) {
+            throw new InvalidDataGerminacao(dataGerminacaoDate, orquidario.dataCriacao);
         }
 
         if (taxaSucessoPct < 0 || taxaSucessoPct > 100) {
@@ -60,7 +60,7 @@ export class ReproducaoFlorService {
         return this.reproducaoFlorRepo.create(reproducaoFlor)
     }
 
-    async update(id: number, orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
+    async update(id: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
         const reprod = await this.reproducaoFlorRepo.findById(id);
         if (!reprod) {
             throw new ReproducaoFlorNotFoundException(id);
@@ -70,14 +70,14 @@ export class ReproducaoFlorService {
             throw new InvalidPayload("hibridoNome e dataGerminacao são obrigatórios");
         }
 
-        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
+        const orquidario = await this.orquidarioRepo.findById(reprod.orquidarioId);
         if (!orquidario) {
-            throw new OrquidarioNotFoundException(orquidarioId);
+            throw new OrquidarioNotFoundException(reprod.orquidarioId);
         }
-
-        const dataGerminacaoDate = new Date(dataGerminacao);
+        const dataGerminacaoDate = new Date(dataGerminacao)
         const dataCriacaoDate = new Date(orquidario.dataCriacao);
-        
+
+
         if (dataGerminacaoDate < dataCriacaoDate) {
             throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
         }
@@ -97,12 +97,12 @@ export class ReproducaoFlorService {
         }
 
         if (hibridoNome !== reprod.hibridoNome) {
-            const jaExiste = await this.reproducaoFlorRepo.findByOrquidarioIdAndHibridoNome(orquidarioId, hibridoNome);
+            const jaExiste = await this.reproducaoFlorRepo.findByOrquidarioIdAndHibridoNome(reprod.orquidarioId, hibridoNome);
             if (jaExiste) {
-                throw new HibridoNomeAlreadyExists(hibridoNome, orquidarioId);
+                throw new HibridoNomeAlreadyExists(hibridoNome, reprod.orquidarioId);
             }
         }
-        const reproducaoFlor = new ReproducaoFlor(id, orquidarioId, hibridoNome, dataGerminacaoDate, viavel, taxaSucessoPct);
+        const reproducaoFlor = new ReproducaoFlor(id, reprod.orquidarioId, hibridoNome, dataGerminacao, viavel, taxaSucessoPct);
         return this.reproducaoFlorRepo.update(id, reproducaoFlor);
     }
 
@@ -111,13 +111,14 @@ export class ReproducaoFlorService {
     }
 
     async findById(id: number): Promise<ReproducaoFlor | null> {
-        const reproducao = this.reproducaoFlorRepo.findById(id);
-        if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
+        const reproducao = await this.reproducaoFlorRepo.findById(id);
+        console.log(reproducao);
+        if (reproducao === null) throw new ReproducaoFlorNotFoundException(id);
         return reproducao;
     }
 
     async delete(id: number): Promise<ReproducaoFlor | null> {
-        const reproducao = this.reproducaoFlorRepo.findById(id);
+        const reproducao = await this.reproducaoFlorRepo.findById(id);
         if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
         return this.reproducaoFlorRepo.delete(id);
     }

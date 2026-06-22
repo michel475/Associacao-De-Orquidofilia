@@ -57,15 +57,9 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
 
     async findById(id: number): Promise<ReproducaoFlor | null> {
         const reproducao = await this.repo.findOneBy({ id });
-        if (!reproducao)
-            throw new HttpException("Reprodução Flor não foi encontrada", HttpStatus.NOT_FOUND);
-        return this.toDomain(reproducao);
+        return reproducao ? this.toDomain(reproducao) : null;
     }
 
-    /**
-     * Busca uma reprodução pelo orquidarioId e hibridoNome
-     * Útil para validar duplicidade de híbrido no mesmo orquidário
-     */
     async findByOrquidarioIdAndHibridoNome(orquidarioId: number, hibridoNome: string): Promise<ReproducaoFlor | null> {
         const reproducao = await this.repo.findOne({
             where: { orquidarioId, hibridoNome }
@@ -73,15 +67,13 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
         return reproducao ? this.toDomain(reproducao) : null;
     }
 
-    /**
-     * Busca uma reprodução com suas relações (orquidário e suas reproduções)
-     * Útil para validações complexas
-     */
     async findByIdWithRelations(id: number): Promise<ReproducaoFlorOrmEntity | null> {
-        return await this.repo.findOne({
+        const result = await this.repo.findOne({
             where: { id },
             relations: ['orquidario', 'orquidario.reproducoes']
         });
+        console.log(result);
+        return result;
     }
 
     async delete(id: number): Promise<ReproducaoFlor | null> {
@@ -100,10 +92,10 @@ export class ReproducaoFlorTypeOrmRepository implements ReproducaoFlorRepository
             // MySQL: ER_DUP_ENTRY, PostgreSQL: 23505, SQLite: UNIQUE constraint failed
             const errorCode = (error as any).code || error.driverError?.code || '';
             const errorMessage = error.message || '';
-            
-            const isDuplicateError = 
-                errorCode === 'ER_DUP_ENTRY' || 
-                errorCode === '23505' || 
+
+            const isDuplicateError =
+                errorCode === 'ER_DUP_ENTRY' ||
+                errorCode === '23505' ||
                 errorCode === 'SQLITE_CONSTRAINT' ||
                 errorMessage.includes('UNIQUE constraint failed') ||
                 errorMessage.includes('Duplicate entry');

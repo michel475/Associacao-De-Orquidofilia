@@ -10,22 +10,17 @@ export class InvalidPayload extends BadRequestException {
             message = dtoOrMessage;
         } else {
             const dto = dtoOrMessage as CreateReproducaoFlorDTO | UpdateReproducaoFlorDTO;
-            const emptyFields:any = [];
-            
-            if (!dto.orquidarioId) emptyFields.push('orquidarioId');
+            const emptyFields: any = [];
             if (!dto.hibridoNome) emptyFields.push('hibridoNome');
             if (!dto.dataGerminacao) emptyFields.push('dataGerminacao');
             if (dto.viavel === undefined || dto.viavel === null) emptyFields.push('viavel');
             if (!dto.taxaSucessoPct && dto.taxaSucessoPct !== 0) emptyFields.push('taxaSucessoPct');
 
             if (emptyFields.length > 0) {
-                message = `Campos não informados: ${emptyFields.join(', ')}`;
+                message = `${message}\nCampos não informados: ${emptyFields.join(', ')}`;
             }
         }
 
         super(message);
     }
 }
-
-//     @ApiProperty({ example: 45 })
-//     taxaSucessoPct: number;

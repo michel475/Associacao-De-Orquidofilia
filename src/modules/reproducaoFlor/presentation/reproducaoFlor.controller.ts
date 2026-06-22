@@ -21,14 +21,14 @@ export class ReproducaoFlorController {
         return this.reproducaoFlorService.create(dto.orquidarioId, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct);
     }
 
-    @Patch('/update/:orquidarioId')
+    @Patch('/update/:reproducaoId')
     @ApiOperation({ summary: "Atualiza uma instância de reproducao flor" })
-    update(@Param('orquidarioId') orquidarioId: number, @Body() dto: UpdateReproducaoFlorDTO) {
+    update(@Param('id') id: number, @Body() dto: UpdateReproducaoFlorDTO) {
         const valida = new ValidaDTO();
         if (!valida) {
             throw new InvalidPayload(dto);
         }
-        return this.reproducaoFlorService.update(dto.id, orquidarioId, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct)
+        return this.reproducaoFlorService.update(id, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct)
     }
 
     @Get('/listar')
@@ -39,13 +39,13 @@ export class ReproducaoFlorController {
 
     @Get('/:id')
     @ApiOperation({ summary: "Encontrar um pelo id" })
-    findById(@Param('id') id: string) {
-        return this.reproducaoFlorService.findById(Number(id))
+    findById(@Param('id') id: number) {
+        return this.reproducaoFlorService.findById(id)
     }
 
     @Delete('/deletar/:id')
     @ApiOperation({ summary: "deletar pelo id" })
-    delete(@Param('id') id: string) {
-        return this.reproducaoFlorService.delete(Number(id));
+    delete(@Param('id') id: number) {
+        return this.reproducaoFlorService.delete(id);
     }
 }

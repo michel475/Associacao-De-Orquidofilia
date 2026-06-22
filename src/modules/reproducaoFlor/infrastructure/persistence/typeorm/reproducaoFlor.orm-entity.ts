@@ -4,24 +4,24 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('reproducaoFlor')
 export class ReproducaoFlorOrmEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    id!: number;
 
     @Column()
-    orquidarioId: number;
+    orquidarioId!: number;
 
     @ManyToOne(() => OrquidarioOrmEntity, {onDelete: 'CASCADE'})
     @JoinColumn({ name: 'orquidarioId' })
-    orquidario: OrquidarioOrmEntity;
+    orquidario!: OrquidarioOrmEntity;
 
-    @Column({ unique: true }) //Lançar conflict exception
-    hibridoNome: string;
+    @Column() //Lançar conflict exception
+    hibridoNome!: string;
 
     @Column()
-    dataGerminacao: Date;
+    dataGerminacao!: Date;
 
     @Column()//bad request se false e taxa sucesso maior que 30% ou se true e taxa sucesso menor que 70%
-    viavel: boolean;
+    viavel!: boolean;
 
     @Column()
-    taxaSucessoPct: number;
+    taxaSucessoPct!: number;
 }

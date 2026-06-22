@@ -3,6 +3,7 @@ import { ApiOperation, ApiParam, ApiTags} from "@nestjs/swagger"
 import { CreateOrquidarioDTO } from "./dto/create-orquidario.dto";
 import { OrquidarioService } from "../application/orquidario.service";
 import { UpdateOrquidarioDTO } from "./dto/update-orquidario.dto";
+import { identity } from "rxjs";
 
 @ApiTags('Orquidario')
 @Controller('orquidario')
@@ -13,7 +14,8 @@ export class OrquidarioController{
     @Post()
     @ApiOperation({summary: 'Cria orquidário'})
     create(@Body() dto: CreateOrquidarioDTO){
-        return this.orquidarioSevice.create(dto.id, dto.enderecoOrquidario, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
+        console.log(dto);
+        return this.orquidarioSevice.create(dto.nome, dto.endereco, dto.dataCriacao, Number(dto.areaMQuadrados), dto.irrigadoAuto)
     };
 
     @Get()
@@ -22,19 +24,30 @@ export class OrquidarioController{
         return this.orquidarioSevice.findAll();
     }
 
-    @Get(':id')
+    @Get('/:id')
     @ApiParam({name: 'id', example: 1})
     @ApiOperation({summary: 'Busca orquidário por ID'})
     findById(@Param('id') id: string){
         return this.orquidarioSevice.findById(Number(id));
     }
 
-    @Put(':id')
+    @Put('/:id')
     @ApiParam({name: 'id', example: 1})
     @ApiOperation({summary:  'Edita os dados de um orquidário'})
-    update(@Param('id') id: number, @Body() dto: UpdateOrquidarioDTO){
-        return this.orquidarioSevice.update(Number(id),dto.endereco, dto.dataCriacao, dto.irrigadoAuto, dto.areaMquadrados)
+    update(@Param('id') id: string, @Body() dto: UpdateOrquidarioDTO){
+        return this.orquidarioSevice.update(Number(id), dto.nome, dto.endereco, dto.dataCriacao, Number(dto.areaMQuadrados), dto.irrigadoAuto)
     }
 
-
+    @Delete('delete/:id')
+    @ApiParam({name: 'id', example: 1})
+    @ApiOperation({summary: 'Deleta um orquidário através do id'})
+    delete(@Param('id') id: string){
+        return this.orquidarioSevice.delete(Number(id))
+    }
+    
+    @Get('/reproducoes/:id')    
+    @ApiOperation({summary:'Lista todas as reproduções de um orquidário'})
+    listarReproducoes(@Param('id') id: string){
+        return this.orquidarioSevice.listarReproducoes(Number(id))
+    }
 }

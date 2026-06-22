@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsDateString } from "class-validator";
 
 export class CreateReproducaoFlorDTO {
     @ApiProperty({ example: 1 })
@@ -8,7 +9,8 @@ export class CreateReproducaoFlorDTO {
     hibridoNome: string;
 
     @ApiProperty({ example: '2026-02-01' })
-    dataGerminacao: Date;
+    @IsDateString()
+    dataGerminacao: string;
 
     @ApiProperty({ example: 'true' })
     viavel: boolean;

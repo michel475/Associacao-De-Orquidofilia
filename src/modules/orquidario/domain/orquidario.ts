@@ -1,9 +1,10 @@
 export class Orquidario {
     constructor(
-        public readonly id: number,
+        public readonly id: number|null,
+        public nome: string,
         public endereco: string,
-        public readonly dataCriacao: Date,
+        public dataCriacao: Date,
+        public areaMQuadrados: number,
         public irrigadoAuto: boolean,
-        public areaMquadrados: number,
     ) {}
 }
