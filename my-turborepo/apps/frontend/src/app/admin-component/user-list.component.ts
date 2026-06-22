@@ -4,26 +4,25 @@ import { FormsModule } from '@angular/forms';
 import { AuthService, User } from '../auth/auth.service';
 import { parseAuthError } from '../auth/error-handler';
 import { MatBadge, MatBadgeModule } from '@angular/material/badge';
-import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { MatHeaderCell } from "@angular/material/table";
 
 @Component({
   selector: 'app-users-list',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
+    MatCardModule,
     MatButton,
     MatBadge,
     MatBadgeModule,
-    MatIcon
-  ],
+    MatIcon,
+    MatHeaderCell
+],
   templateUrl: './user-list.component.html'
 })
 export class UsersListComponent implements OnInit {
