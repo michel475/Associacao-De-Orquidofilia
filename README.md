@@ -1,159 +1,83 @@
-# Turborepo starter
+# Associação de Orquidofilia
 
-This Turborepo starter is maintained by the Turborepo core team.
+Bem-vindo ao repositório do projeto **Associação de Orquidofilia**. Este é um monorepo gerenciado com [Turborepo](https://turbo.build/) e [pnpm](https://pnpm.io/), projetado para unificar o desenvolvimento do frontend e backend da aplicação, junto com seus pacotes e configurações compartilhadas.
 
-## Using this example
+## 👥 Responsáveis
 
-Run the following command:
+Este projeto é desenvolvido e mantido por:
+- **Amanda**
+- **Michel**
 
-```sh
-npx create-turbo@latest
-```
+## 🏗️ Estrutura do Projeto
 
-## What's inside?
+A arquitetura do monorepo está dividida em aplicações principais e pacotes utilitários:
 
-This Turborepo includes the following packages/apps:
+### Aplicações (`apps/`)
+- **`frontend`**: Aplicação web (interface de usuário).
+- **`backend`**: API e lógica de servidor.
 
-### Apps and Packages
+### Pacotes Compartilhados (`packages/`)
+- **`ui`**: Biblioteca de componentes base compartilhada.
+- **`eslint-config`**: Configurações de padronização de código (ESLint) para todo o monorepo.
+- **`typescript-config`**: Configurações base do TypeScript (`tsconfig.json`).
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## 📐 Decisões Arquiteturais e Tecnologias
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- **Estilização Combinada:** Escolhemos utilizar **Tailwind CSS** juntamente com o **Angular Material**. O Tailwind traz extrema flexibilidade para ajustes ágeis de layout e design responsivo (utility-first), enquanto o Angular Material fornece componentes robustos e acessíveis de forma padronizada.
+- **Autenticação Segura:** Utilizamos **JWT (JSON Web Token)** para gerenciar sessões e segurança. O frontend possui interceptadores HTTP que identificam o token no `localStorage` e anexam automaticamente no cabeçalho das requisições para acessar endpoints protegidos do backend.
 
-### Utilities
+### 🛤️ Exemplos de Rotas (Frontend)
+- **Públicas:** `/login` (autenticação).
+- **Privadas:** `/home` (rota restrita exigindo validação via JWT).
+- **Redirecionamentos:** `/access-denied` (em caso de falha de autorização ou token expirado).
 
-This Turborepo has some additional tools already setup for you:
+## 🚀 Como Inicializar o Projeto
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+Siga os passos abaixo para preparar e rodar o ambiente de desenvolvimento na sua máquina.
 
-### Build
+### 1. Pré-requisitos
+Certifique-se de ter as seguintes ferramentas instaladas:
+- [Node.js](https://nodejs.org/)
+- [pnpm](https://pnpm.io/installation) (gerenciador de pacotes padrão do projeto)
 
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
-```
-
-Without global `turbo`, use your package manager:
+### 2. Instalação de Dependências
+Na raiz do projeto (pasta `Associacao-De-Orquidofilia`), instale todas as dependências necessárias executando:
 
 ```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
+pnpm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+### 3. Executando em Ambiente de Desenvolvimento
+Para iniciar todos os projetos (frontend e backend) simultaneamente em modo de desenvolvimento, utilize o comando:
 
 ```sh
-turbo build --filter=docs
+pnpm dev
 ```
+*(O Turborepo cuidará de iniciar os servidores de ambas as aplicações em paralelo de forma otimizada).*
 
-Without global `turbo`:
+### 4. Build para Produção
+Para gerar a versão otimizada e pronta para produção de todas as aplicações e pacotes, execute:
 
 ```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+pnpm build
 ```
 
-### Develop
+## 🛠️ Comandos Úteis e Avançados
 
-To develop all apps and packages, run the following command:
+O uso do Turborepo permite executar scripts em aplicações específicas através de filtros. Alguns exemplos:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+- **Rodar apenas o frontend:**
+  ```sh
+  pnpm turbo dev --filter=frontend
+  ```
+- **Rodar apenas o backend:**
+  ```sh
+  pnpm turbo dev --filter=backend
+  ```
+- **Executar verificação de código (Lint):**
+  ```sh
+  pnpm lint
+  ```
 
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+---
+*Para informações avançadas sobre o funcionamento do monorepo, consulte a documentação oficial do [Turborepo](https://turbo.build/repo/docs) e do [pnpm](https://pnpm.io/motivation).*
