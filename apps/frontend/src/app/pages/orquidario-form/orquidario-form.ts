@@ -11,7 +11,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OrquidarioService } from '../orqudiario-service/orquidario.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationDialogComponent } from '../shared/notification-dialog/notification-dialog';
+import { NotificationDialogComponent } from '../../shared/notification-dialog/notification-dialog';
 import { parseOrquidarioError } from '../auth/error-handler';
 
 interface CreateOrquidarioPayload {

@@ -11,7 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationDialogComponent } from '../shared/notification-dialog/notification-dialog';
+import { NotificationDialogComponent } from '../../shared/notification-dialog/notification-dialog';
 import { parseReproducaoError } from '../auth/error-handler';
 
 interface CreateReproducaoPayload {

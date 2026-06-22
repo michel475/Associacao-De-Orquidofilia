@@ -10,7 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ConfirmDeleteDialogComponent } from '../modal/delete-modal';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { NotificationDialogComponent } from '../../shared/notification-dialog/notification-dialog';
+import { NotificationDialogComponent } from '../../../shared/notification-dialog/notification-dialog';
 
 @Component({
   selector: 'app-reproducao-flor-list',

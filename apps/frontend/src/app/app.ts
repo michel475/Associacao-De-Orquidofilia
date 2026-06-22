@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './pages/auth/auth.service';
 import { MatCardHeader } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';

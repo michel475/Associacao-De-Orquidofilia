@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
 import { App } from './app';
-import { ReproducaoFlorList } from "./reproducao-flor-list/components/reproducao-flor-list"
-import { Home } from './home/components/home';
-import { ReproducaoFlorCreate } from './reproducao-flor-create/reproducao-flor-create';
-import { LoginComponent } from './login-component/login-component';
+import { ReproducaoFlorList } from "./pages/reproducao-flor-list/components/reproducao-flor-list"
+import { Home } from './pages/home/components/home';
+import { ReproducaoFlorCreate } from './pages/reproducao-flor-create/reproducao-flor-create';
+import { LoginComponent } from './pages/login-component/login-component';
 import { AccessDeniedComponent } from './utils/acesso-negado-component';
-import { adminGuard, authGuard } from './auth/auth.guard';
-import { RegisterComponent } from './register-component/register-component';
-import { UsersListComponent } from './admin-component/user-list.component';
-import { OrquidarioListComponent } from './orquidario-list/components/orquidario-list';
-import { OrquidarioForm } from './orquidario-form/orquidario-form';
-import { OrquidarioReproducoesComponent } from './orquidario-reproducoes/orquidario-reproducoes';
+import { adminGuard, authGuard } from './pages/auth/auth.guard';
+import { RegisterComponent } from './pages/register-component/register-component';
+import { UsersListComponent } from './pages/admin-component/user-list.component';
+import { OrquidarioListComponent } from './pages/orquidario-list/components/orquidario-list';
+import { OrquidarioForm } from './pages/orquidario-form/orquidario-form';
+import { OrquidarioReproducoesComponent } from './pages/orquidario-reproducoes/orquidario-reproducoes';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },

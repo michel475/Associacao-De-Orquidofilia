@@ -12,7 +12,7 @@ import { DialogModal } from '../../dialog-modal/dialog-modal';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { NotificationDialogComponent } from '../../shared/notification-dialog/notification-dialog';
+import { NotificationDialogComponent } from '../../../shared/notification-dialog/notification-dialog';
 
 @Component({
     selector: 'orquidario-list',

@@ -5,7 +5,6 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { parseAuthError } from '../auth/error-handler';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
-import { ToastService } from '../toast/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +24,6 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private toastService = inject(ToastService);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -51,7 +49,6 @@ export class LoginComponent {
           this.isLoading.set(false);
           const erro_message = err.error?.message || 'Erro ao realizar login'
           this.errorMsg.set(erro_message);
-          this.toastService.error(erro_message);
         }
       });
     }
