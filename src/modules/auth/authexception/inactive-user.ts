@@ -2,6 +2,6 @@ import { BadRequestException } from "@nestjs/common"
 
 export class InactiveUser extends BadRequestException{
     constructor(){
-        super(`Usuário não ativbo. Aguarde a ativação pelo administrador`);
+        super(`Usuário não ativo. Aguarde a ativação pelo administrador`);
     }
 }

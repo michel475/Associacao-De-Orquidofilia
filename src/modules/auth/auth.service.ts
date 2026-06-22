@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from '../users/user.entity';
 import { InvalidCredentials } from './authexception/invalid-credentials';
+import { InactiveUser } from './authexception/inactive-user';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
     }
 
     if (!user.ativo) {
-      throw new Error('Conta aguardando liberação do administrador');
+      throw new InactiveUser();
     }
 
     const { senha, ...result } = user;
