@@ -5,6 +5,7 @@ import { User, Role } from '../user.entity';
 import { CreateUserDto } from '../presentation/dto/create-user.dto'
 // import { BusinessException } from '../common/exceptions/business.exception';
 import * as bcrypt from 'bcrypt';
+import { EmailAlreadyExists } from 'src/modules/auth/authexception/email-already-exists';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +21,7 @@ export class UsersService {
 
     if (existingUser) {
     //   throw new BusinessException('E-mail já está em uso', 'AUTH_EMAIL_EXISTS');
-        throw new Error('E-mail já está em uso');
+        throw new EmailAlreadyExists();
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.senha, 10);

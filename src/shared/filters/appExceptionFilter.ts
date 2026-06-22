@@ -18,6 +18,8 @@ import { ReproducaoFlorNotFoundException } from 'src/modules/reproducaoFlor/doma
 import { InvalidDataGerminacao } from 'src/modules/reproducaoFlor/domain/invalid-dataGerminacao-exception';
 import { EnderecoNotFound } from 'src/modules/orquidario/domain/endereco-orquidario-notfound.exception';
 import { InvalidCredentials } from 'src/modules/auth/authexception/invalid-credentials';
+import { EmailAlreadyExists } from 'src/modules/auth/authexception/email-already-exists';
+import { InactiveUser } from 'src/modules/auth/authexception/inactive-user';
 
 
 export interface ErrorDetail {
@@ -51,6 +53,38 @@ export class AppExceptionFilter implements ExceptionFilter {
         );
 
         response.status(errorResponse.status).json(errorResponse);
+    }
+
+    private handleInactiveUser(exception: InactiveUser): ErrorResponse {
+        return {
+            status: HttpStatus.BAD_REQUEST,
+            message: 'Usuário ainda não está ativo',
+            timestamp: new Date(),
+            error: 'AUTH_USER_INACTIVE',
+            detail: [
+                {
+                    campo: '',
+                    code: 'AUTH_USER_INACTIVE',
+                    description: exception.message
+                }
+            ]
+        }
+    }
+
+    private handleEmailAlreadyExists(exception: EmailAlreadyExists): ErrorResponse {
+        return {
+            status: HttpStatus.BAD_REQUEST,
+            message: 'Email já está em uso',
+            timestamp: new Date(),
+            error: 'AUTH_EMAIL_EXISTS',
+            detail: [
+                {
+                    campo: 'email',
+                    code: 'AUTH_EMAIL_EXISTS',
+                    description: exception.message
+                }
+            ]
+        }
     }
 
     private handleInvalidCredentials(exception: InvalidCredentials): ErrorResponse {
@@ -277,8 +311,16 @@ export class AppExceptionFilter implements ExceptionFilter {
 
     private resolveException(exception: unknown): ErrorResponse {
 
+        if (exception instanceof InactiveUser) {
+            return this.handleInactiveUser(exception);
+        }
+
+        if (exception instanceof EmailAlreadyExists) {
+            return this.handleEmailAlreadyExists(exception);
+        }
+
         if (exception instanceof InvalidCredentials) {
-            return this.handleDataCriacao(exception);
+            return this.handleInvalidCredentials(exception);
         }
 
         if (exception instanceof OrquidarioNotFoundException) {

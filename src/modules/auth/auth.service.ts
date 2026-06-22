@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 //import { Error } from '../common/exceptions/business.exceptio{ User } from '../users/user.entity';
 import * as bcrypt from 'bcrypt';
 import { User } from '../users/user.entity';
+import { InvalidCredentials } from './authexception/invalid-credentials';
 
 @Injectable()
 export class AuthService {
@@ -15,12 +16,12 @@ export class AuthService {
   async validateUser(email: string, pass: string): Promise<Omit<User, 'senha'> | null> {
     const user = await this.usersService.findByEmail(email);
     if (!user) {
-      throw new Error('E-mail/senha não confere');
+      throw new InvalidCredentials();
     }
 
     const isMatch = await bcrypt.compare(pass, user.senha);
     if (!isMatch) {
-      throw new Error('E-mail/senha não confere');
+      throw new InvalidCredentials();
     }
 
     if (!user.ativo) {
