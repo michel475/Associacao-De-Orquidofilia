@@ -8,7 +8,7 @@ export function parseAuthError(error: any): string {
   if (error?.error?.error === 'AUTH_EMAIL_EXISTS') {
     return 'Este e-mail já está em uso.';
   }
-  if (error?.error?.error === 'AUTH_INVALID_TOKEN') {
+  if (error?.error?.error === 'AUTH_INVALID_TOKEN') {  
     return 'O token de recuperação é inválido ou expirou.';
   }
   if (error?.error?.message) {
