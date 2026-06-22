@@ -20,6 +20,28 @@ export function parseAuthError(error: any): string {
   return 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
 }
 
+export function parseOrquidarioError(error: any): string {
+  if (error?.error?.error === 'ORQUIDARIO_NOT_FOUND') {
+    return 'Orquidário não encontrado.';
+  }
+  if (error?.error?.error === 'ENDERECO_ORQUIDARIO_NAO_PREENCHIDO') {
+    return 'Endereço do orquidário não foi informado.';
+  }
+  if (error?.error?.error === 'INVALID_DATA_CRIACAO') {
+    return 'Data de criação inválida.';
+  }
+  if (error?.error?.error === 'INVALID_AREA_ORQUIDARIO') {
+    return 'Área informada é inválida para o orquidário.';
+  }
+  if (error?.error?.message) {
+    if (Array.isArray(error.error.message)) {
+      return error.error.message.join(', ');
+    }
+    return error.error.message;
+  }
+  return 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+}
+
 export function parseReproducaoError(error: any): string {
 
   if(error?.error?.error === 'HIBRIDO_NOME_ALREADY_EXISTS') {

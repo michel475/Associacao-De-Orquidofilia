@@ -3,7 +3,8 @@ import { Component, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { ReproducaoFlorService } from "../service/reproducaoFlor.service";
-import { ReproducaoFlor } from "../model/reproducaoFlor"
+import { ReproducaoFlor } from "../model/reproducaoFlor";
+import { parseReproducaoError } from "../../auth/error-handler";
 
 @Component({
   selector: 'app-confirm-delete-dialog',
@@ -20,17 +21,15 @@ export class ConfirmDeleteDialogComponent {
   onConfirm(reproducao: ReproducaoFlor): void {
     this.reproducaoFlorService.deleteReproducao(reproducao.id).subscribe({
       next: () => {
-        console.log("Reprodução excluída com sucesso");
-        this.dialogRef.close(true);
+        this.dialogRef.close({ success: true });
       },
-      error: () => {
-        console.log("Erro ao excluir o orquidário");
-        this.dialogRef.close(false);
+      error: (err) => {
+        this.dialogRef.close({ success: false, errorMsg: parseReproducaoError(err) });
       }
     });
   }
 
   onCancel(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(null);
   }
 }
