@@ -82,7 +82,6 @@ export class ReproducaoFlorCreate implements OnInit{
   }
 
   loadReproducao(id: string) {
-    console.log(id);
     this.reproducaoService.findById(id).subscribe({
       next: (reproducao) => {
         // Format ISO date local to datetime-local input format (YYYY-MM-DDThh:mm)
@@ -99,8 +98,10 @@ export class ReproducaoFlorCreate implements OnInit{
           viavel: reproducao.viavel ? true : false
         });
       },
-      error: () => {
-        this.errorMsg.set('Erro ao buscar dados da reprodução.');
+      error: (err) => {
+        this.errorMsg.set(parseReproducaoError(err));
+        alert(this.errorMsg);
+        this.router.navigate(['reproducaoFlor']);
       }
     });
   }
