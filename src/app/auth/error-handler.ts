@@ -34,5 +34,9 @@ export function parseReproducaoError(error: any): string {
     return 'Data de germinação não pode ser inferior a data de criação do orquidário';
   }
 
+  if(error?.error.error === 'REPRODUCAO_NOT_FOUND') {
+    return 'Reprodução não encontrada';
+  }
+
   return 'Ocorreu um erro insperado';
 }

@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
+import { parseReproducaoError } from '../auth/error-handler';
 
 interface CreateReproducaoPayload {
   orquidarioId: number,
@@ -132,7 +133,8 @@ export class ReproducaoFlorCreate implements OnInit{
       },
       error: (err) => {
         this.isSubmitting.set(false);
-        this.errorMsg.set(err.error?.message || 'Erro ao salvar reprodução.');
+        this.errorMsg.set(parseReproducaoError(err));
+        console.log(err);
       }
     });
   }

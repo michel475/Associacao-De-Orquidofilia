@@ -4,6 +4,9 @@
             {{ isEditMode() ? 'Editar Reprodução' : 'Criar Reprodução' }}
         </mat-card-title>
     </mat-card-header>
+    <div *ngIf="errorMsg()" class="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm">
+              {{ errorMsg() }}
+        </div>
 
     <mat-card-content class="!p-0">
         <div class="flex">

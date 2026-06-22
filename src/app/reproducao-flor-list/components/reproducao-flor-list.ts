@@ -10,6 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ConfirmDeleteDialogComponent } from '../modal/delete-modal';
 import { MatPaginator, PageEvent } from '@angular/material/paginator'; // Adicionado PageEvent
 import { MatButton, MatIconButton } from '@angular/material/button';
+import { parseReproducaoError } from '../../auth/error-handler';
 
 @Component({
   selector: 'app-reproducao-flor-list',
@@ -26,6 +27,7 @@ export class ReproducaoFlorList implements OnInit {
   private readonly reproducaoService = inject(ReproducaoFlorService);
   private readonly dialog = inject(MatDialog);
   private readonly route = inject(Router);
+  errorMsg = signal('');
 
   // Seus signals originais permanecem intactos
   protected readonly reproducoes = signal<ReproducaoFlor[]>([]);
@@ -53,8 +55,8 @@ export class ReproducaoFlorList implements OnInit {
       next: (reproducoes) => {
         this.reproducoes.set(reproducoes);
       },
-      error: () => {
-        console.log("nao foi possivel resgatar as reproduções");
+      error: (err) => {
+        this.errorMsg.set(parseReproducaoError(err))
       }
     });
   }
