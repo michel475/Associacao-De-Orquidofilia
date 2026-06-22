@@ -24,6 +24,6 @@ export const routes: Routes = [
     { path: 'admin', component: UsersListComponent, canActivate: [authGuard, adminGuard] },
     { path: 'orquidario', component: OrquidarioListComponent, canActivate: [authGuard]},
     { path: 'orquidario/criar', component: OrquidarioForm, canActivate: [authGuard]},
-    { path: 'orquidario/criar/:id', component: OrquidarioForm},
-    { path: 'orquidario/reproducoes/:id', component: OrquidarioReproducoesComponent}
+    { path: 'orquidario/editar/:id', component: OrquidarioForm, canActivate: [authGuard]},
+    { path: 'orquidario/reproducoes/:id', component: OrquidarioReproducoesComponent, canActivate: [authGuard]}
 ];

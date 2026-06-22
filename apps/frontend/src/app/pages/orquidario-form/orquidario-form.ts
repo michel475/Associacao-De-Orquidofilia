@@ -96,6 +96,7 @@ export class OrquidarioForm implements OnInit {
       },
       error: (err) => {
         this.openNotification('error', parseOrquidarioError(err));
+        this.router.navigate(['orquidario']);
       }
     });
   }
