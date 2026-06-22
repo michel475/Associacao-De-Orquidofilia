@@ -1,13 +1,15 @@
 import { CreateReproducaoFlorDTO } from "./dto/create-reproducaoFlor.dto";
-import { Body, Param, Controller, Post, Patch, Get, Delete } from "@nestjs/common";
+import { Body, Param, Controller, Post, Patch, Get, Delete, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { UpdateReproducaoFlorDTO } from "./dto/update-reproducaoFlor.dto";
 import { ReproducaoFlorService } from "../application/reproducaoFlor.service";
 import { InvalidPayload } from "../../../utils/invalid-payload.exception";
 import { ValidaDTO } from "../../../utils/validaDTO";
+import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 
 @ApiTags('ReproducaoFlor')
 @Controller('reproducaoFlor')
+@UseGuards(JwtAuthGuard)
 export class ReproducaoFlorController {
     constructor(private readonly reproducaoFlorService: ReproducaoFlorService) { }
 

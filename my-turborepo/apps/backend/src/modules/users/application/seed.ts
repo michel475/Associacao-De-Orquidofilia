@@ -12,7 +12,7 @@ export class SeedService implements OnModuleInit {
   }
 
   private async seedAdmin(): Promise<void> {
-    const adminEmail = 'admin@ueg.br';
+    const adminEmail = 'admin@orquidarios.br';
     const adminNome = 'Administrador';
     const adminSenha = 'admin123';
 
