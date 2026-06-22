@@ -1,12 +1,14 @@
-import { Controller,Post, Get, Delete, Patch, Body, Put, Param } from "@nestjs/common";
+import { Controller,Post, Get, Delete, Patch, Body, Put, Param, UseGuards } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiTags} from "@nestjs/swagger"
 import { CreateOrquidarioDTO } from "./dto/create-orquidario.dto";
 import { OrquidarioService } from "../application/orquidario.service";
 import { UpdateOrquidarioDTO } from "./dto/update-orquidario.dto";
 import { identity } from "rxjs";
+import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 
 @ApiTags('Orquidario')
 @Controller('orquidario')
+@UseGuards(JwtAuthGuard)
 export class OrquidarioController{
     constructor(private readonly orquidarioSevice: OrquidarioService){}
 

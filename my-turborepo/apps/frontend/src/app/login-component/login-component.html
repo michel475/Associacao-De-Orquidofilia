@@ -1,29 +1,28 @@
 <div class="min-h-screen flex items-center justify-center bg-background text-foreground p-4">
-      <mat-card class="w-full max-w-md">
+      <mat-card class="w-full max-w-md rounded-2xl shadow-2xl p-8 backdrop-blur-xl">
         <mat-card-header>
-          <mat-card-title class="text-center text-3xl mb-1 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+          <mat-card-title class="text-center text-3xl mb-1 bg-clip-text bg-gradient-to-r from-primary to-accent">
             Bem-vindo de volta
+            <p class="text-muted-foreground bg-text-center">Faça login na sua conta para prosseguir</p>
           </mat-card-title>
-          <p class="text-muted-foreground text-center">Faça login na sua conta para continuar</p>
         </mat-card-header>
         
         <mat-card-content>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
-            <input 
-              label="E-Mail"
+            <label>Email  </label>
+            <input
               type="email" 
               formControlName="email"
               placeholder="seu@email.com"
-            >
-
-            <div>
-              <input 
-                label="Senha"
-                type="password" 
-                formControlName="password"
-                placeholder="••••••••"
               >
-            </div>
+              <div>
+                <label>Senha  </label>
+                <input
+                  type="password" 
+                  formControlName="password"
+                  placeholder="••••••••"
+                >
+              </div>
 
             <div *ngIf="errorMsg()" class="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg text-sm">
               {{ errorMsg() }}

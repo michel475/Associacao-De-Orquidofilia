@@ -17,7 +17,7 @@ import { ToastService } from '../toast/toast.service';
     MatCard,
     MatCardHeader,
     MatCardTitle,
-    MatCardContent
+    MatCardContent,
   ],
   templateUrl: './login-component.html'
 })
@@ -48,8 +48,10 @@ export class LoginComponent {
           this.isLoading.set(false);
         },
         error: (err) => {
-          this.errorMsg.set(parseAuthError(err));
           this.isLoading.set(false);
+          const erro_message = err.error?.message || 'Erro ao realizar login'
+          this.errorMsg.set(erro_message);
+          this.toastService.error(erro_message);
         }
       });
     }
