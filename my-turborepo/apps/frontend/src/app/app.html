@@ -1,9 +1,9 @@
-<div class="relative w-full h-screen bg-cover bg-center overflow-hidden" style="background-image: url('assets/sua-imagem-orquidea.jpg');">
-  <div class="absolute inset-0 bg-green-950/40 z-0"></div>
+<div class="relative w-full h-screen bg-cover bg-center overflow-hidden">
+  <div class="absolute inset-0 bg-cover bg-center brightness-30" style="background-image: url('/orquidea.png');"></div>
 
   @if (authService.isAuth()) {
     
-    <mat-sidenav-container class="w-full h-full bg-transparent relative z-10">
+    <mat-sidenav-container class="w-full h-full !bg-transparent relative z-10">
       
       <mat-sidenav #sidenav mode="over" [opened]="sidebarOpen()" (closed)="closeSidebar()" class="w-64 bg-green-900 text-white p-4">
         <h3 class="text-xl font-bold p-2 border-b border-green-800">Menu</h3>
@@ -12,7 +12,7 @@
         </nav>
       </mat-sidenav>
 
-      <mat-sidenav-content class="h-full flex flex-col">
+      <mat-sidenav-content class="h-full flex flex-col bg-transparent">
         
         <header class="bg-green-900/90 backdrop-blur-md p-4 flex items-center justify-between border-b border-green-800/50">
           <button mat-icon-button (click)="toggleSidebar()" class="text-white">
@@ -54,3 +54,6 @@
 
   }
 </div>
+<!---
+
+-->
