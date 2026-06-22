@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReproducaoFlorService } from '../reproducao-flor-list/service/reproducaoFlor.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { z } from 'zod';
@@ -72,8 +72,8 @@ export class ReproducaoFlorCreate implements OnInit{
 
   initF(){;
     this.form = this.fb.group({
-      orquidarioId:[''],
-      hibridoNome: [''],
+      orquidarioId:['', Validators.required],
+      hibridoNome: ['', Validators.required],
       dataGerminacao: [''],
       taxaSucessoPct: [''],
       viavel: [''],
@@ -132,7 +132,7 @@ export class ReproducaoFlorCreate implements OnInit{
       },
       error: (err) => {
         this.isSubmitting.set(false);
-        this.errorMsg.set(err.error?.message || 'Erro ao salvar jogo.');
+        this.errorMsg.set(err.error?.message || 'Erro ao salvar reprodução.');
       }
     });
   }

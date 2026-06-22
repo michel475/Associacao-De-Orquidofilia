@@ -19,3 +19,20 @@ export function parseAuthError(error: any): string {
   }
   return 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
 }
+
+export function parseReproducaoError(error: any): string {
+
+  if(error?.error?.error === 'HIBRIDO_NOME_ALREADY_EXISTS') {
+    return 'Nome do híbrido já existe no orquidário';
+  }
+
+  if(error?.error?.error === 'INVALID_TAXA_SUCESSO_PCT') {
+    return 'Taxa de sucesso é inválida';
+  }
+
+  if(error?.error.error === 'INVALID_DATA_GERMINACAO_REPRODUCAO') {
+    return 'Data de germinação não pode ser inferior a data de criação do orquidário';
+  }
+
+  return 'Ocorreu um erro insperado';
+}
