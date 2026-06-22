@@ -101,7 +101,7 @@ export class ReproducaoFlorCreate implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid) { this.openNotification('error', 'Campos são obrigatórios'); return; };
     this.isSubmitting.set(true);
 
     const formVal = this.form.value;

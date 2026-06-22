@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/material/card';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OrquidarioService } from '../orqudiario-service/orquidario.service';
@@ -64,11 +64,11 @@ export class OrquidarioForm implements OnInit {
 
   formInitializer() {
     this.form = this.fb.group({
-      nome: [''],
-      endereco: [''],
-      dataCriacao: [''],
+      nome: ['', Validators.required],
+      endereco: ['', Validators.required],
+      dataCriacao: ['', Validators.required],
       irrigadoAuto: [''],
-      areaMQuadrados: [''],
+      areaMQuadrados: ['', Validators.required],
     });
   }
 
@@ -101,7 +101,7 @@ export class OrquidarioForm implements OnInit {
   }
 
   onSubmit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid){ this.openNotification('error','Campos são obrigatórios'); return;}
     this.isSubmitting.set(true);
 
     const formVal = this.form.value;
