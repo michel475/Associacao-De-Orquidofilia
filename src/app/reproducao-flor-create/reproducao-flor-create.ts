@@ -74,8 +74,8 @@ export class ReproducaoFlorCreate implements OnInit{
     this.form = this.fb.group({
       orquidarioId:['', Validators.required],
       hibridoNome: ['', Validators.required],
-      dataGerminacao: [''],
-      taxaSucessoPct: [''],
+      dataGerminacao: ['', Validators.required],
+      taxaSucessoPct: ['', Validators.required],
       viavel: [''],
     })
   }
