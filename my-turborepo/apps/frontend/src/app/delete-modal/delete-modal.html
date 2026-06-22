@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Confirmar Exclusão</h2>
+    <mat-dialog-content>
+      <p>Tem certeza que deseja excluir o orquidário <strong>"{{orquidario.nome}}"</strong>?</p>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button class="!text-purple-900" (click)="onCancel()">Cancelar</button>
+      <button mat-button class="!bg-purple-900 !text-white" (click)="onConfirm(orquidario)">Excluir</button>
+    </mat-dialog-actions>

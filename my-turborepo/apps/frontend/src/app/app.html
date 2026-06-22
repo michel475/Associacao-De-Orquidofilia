@@ -1,0 +1,56 @@
+<div class="relative w-full h-screen bg-cover bg-center overflow-hidden" style="background-image: url('assets/sua-imagem-orquidea.jpg');">
+  <div class="absolute inset-0 bg-green-950/40 z-0"></div>
+
+  @if (authService.isAuth()) {
+    
+    <mat-sidenav-container class="w-full h-full bg-transparent relative z-10">
+      
+      <mat-sidenav #sidenav mode="over" [opened]="sidebarOpen()" (closed)="closeSidebar()" class="w-64 bg-green-900 text-white p-4">
+        <h3 class="text-xl font-bold p-2 border-b border-green-800">Menu</h3>
+        <nav class="flex flex-col gap-2 mt-4">
+          <button (click)="authService.logout()" class="p-2 text-left hover:bg-rose-900 rounded text-rose-300">Sair</button>
+        </nav>
+      </mat-sidenav>
+
+      <mat-sidenav-content class="h-full flex flex-col">
+        
+        <header class="bg-green-900/90 backdrop-blur-md p-4 flex items-center justify-between border-b border-green-800/50">
+          <button mat-icon-button (click)="toggleSidebar()" class="text-white">
+            <mat-icon>menu</mat-icon>
+          </button>
+          
+          <span class="text-white font-medium">Olá, {{ authService.currentUser()?.nome }}</span>
+          <nav class="hidden md:flex items-center gap-8">
+            <button (click)="inicio()" [ngClass]="isActive('/') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Início</button>
+            <button (click)="orquidarios()" [ngClass]="isActive('/orquidario') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Orquidários</button>
+            <button (click)="reproducoes()" [ngClass]="isActive('/reproducaoFlor') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Reproduções</button>
+            @if (authService.isAdmin())
+            {
+                <button (click)="userslist()" [ngClass]="isActive('/admin') ? 'text-purple-400 border-b-2 border-purple-400' : 'text-green-100 hover:text-purple-300'" class="font-medium transition-colors duration-200 pb-1">Usuários</button>
+            }
+          </nav>
+        </header>
+
+        <main class="flex-1 p-6 overflow-y-auto">
+          <router-outlet></router-outlet>
+        </main>
+      </mat-sidenav-content>
+
+    </mat-sidenav-container>
+
+  } @else {
+    
+    <header class="relative z-10 w-full bg-green-900/80 backdrop-blur-md border-b border-green-800/50 px-6 py-4 flex items-center justify-between">
+      <span class="text-rose-400 text-2xl font-bold">Reprodução<span class="text-green-50">Flor</span></span>
+      <nav class="flex gap-6">
+        <a routerLink="/" routerLinkActive="text-rose-400" class="text-green-100 font-medium">Início</a>
+        <a routerLink="/login" class="text-green-100 hover:text-rose-300 font-medium">Entrar</a>
+      </nav>
+    </header>
+
+    <main class="relative z-10">
+      <router-outlet></router-outlet>
+    </main>
+
+  }
+</div>
