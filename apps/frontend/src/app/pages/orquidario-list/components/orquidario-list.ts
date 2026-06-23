@@ -68,7 +68,7 @@ export class OrquidarioListComponent implements OnInit {
 
     orquidarioCreateForm(id?: number) {
         if (id) {
-            this.router.navigate(['orquidario', 'criar', id]);
+            this.router.navigate(['orquidario', 'editar', id]);
         } else {
             this.router.navigate(['orquidario', 'criar']);
         }

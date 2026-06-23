@@ -6,7 +6,9 @@
     </mat-card-header>
     <mat-card-content class="!p-0">
         <div class="flex">
-                
+                <div class="w-4/9 shrink-0">
+                <img src="/orquidea3.png" alt="Orquídea" class="w-200 h-full object-cover">
+            </div>
                 <div class="flex-1 p-6 bg-purple-100">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col h-full">
                     <div>
@@ -38,7 +40,7 @@
                     </div>
                     <div class="flex justify-end gap-4 mt-8">
                         <button type="submit" class="px-4 py-2 bg-green-800 text-white rounded-md hover:bg-green-700">Salvar</button>
-                        <button type="button" (click)="onCancel()" class="px-4 py-2 bg-gray-300 rounded-md">Cancelar</button>
+                        <button type="button" (click)="onCancel()" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">Cancelar</button>
                     </div>
                 </form>
             </div>

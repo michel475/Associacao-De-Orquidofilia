@@ -8,7 +8,7 @@
       <mat-sidenav #sidenav mode="over" [opened]="sidebarOpen()" (closed)="closeSidebar()" class="w-64 bg-green-900 text-white p-4">
         <h3 class="text-xl font-bold p-2 border-b border-green-800">Menu</h3>
         <nav class="flex flex-col gap-2 mt-4">
-          <button (click)="authService.logout()" class="p-2 text-left hover:bg-rose-900 rounded text-rose-300">Sair</button>
+          <button (click)="authService.logout(); closeSidebar()" class="p-2 text-left hover:bg-purple-900 rounded text-purple-300">Sair</button>
         </nav>
       </mat-sidenav>
 
@@ -41,10 +41,10 @@
   } @else {
     
     <header class="relative z-10 w-full bg-green-900/80 backdrop-blur-md border-b border-green-800/50 px-6 py-4 flex items-center justify-between">
-      <span class="text-rose-400 text-2xl font-bold">Reprodução<span class="text-green-50">Flor</span></span>
+      <span class="text-purple-400 text-2xl font-bold">Reprodução<span class="text-green-50">Flor</span></span>
       <nav class="flex gap-6">
-        <a routerLink="/" routerLinkActive="text-rose-400" class="text-green-100 font-medium">Início</a>
-        <a routerLink="/login" class="text-green-100 hover:text-rose-300 font-medium">Entrar</a>
+        <a routerLink="/" routerLinkActive="text-purple-400" class="text-green-100 font-medium">Início</a>
+        <a routerLink="/login" class="text-green-100 hover:text-purple-300 font-medium">Entrar</a>
       </nav>
     </header>
 

@@ -7,6 +7,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatTableModule } from "@angular/material/table";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
+import { Location } from '@angular/common';
 
 
 @Component({    
@@ -26,6 +27,7 @@ export class OrquidarioReproducoesComponent implements OnInit{
     protected readonly router = inject(Router); 
     protected readonly reproducoes = signal<ReproducaoFlor[]>([]);
     protected readonly route = inject(ActivatedRoute);
+    protected readonly location = inject(Location);
 
 
     colunasExibidas: string[] = ['hibridoNome', 'dataGerminacao', 'viavel', 'taxaSucessoPct'];
@@ -48,6 +50,6 @@ export class OrquidarioReproducoesComponent implements OnInit{
     }
 
     home(){
-        this.router.navigate(['/']);
+        this.location.back();
     }
 }
