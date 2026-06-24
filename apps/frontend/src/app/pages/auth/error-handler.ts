@@ -48,6 +48,10 @@ export function parseReproducaoError(error: any): string {
     return 'Nome do híbrido já existe no orquidário';
   }
 
+  if (error?.error?.error === 'ORQUIDARIO_NOT_FOUND') {
+    return 'Orquidário não encontrado.';
+  }
+
   if(error?.error?.error === 'INVALID_TAXA_SUCESSO_PCT') {
     return 'Taxa de sucesso é inválida';
   }
