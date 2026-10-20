@@ -1,4 +1,4 @@
-import { ReflexaoTabela } from "../utils/ReflexaoTabela";
+import { ReflexaoTabela } from "./utils/ReflexaoTabela";
 
 /**
  * Classe base equivalente à SuperTabela<TypePK> do projeto Java.
