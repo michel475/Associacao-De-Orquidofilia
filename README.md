@@ -1,413 +1,133 @@
-# Associação de Orquidofilia - API REST
+# Associação de Orquidofilia — API REST
 
-## 👥 Integrantes da Dupla
+API desenvolvida como projeto acadêmico para o gerenciamento de orquidários e de reproduções de flores híbridas.
 
-- **Amanda Espíndola de Almeida**
-- **Michel Aguiar Cardoso**
+## Sobre o projeto e a adaptação
 
-## 🌸 Tema do Projeto
+O projeto parte do domínio de cadastro de orquidários e o adapta ao contexto de uma associação de orquidofilia. Além de registrar os espaços de cultivo, a API permite registrar reproduções de flores, identificando o híbrido, a data de germinação, a viabilidade e a taxa de sucesso.
 
-**TEMA 5: Associação de Orquidofilia**
+A principal ampliação em relação ao cadastro original de orquidários é a inclusão do módulo de reprodução e sua associação com um orquidário por meio de `orquidarioId`. Assim, um orquidário pode estar relacionado a vários registros de reprodução (relação 1:N). O foco é demonstrar uma API REST organizada em módulos e camadas, não uma aplicação comercial completa.
 
-Uma aplicação RESTful desenvolvida com NestJS para gerenciar orquidários e o processo de reprodução de flores híbridas.
+## Funcionalidades
 
+- Criar e consultar orquidários.
+- Registrar e consultar reproduções de flores.
+- Validar dados de domínio, como endereço e área do orquidário, existência do orquidário associado e taxa de sucesso compatível com a viabilidade informada.
+- Consultar a documentação interativa da API pelo Swagger.
 
+## Tecnologias e organização
 
-## 🔷 Arquitetura Hexagonal
+- Node.js, TypeScript e NestJS.
+- SQLite3, com persistência implementada no projeto por meio de decorators e repositórios reflexivos (sem TypeORM).
+- Arquitetura em camadas inspirada em Ports & Adapters:
+  - `domain`: modelos e exceções de negócio;
+  - `application`: serviços e portas de repositório;
+  - `infrastructure`: persistência SQLite e repositórios;
+  - `presentation`: controllers e DTOs.
 
-A aplicação foi desenvolvida utilizando a **Arquitetura Hexagonal** (também conhecida como Ports & Adapters), um padrão arquitetural que promove:
+Os módulos de domínio estão em `src/modules/orquidario` e `src/modules/reproducaoFlor`. A infraestrutura compartilhada do banco está em `src/shared/database`.
 
-- **Independência de Frameworks**: A lógica de negócio é desacoplada de dependências externas
-- **Testabilidade**: Facilita a criação de testes unitários sem dependências do banco de dados ou framework
-- **Manutenibilidade**: Código organizado em camadas bem definidas
-- **Escalabilidade**: Permite fácil adição de novos adapters sem alterar a lógica central
+## Requisitos
 
+- Node.js 20 ou superior.
+- npm.
 
+## Como instalar e executar
 
-## 🏗️ Estrutura da Arquitetura do Projeto
+Na raiz do repositório:
 
-O projeto segue a arquitetura **Hexagonal (Ports & Adapters)** organizada em camadas:
-
-```
-src/
-├── modules/
-│   ├── orquidario/          (Amanda)
-│   │   ├── application/     (Serviço e Ports)
-│   │   ├── domain/          (Entidade e Exceções)
-│   │   ├── infrastructure/  (Repositório TypeORM)
-│   │   └── presentation/    (Controller e DTOs)
-│   │
-│   └── reproducaoFlor/      (Michel)
-│       ├── application/
-│       ├── domain/
-│       ├── infrastructure/
-│       └── presentation/
-│
-├── shared/                  (Configurações compartilhadas)
-│   ├── database/            (TypeORM)
-│   └── filters/             (Filtros de exceção)
-│
-└── utils/                   (Utilitários gerais)
-```
-
-
-## 🗄️ Banco de Dados
-
-- **Banco**: SQLite3
-- **ORM**: TypeORM
-- **Localização**: `/data` (na raiz do projeto)
-
-
-## 🚀 Como Configurar e Rodar o Projeto
-
-### Pré-requisitos
-- **Node.js** (v18+)
-- **npm** (v9+)
-
-### Passos de Instalação
-
-1. **Clonar o repositório** (se aplicável)
-```bash
-git clone https://github.com/michel475/application.git
-cd application
-```
-
-2. **Instalar as dependências**
 ```bash
 npm install
-```
-
-3. **Executar em modo desenvolvimento**
-```bash
 npm run start:dev
 ```
 
-A aplicação estará disponível em: `http://localhost:3000`
+A API inicia por padrão em `http://localhost:3000`. O diretório `data` e o banco SQLite `data/app.db` são criados automaticamente quando a aplicação é iniciada.
 
-### Outros Comandos Úteis
+Para usar outra porta ou outro arquivo de banco, configure `PORT` e `DATABASE_PATH` antes de iniciar. Exemplo em Linux/macOS:
 
 ```bash
-# Build para produção
+PORT=4000 DATABASE_PATH=data/desenvolvimento.db npm run start:dev
+```
+
+No Windows PowerShell:
+
+```powershell
+$env:PORT = "4000"
+$env:DATABASE_PATH = "data\desenvolvimento.db"
+npm run start:dev
+```
+
+### Comandos úteis
+
+```bash
+# Compilar
 npm run build
 
-# Iniciar em modo produção
+# Iniciar sem modo watch
 npm start
 
-# Executar testes
+# Iniciar a versão compilada
+npm run start:prod
+
+# Executar testes unitários
 npm test
 
 # Executar testes end-to-end
 npm run test:e2e
 
-# Linter
-npm run lint
-```
-
-
-## 📋 Principais Endpoints da API
-
-### Módulo Orquidário
-
-#### 1. **Criar Orquidário**
-- **Método**: `POST`
-- **Endpoint**: `/orquidario`
-- **Descrição**: Cria um novo orquidário
-
-**Exemplo de Requisição:**
-```json
-{
-  "id": 1,
-  "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
-  "dataCriacao": "2024-01-15",
-  "irrigadoAuto": true,
-  "areaMquadrados": 150.50
-}
-```
-
-**Exemplo de Resposta (201 Created):**
-```json
-{
-  "id": 1,
-  "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
-  "dataCriacao": "2024-01-15",
-  "irrigadoAuto": true,
-  "areaMquadrados": 150.50
-}
-```
-
----
-
-#### 2. **Listar Todos os Orquidários**
-- **Método**: `GET`
-- **Endpoint**: `/orquidario`
-- **Descrição**: Retorna a lista completa de orquidários
-
-**Exemplo de Resposta (200 OK):**
-```json
-[
-  {
-    "id": 1,
-    "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
-    "dataCriacao": "2024-01-15",
-    "irrigadoAuto": true,
-    "areaMquadrados": 150.50
-  },
-  {
-    "id": 2,
-    "enderecoOrquidario": "Avenida Principal, 456 - Rio de Janeiro, RJ",
-    "dataCriacao": "2024-02-10",
-    "irrigadoAuto": false,
-    "areaMquadrados": 200.00
-  }
-]
-```
-
----
-
-#### 3. **Buscar Orquidário por ID**
-- **Método**: `GET`
-- **Endpoint**: `/orquidario/:id`
-- **Descrição**: Retorna um orquidário específico pelo ID
-- **Parâmetro**: `id` (exemplo: 1)
-
-**Exemplo de Requisição:**
-```
-GET /orquidario/1
-```
-
-**Exemplo de Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "enderecoOrquidario": "Rua das Flores, 123 - São Paulo, SP",
-  "dataCriacao": "2024-01-15",
-  "irrigadoAuto": true,
-  "areaMquadrados": 150.50
-}
-```
-
----
-
-#### 4. **Atualizar Orquidário**
-- **Método**: `PUT`
-- **Endpoint**: `/orquidario/:id`
-- **Descrição**: Atualiza os dados de um orquidário existente
-- **Parâmetro**: `id` (exemplo: 1)
-
-**Exemplo de Requisição:**
-```json
-{
-  "endereco": "Rua das Flores, 789 - São Paulo, SP",
-  "dataCriacao": "2024-01-15",
-  "irrigadoAuto": true,
-  "areaMquadrados": 175.00
-}
-```
-
-**Exemplo de Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "endereco": "Rua das Flores, 789 - São Paulo, SP",
-  "dataCriacao": "2024-01-15",
-  "irrigadoAuto": true,
-  "areaMquadrados": 175.00
-}
-```
-
----
-
-### Módulo Reprodução Flor (Michel Aguiar Cardoso)
-
-#### 1. **Criar Reprodução de Flor**
-- **Método**: `POST`
-- **Endpoint**: `/reproducaoFlor`
-- **Descrição**: Registra um novo processo de reprodução de flor
-
-**Exemplo de Requisição:**
-```json
-{
-  "orquidarioId": 1,
-  "hibridoNome": "Cattleya Híbrida Amarela",
-  "dataGerminacao": "2024-03-01",
-  "viavel": true,
-  "taxaSucessoPct": 85.50
-}
-```
-
-**Exemplo de Resposta (201 Created):**
-```json
-{
-  "id": 1,
-  "orquidarioId": 1,
-  "hibridoNome": "Cattleya Híbrida Amarela",
-  "dataGerminacao": "2024-03-01",
-  "viavel": true,
-  "taxaSucessoPct": 85.50
-}
-```
-
----
-
-#### 2. **Listar Todas as Reproduções de Flores**
-- **Método**: `GET`
-- **Endpoint**: `/reproducaoFlor/listar`
-- **Descrição**: Retorna a lista completa de reproduções
-
-**Exemplo de Resposta (200 OK):**
-```json
-[
-  {
-    "id": 1,
-    "orquidarioId": 1,
-    "hibridoNome": "Cattleya Híbrida Amarela",
-    "dataGerminacao": "2024-03-01",
-    "viavel": true,
-    "taxaSucessoPct": 85.50
-  },
-  {
-    "id": 2,
-    "orquidarioId": 2,
-    "hibridoNome": "Oncidium Híbrido Rosa",
-    "dataGerminacao": "2024-02-15",
-    "viavel": true,
-    "taxaSucessoPct": 92.00
-  }
-]
-```
-
----
-
-#### 3. **Buscar Reprodução por ID**
-- **Método**: `GET`
-- **Endpoint**: `/reproducaoFlor/:id`
-- **Descrição**: Retorna uma reprodução específica pelo ID
-- **Parâmetro**: `id` (exemplo: 1)
-
-**Exemplo de Requisição:**
-```
-GET /reproducaoFlor/1
-```
-
-**Exemplo de Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "orquidarioId": 1,
-  "hibridoNome": "Cattleya Híbrida Amarela",
-  "dataGerminacao": "2024-03-01",
-  "viavel": true,
-  "taxaSucessoPct": 85.50
-}
-```
-
----
-
-#### 4. **Atualizar Reprodução de Flor**
-- **Método**: `PATCH`
-- **Endpoint**: `/reproducaoFlor/update/:orquidarioId`
-- **Descrição**: Atualiza os dados de uma reprodução
-- **Parâmetro**: `orquidarioId` (exemplo: 1)
-
-**Exemplo de Requisição:**
-```json
-{
-  "id": 1,
-  "hibridoNome": "Cattleya Híbrida Branca",
-  "dataGerminacao": "2024-03-01",
-  "viavel": true,
-  "taxaSucessoPct": 90.00
-}
-```
-
-**Exemplo de Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "orquidarioId": 1,
-  "hibridoNome": "Cattleya Híbrida Branca",
-  "dataGerminacao": "2024-03-01",
-  "viavel": true,
-  "taxaSucessoPct": 90.00
-}
-```
-
----
-
-#### 5. **Deletar Reprodução de Flor**
-- **Método**: `DELETE`
-- **Endpoint**: `/reproducaoFlor/deletar/:id`
-- **Descrição**: Remove um registro de reprodução pelo ID
-- **Parâmetro**: `id` (exemplo: 1)
-
-**Exemplo de Requisição:**
-```
-DELETE /reproducaoFlor/deletar/1
-```
-
-**Exemplo de Resposta (200 OK):**
-```json
-{
-  "message": "Reprodução deletada com sucesso"
-}
-```
-
-
-## 📊 Divisão de Tarefas
-
-### **Amanda Espíndola de Almeida**
-- ✅ Implementação do **Módulo Orquidário** completo
-  - Criação do serviço de orquidário
-  - Implementação do repositório TypeORM
-  - Desenvolvimento do controller com endpoints
-  - Criação de DTOs (Data Transfer Objects)
-  - Tratamento de exceções específicas do módulo
-  - Validações de dados
-
-### **Michel Aguiar Cardoso**
-- ✅ Implementação do **Módulo Reprodução Flor** completo
-  - Criação do serviço de reprodução de flores
-  - Implementação do repositório TypeORM
-  - Desenvolvimento do controller com endpoints
-  - Criação de DTOs (Data Transfer Objects)
-  - Tratamento de exceções específicas do módulo
-  - Validações de dados
-
-
----
-
-## 📖 Documentação
-
-A documentação da API está disponível via **Swagger** em:
-```
-http://localhost:3000/api/
-```
-
----
-
-## 🧪 Testes
-
-Para executar os testes unitários e de integração:
-
-```bash
-# Executar testes
-npm test
-
-# Executar com cobertura
+# Executar testes com cobertura
 npm run test:cov
-
-# Executar em modo watch
-npm test:watch
-
-# Executar testes end-to-end
-npm run test:e2e
 ```
 
----
+## Documentação da API
 
-## 📝 Licença
+Com a aplicação em execução, acesse o Swagger em [`http://localhost:3000/swagger-ui`](http://localhost:3000/swagger-ui).
 
-UNLICENSED
+### Orquidários
 
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `POST` | `/orquidario` | Cadastra um orquidário |
+| `GET` | `/orquidario` | Lista os orquidários |
+| `GET` | `/orquidario/:id` | Consulta um orquidário pelo ID |
 
-**Desenvolvido como parte da Atividade Avaliativa Bimestral: Desenvolvimento de APIs com Relacionamentos 1:N em typeorm e Arquitetura Hexagonal** 🚀
+Exemplo de criação:
+
+```json
+{
+  "enderecoOrquidario": "Rua das Flores, 123",
+  "dataCriacao": "2025-01-15",
+  "irrigadoAuto": true,
+  "areaMquadrados": 50
+}
+```
+
+### Reproduções de flores
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `POST` | `/reproducaoFlor` | Registra uma reprodução |
+| `GET` | `/reproducaoFlor` | Lista as reproduções |
+| `GET` | `/reproducaoFlor/:id` | Consulta uma reprodução pelo ID |
+
+Exemplo de criação (o `orquidarioId` deve corresponder a um orquidário existente):
+
+```json
+{
+  "orquidarioId": 1,
+  "hibridoNome": "Cattleya trianae x Laelia purpurata",
+  "dataGerminacao": "2025-02-01",
+  "viavel": true,
+  "taxaSucessoPct": 85
+}
+```
+
+As regras de negócio atuais limitam a taxa de sucesso ao intervalo de 0 a 100. Para uma reprodução marcada como viável, a taxa deve ser superior a 70%; para uma reprodução não viável, deve ser de até 30%. No cadastro de orquidário, o endereço é obrigatório, a área deve ser de pelo menos 10 m² e a data de criação não pode estar no futuro.
+
+## Integrantes
+
+- Michel Aguiar Cardoso
+
+## Licença
+
+Projeto acadêmico, não publicado para distribuição comercial (`UNLICENSED`).
