@@ -1,10 +1,7 @@
 import { CreateReproducaoFlorDTO } from "./dto/create-reproducaoFlor.dto";
-import { Body, Param, Controller, Post, Patch, Get, Delete } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import { UpdateReproducaoFlorDTO } from "./dto/update-reproducaoFlor.dto";
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { ReproducaoFlorService } from "../application/reproducaoFlor.service";
-import { InvalidPayload } from "../../../utils/invalid-payload.exception";
-import { ValidaDTO } from "../../../utils/validaDTO";
 
 @ApiTags('ReproducaoFlor')
 @Controller('reproducaoFlor')
@@ -14,38 +11,19 @@ export class ReproducaoFlorController {
     @Post()
     @ApiOperation({ summary: "Insere uma nova reproducaoflor" })
     create(@Body() dto: CreateReproducaoFlorDTO) {
-        const valida = new ValidaDTO();
-        if (!valida) {
-            throw new InvalidPayload(dto);
-        }
-        return this.reproducaoFlorService.create(dto.orquidarioId, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct);
+        return this.reproducaoFlorService.create(Number(dto.orquidarioId), dto.hibridoNome, dto.dataGerminacao, dto.viavel, Number(dto.taxaSucessoPct));
     }
 
-    @Patch('/update/:orquidarioId')
-    @ApiOperation({ summary: "Atualiza uma instância de reproducao flor" })
-    update(@Param('orquidarioId') orquidarioId: number, @Body() dto: UpdateReproducaoFlorDTO) {
-        const valida = new ValidaDTO();
-        if (!valida) {
-            throw new InvalidPayload(dto);
-        }
-        return this.reproducaoFlorService.update(dto.id, orquidarioId, dto.hibridoNome, dto.dataGerminacao, dto.viavel, dto.taxaSucessoPct)
-    }
-
-    @Get('/listar')
-    @ApiOperation({ summary: "Lista todas as instâncias de reproducao flor" })
+    @Get()
+    @ApiOperation({ summary: 'Lista todas as reproduções' })
     findAll() {
         return this.reproducaoFlorService.findAll();
     }
 
-    @Get('/:id')
-    @ApiOperation({ summary: "Encontrar um pelo id" })
-    findById(@Param('id') id: string) {
-        return this.reproducaoFlorService.findById(Number(id))
-    }
-
-    @Delete('/deletar/:id')
-    @ApiOperation({ summary: "deletar pelo id" })
-    delete(@Param('id') id: string) {
-        return this.reproducaoFlorService.delete(Number(id));
+    @Get(':id')
+    @ApiOperation({ summary: 'Busca uma reprodução por ID' })
+    @ApiParam({ name: 'id', type: Number, example: 1 })
+    findById(@Param('id', ParseIntPipe) id: number) {
+        return this.reproducaoFlorService.findById(String(id));
     }
 }

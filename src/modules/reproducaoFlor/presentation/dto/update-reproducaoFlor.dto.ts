@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class UpdateReproducaoFlorDTO {
     @ApiProperty({ example: 1 })
@@ -10,7 +11,8 @@ export class UpdateReproducaoFlorDTO {
     @ApiProperty({ example: 'Cattleya Trianae x Laelia purpurata' })
     hibridoNome: string;
 
-    @ApiProperty({ example: '2026-02-01' })
+    @Type(() => Date)
+    @ApiProperty({ example: '2026-02-01', type: String, format: 'date' })
     dataGerminacao: Date;
 
     @ApiProperty({ example: 'true' })

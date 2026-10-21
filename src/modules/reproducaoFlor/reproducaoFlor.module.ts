@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReproducaoFlorController } from './presentation/reproducaoFlor.controller';
 import { ReproducaoFlorService } from './application/reproducaoFlor.service';
-import { ReproducaoFlorOrmEntity } from './infrastructure/persistence/typeorm/reproducaoFlor.orm-entity';
-import { ReproducaoFlorTypeOrmRepository } from './infrastructure/persistence/typeorm/reproducaoFlor.typeorm.repository';
-import { OrquidarioModule } from '../orquidario/orquidario.module';
-
+import { ReproducaoFlorRepository } from './infrastructure/persistence/repositories/reproducaoFlor.repository';
+import { OrquidarioRepository } from '../orquidario/infrastructure/persistence/repositories/orquidario.repository';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ReproducaoFlorOrmEntity]), OrquidarioModule],
     controllers: [ReproducaoFlorController],
     providers: [
         ReproducaoFlorService,
         {
             provide: 'ReproducaoFlorRepositoryPort',
-            useClass: ReproducaoFlorTypeOrmRepository,
+            useClass: ReproducaoFlorRepository,
         },
+        {
+            provide: 'OrquidarioRepositoryPort',
+            useClass: OrquidarioRepository
+        }
     ],
 })
 export class ReproducaoFlorModule { }

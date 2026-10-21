@@ -6,25 +6,18 @@ export interface TabelaOpcoes {
     tableName?: string;
 }
 
-export interface TabelaMetadata extends Required<TabelaOpcoes> {
-    className: string;
+export interface TabelaMetadata {
+    tableName: string;
 }
 
 export function Tabela(tabelaOpcoes?: TabelaOpcoes): ClassDecorator {
-    
     return (target) => {
-        const metadata: Omit<TabelaMetadata, "className"> = {
-            tableName: tabelaOpcoes?.tableName ?? target.name.toLowerCase()
+        const tableName = tabelaOpcoes?.tableName ?? target.name.toLowerCase();
+        if (!tableName.trim()) {
+            throw new Error(`O decorator @Tabela exige um nome de tabela válido: ${target.name}.`);
         }
 
-        const tabela = (Reflect.getOwnMetadata(TABELA_METADATA_KEY, target) as Map<string, TabelaMetadata> | undefined)
-                    ?? new Map<string, TabelaMetadata>();
-
-        tabela.set(String(target), {
-             ...metadata,
-            className: String(target.name)
-        })
-
+        const metadata: TabelaMetadata = { tableName };
         Reflect.defineMetadata(TABELA_METADATA_KEY, metadata, target);
-    }
+    };
 }

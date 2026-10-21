@@ -7,6 +7,7 @@ import { SQLGen } from "./SQL-Gen";
 import {
     SQLInsertExecutor,
     SQLQueryExecutor,
+    SQLExecutionResult,
 } from "./SQL-Insert-Executor";
 
 @Tabela({ tableName: "teste" })
@@ -70,12 +71,12 @@ class TabelaValorInvalido extends SuperTabela<number> {
 
 describe("SQLGen", () => {
     it("gera DDL SQLite usando os tipos e restrições dos metadados refletidos", () => {
-        const sql = new SQLGen().criarTabela(new TabelaTeste());
+        const sql = new SQLGen().criarTabela(TabelaTeste);
 
         expect(sql).toBe(
             [
                 'CREATE TABLE IF NOT EXISTS "teste" (',
-                '  "id" INTEGER PRIMARY KEY NOT NULL,',
+                '  "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,',
                 '  "nome" VARCHAR NOT NULL,',
                 '  "criado_em" TIMESTAMP,',
                 '  "ativo" BOOLEAN,',
@@ -122,6 +123,17 @@ describe("SQLGen", () => {
         });
     });
 
+    it("gera consultas de listagem e busca por chave primária parametrizada", () => {
+        const sqlGen = new SQLGen();
+
+        expect(sqlGen.selecionarTodos(TabelaTeste)).toBe(
+            'SELECT * FROM "teste"',
+        );
+        expect(sqlGen.selecionarPorPk(TabelaTeste)).toBe(
+            'SELECT * FROM "teste" WHERE "id" = ?',
+        );
+    });
+
     it("informa o campo obrigatório ausente", () => {
         expect(() =>
             new SQLGen().inserirTupla(new TabelaObrigatoriaInvalida()),
@@ -139,16 +151,15 @@ describe("SQLGen", () => {
     });
 
     it("executa a inserção e retorna o resultado do driver", async () => {
+        const result: SQLExecutionResult = { lastID: 12, changes: 1 };
         const query = jest.fn(
-            async (_sql: string, _parameters: unknown[]) => "resultado",
+            async (_sql: string, _parameters: unknown[]) => result,
         );
         const executor = new SQLInsertExecutor(
             { query } satisfies SQLQueryExecutor,
         );
 
-        await expect(executor.inserir(new TabelaTeste())).resolves.toBe(
-            "resultado",
-        );
+        await expect(executor.inserir(new TabelaTeste())).resolves.toBe(result);
         expect(query).toHaveBeenCalledWith(
             'INSERT INTO "teste" ("nome", "criado_em", "ativo", "valor") VALUES (?, ?, ?, ?)',
             ["Orquídea d'água", "2026-10-20T16:00:00.000Z", false, 1.5],
@@ -157,11 +168,12 @@ describe("SQLGen", () => {
 
     it("propaga erros do executor do banco", async () => {
         const erro = new Error("Falha de constraint");
-        const executor = new SQLInsertExecutor({
+        const query: SQLQueryExecutor = {
             query: async () => {
                 throw erro;
             },
-        });
+        };
+        const executor = new SQLInsertExecutor(query);
 
         await expect(executor.inserir(new TabelaTeste())).rejects.toBe(erro);
     });

@@ -1,14 +1,10 @@
 import type { ReproducaoFlorRepositoryPort } from "./ports/reproducaoFlor.repository.port";
 import { ReproducaoFlor } from "../domain/reproducaoFlor";
-import { Inject, Injectable, HttpStatus, HttpException } from '@nestjs/common';
-import type { OrquidarioRepositoryPort } from "src/modules/orquidario/application/ports/orquidario.repository.port";
-import { OrquidarioNotFoundException } from "src/modules/orquidario/domain/orquidario-not-found.exception";
+import { Inject, Injectable } from '@nestjs/common';
 import { InvalidTaxaSucessoPctViabilidade } from "../domain/taxaSucesso-invalid-range-viability.exception";
 import { InvalidRangeTaxaSucessoPct } from "../domain/taxaSucesso-invalid-range.exception";
 import { InvalidPayload } from "src/utils/invalid-payload.exception";
-import { HibridoNomeAlreadyExists } from "../domain/hibridoNome-already-exists.exception";
-import { ReproducaoFlorNotFoundException } from "../domain/reproducaoFlor-not-found.exception";
-import { InvalidDataGerminacao } from "../domain/invalid-dataGerminacao-exception";
+import type { OrquidarioRepositoryPort } from "../../orquidario/application/ports/orquidario.repository.port"
 
 
 @Injectable()
@@ -21,21 +17,18 @@ export class ReproducaoFlorService {
     ) { }
 
     async create(orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
+        if(!orquidarioId) {
+            throw new InvalidPayload("Id do orquidário é obrigatório")
+        }
+        const orquidario = await this.orquidarioRepo.findById(orquidarioId)
+        if(!orquidario) {
+            throw new InvalidPayload('Orquidário não encontrado');
+        }
         if (!hibridoNome || !dataGerminacao) {
             throw new InvalidPayload("hibridoNome e dataGerminacao são obrigatórios");
         }
 
-        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
-        if (!orquidario) {
-            throw new OrquidarioNotFoundException(orquidarioId);
-        }
-
         const dataGerminacaoDate = new Date(dataGerminacao);
-        const dataCriacaoDate = new Date(orquidario.dataCriacao);
-        
-        if (dataGerminacaoDate > dataCriacaoDate) {
-            throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
-        }
 
         if (taxaSucessoPct < 0 || taxaSucessoPct > 100) {
             throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
@@ -49,76 +42,24 @@ export class ReproducaoFlorService {
             if (taxaSucessoPct > 30) {
                 throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
             }
-        }
-
-        const hibrido = await this.reproducaoFlorRepo.findByOrquidarioIdAndHibridoNome(orquidarioId, hibridoNome);
-        if (hibrido) {
-            throw new HibridoNomeAlreadyExists(hibridoNome, orquidarioId);
+            else{
+                const orquidario = await this.orquidarioRepo.findById(orquidarioId);
+                if(!orquidario) {
+                    throw new Error("Orquidario nao encontrado")
+                }
+                console.log(orquidario)
+            }
         }
 
         const reproducaoFlor = new ReproducaoFlor(null, orquidarioId, hibridoNome, dataGerminacaoDate, viavel, taxaSucessoPct)
         return this.reproducaoFlorRepo.create(reproducaoFlor)
     }
 
-    async update(id: number, orquidarioId: number, hibridoNome: string, dataGerminacao: Date, viavel: boolean, taxaSucessoPct: number) {
-        const reprod = await this.reproducaoFlorRepo.findById(id);
-        if (!reprod) {
-            throw new ReproducaoFlorNotFoundException(id);
-        }
-
-        if (!hibridoNome || !dataGerminacao) {
-            throw new InvalidPayload("hibridoNome e dataGerminacao são obrigatórios");
-        }
-
-        const orquidario = await this.orquidarioRepo.findById(orquidarioId);
-        if (!orquidario) {
-            throw new OrquidarioNotFoundException(orquidarioId);
-        }
-
-        const dataGerminacaoDate = new Date(dataGerminacao);
-        const dataCriacaoDate = new Date(orquidario.dataCriacao);
-        
-        if (dataGerminacaoDate < dataCriacaoDate) {
-            throw new InvalidDataGerminacao(dataGerminacao, orquidario.dataCriacao);
-        }
-
-        if (taxaSucessoPct < 0 || taxaSucessoPct > 100) {
-            throw new InvalidRangeTaxaSucessoPct(taxaSucessoPct);
-        }
-
-        if (viavel === true) {
-            if (taxaSucessoPct <= 70) {
-                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
-            }
-        } else {
-            if (taxaSucessoPct > 30) {
-                throw new InvalidTaxaSucessoPctViabilidade(taxaSucessoPct, viavel);
-            }
-        }
-
-        if (hibridoNome !== reprod.hibridoNome) {
-            const jaExiste = await this.reproducaoFlorRepo.findByOrquidarioIdAndHibridoNome(orquidarioId, hibridoNome);
-            if (jaExiste) {
-                throw new HibridoNomeAlreadyExists(hibridoNome, orquidarioId);
-            }
-        }
-        const reproducaoFlor = new ReproducaoFlor(id, orquidarioId, hibridoNome, dataGerminacaoDate, viavel, taxaSucessoPct);
-        return this.reproducaoFlorRepo.update(id, reproducaoFlor);
+    async findAll() {
+        return this.reproducaoFlorRepo.findAll()
     }
 
-    async findAll(): Promise<ReproducaoFlor[] | null> {
-        return this.reproducaoFlorRepo.findAll();
-    }
-
-    async findById(id: number): Promise<ReproducaoFlor | null> {
-        const reproducao = this.reproducaoFlorRepo.findById(id);
-        if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
-        return reproducao;
-    }
-
-    async delete(id: number): Promise<ReproducaoFlor | null> {
-        const reproducao = this.reproducaoFlorRepo.findById(id);
-        if (!reproducao) throw new ReproducaoFlorNotFoundException(id);
-        return this.reproducaoFlorRepo.delete(id);
+    async findById(id: string) {
+        return this.reproducaoFlorRepo.findById(id);
     }
 }

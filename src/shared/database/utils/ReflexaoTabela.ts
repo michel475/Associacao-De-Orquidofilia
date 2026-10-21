@@ -4,6 +4,8 @@ import { TABELA_METADATA_KEY, TabelaMetadata } from "../decorators/tabela-dec";
 import { SuperTabela } from "../superTabela";
 
 type ObjetoTabela = SuperTabela<unknown>;
+export type ConstrutorTabela = new (...args: never[]) => ObjetoTabela;
+type ObjetoOuConstrutor = ObjetoTabela | ConstrutorTabela;
 
 /**
  * Utilitário que concentra as operações reflexivas da aula.
@@ -11,12 +13,14 @@ type ObjetoTabela = SuperTabela<unknown>;
  * invoca getters/setters por nome, reproduzindo a ideia do exemplo Java.
  */
 export class ReflexaoTabela {
-    public static getCampos(objeto: ObjetoTabela): CampoMetadata[] {
+    public static getCampos(objeto: ObjetoOuConstrutor): CampoMetadata[] {
         this.validarObjeto(objeto);
 
+        const construtor =
+            typeof objeto === "function" ? objeto : objeto.constructor;
         const campos = Reflect.getOwnMetadata(
             CAMPOS_METADATA_KEY,
-            objeto.constructor,
+            construtor,
         ) as Map<string, CampoMetadata> | undefined;
 
         return campos ? [...campos.values()] : [];
@@ -36,10 +40,15 @@ export class ReflexaoTabela {
         this.invokeSetter(objeto, campo.propriedade, valor);
     }
 
-    public static getTableName(objeto: ObjetoTabela): string {
-        this.validarObjeto(objeto)
-        const nomeAnotado = Reflect.getMetadata(TABELA_METADATA_KEY, objeto.constructor);
-        const nomeClasse = objeto.constructor.name
+    public static getTableName(objeto: ObjetoOuConstrutor): string {
+        this.validarObjeto(objeto);
+        const construtor =
+            typeof objeto === "function" ? objeto : objeto.constructor;
+        const nomeAnotado = Reflect.getMetadata(
+            TABELA_METADATA_KEY,
+            construtor,
+        );
+        const nomeClasse = construtor.name;
         if(!nomeAnotado) {
             throw new Error(`A classe ${nomeClasse} não possui anotação com o decorator @Tabela`);
         }
@@ -107,9 +116,11 @@ export class ReflexaoTabela {
         return metodo.apply(objeto, args);
     }
 
-    private static validarObjeto(objeto: ObjetoTabela): void {
+    private static validarObjeto(objeto: ObjetoOuConstrutor): void {
         if (objeto === null || objeto === undefined) {
-            throw new Error("A reflexão exige uma instância não nula de SuperTabela.");
+            throw new Error(
+                "A reflexão exige uma entidade ou instância não nula de SuperTabela.",
+            );
         }
     }
 

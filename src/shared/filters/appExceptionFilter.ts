@@ -3,10 +3,11 @@ import {
     Catch,
     ArgumentsHost,
     HttpStatus,
+    HttpException,
     Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { QueryFailedError } from 'typeorm';
+import { DatabaseOperationError } from '../database/database-operation.error';
 import { OrquidarioNotFoundException } from '../../modules/orquidario/domain/orquidario-not-found.exception';
 import { HibridoNomeAlreadyExists } from '../../modules/reproducaoFlor/domain/hibridoNome-already-exists.exception';
 import { InvalidDataCriacaoOrquidario } from '../../modules/orquidario/domain/invalid-dataCriacao.exception';
@@ -231,6 +232,36 @@ export class AppExceptionFilter implements ExceptionFilter {
     }
 
     private resolveException(exception: unknown): ErrorResponse {
+        if (exception instanceof HttpException) {
+            const status = exception.getStatus();
+            const response = exception.getResponse();
+            const description =
+                typeof response === 'string'
+                    ? response
+                    : Array.isArray((response as { message?: unknown }).message)
+                      ? ((response as { message: string[] }).message).join('; ')
+                      : ((response as { message?: unknown }).message ??
+                        exception.message);
+
+            return {
+                status,
+                message: status === HttpStatus.NOT_FOUND
+                    ? 'Recurso não encontrado'
+                    : 'Requisição inválida',
+                error: status === HttpStatus.NOT_FOUND
+                    ? 'NOT_FOUND'
+                    : 'BAD_REQUEST',
+                detail: [
+                    {
+                        code: status === HttpStatus.NOT_FOUND
+                            ? 'NOT_FOUND'
+                            : 'BAD_REQUEST',
+                        description: String(description),
+                    },
+                ],
+            };
+        }
+
         if (exception instanceof OrquidarioNotFoundException) {
             return this.handleOrquidarioNotFound(exception);
         }
@@ -268,7 +299,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         }
 
         // Capturar erros de banco de dados
-        if (exception instanceof QueryFailedError) {
+        if (exception instanceof DatabaseOperationError) {
             return this.handleDatabaseError(exception);
         }
 
@@ -278,9 +309,9 @@ export class AppExceptionFilter implements ExceptionFilter {
     /**
      * Trata erros de banco de dados (constraints violadas, unique violations, etc)
      */
-    private handleDatabaseError(exception: QueryFailedError): ErrorResponse {
-        const errorCode = (exception as any).code || ((exception as any).driverError?.code) || '';
-        const errorMessage = exception.message || '';
+    private handleDatabaseError(exception: DatabaseOperationError): ErrorResponse {
+        const errorCode = exception.code ?? '';
+        const errorMessage = exception.message;
 
         const isDuplicateError = 
             errorCode === 'ER_DUP_ENTRY' || 

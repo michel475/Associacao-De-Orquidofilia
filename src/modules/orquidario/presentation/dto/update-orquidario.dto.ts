@@ -1,19 +1,20 @@
-import {ApiProperty} from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
-export class UpdateOrquidarioDTO{
+export class UpdateOrquidarioDTO {
     @ApiProperty()
     id: number;
-    
-    @ApiProperty({example: 'Avenida Presidente Kennedy, Qd G Lte 10'})
+
+    @ApiProperty({ example: 'Avenida Presidente Kennedy, Qd G Lte 10' })
     endereco: string;
 
-    @ApiProperty({example: '26-03-2026'})
+    @Type(() => Date)
+    @ApiProperty({ example: '2026-01-09', type: String, format: 'date' })
     dataCriacao: Date;
 
-    @ApiProperty({example: true})
+    @ApiProperty({ example: true })
     irrigadoAuto: boolean;
 
-    @ApiProperty({example: 55})
+    @ApiProperty({ example: 55 })
     areaMquadrados: number;
-
 }
